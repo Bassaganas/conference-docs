@@ -1,0 +1,23 @@
+{
+  "id": "intro",
+  "title": "Introduction to Testus Patronus",
+  "description": "Welcome to the Testus Patronus workshop! This hands-on tutorial is designed for the EuroSTAR Software Testing Conference, where you'll learn how to build your own AI assistant using Retrieval-Augmented Generation (RAG) with a focus on software testing use cases.",
+  "source": "@site/docs/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/dify_jira/docs/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "workshopSidebar",
+  "next": {
+    "title": "Exercise 1: LLM Configuration",
+    "permalink": "/dify_jira/docs/exercise-1-llm-configuration"
+  }
+}

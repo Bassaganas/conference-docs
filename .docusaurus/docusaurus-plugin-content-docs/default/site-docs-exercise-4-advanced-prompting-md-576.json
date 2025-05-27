@@ -1,0 +1,27 @@
+{
+  "id": "exercise-4-advanced-prompting",
+  "title": "Exercise 4: Advanced Prompting & Relevance Tuning",
+  "description": "Objective: Improve output quality and relevance for software testing queries.",
+  "source": "@site/docs/exercise-4-advanced-prompting.md",
+  "sourceDirName": ".",
+  "slug": "/exercise-4-advanced-prompting",
+  "permalink": "/dify_jira/docs/exercise-4-advanced-prompting",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/exercise-4-advanced-prompting.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "workshopSidebar",
+  "previous": {
+    "title": "Exercise 3: AI Chatbot Setup",
+    "permalink": "/dify_jira/docs/exercise-3-ai-chatbot-setup"
+  },
+  "next": {
+    "title": "Troubleshooting",
+    "permalink": "/dify_jira/docs/troubleshooting"
+  }
+}

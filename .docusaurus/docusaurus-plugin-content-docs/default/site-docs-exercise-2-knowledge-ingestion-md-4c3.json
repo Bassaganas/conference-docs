@@ -1,0 +1,27 @@
+{
+  "id": "exercise-2-knowledge-ingestion",
+  "title": "Exercise 2: Knowledge Ingestion",
+  "description": "Objective: Connect a vector database and upload test documentation.",
+  "source": "@site/docs/exercise-2-knowledge-ingestion.md",
+  "sourceDirName": ".",
+  "slug": "/exercise-2-knowledge-ingestion",
+  "permalink": "/dify_jira/docs/exercise-2-knowledge-ingestion",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/exercise-2-knowledge-ingestion.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "workshopSidebar",
+  "previous": {
+    "title": "Exercise 1: LLM Configuration",
+    "permalink": "/dify_jira/docs/exercise-1-llm-configuration"
+  },
+  "next": {
+    "title": "Exercise 3: AI Chatbot Setup",
+    "permalink": "/dify_jira/docs/exercise-3-ai-chatbot-setup"
+  }
+}

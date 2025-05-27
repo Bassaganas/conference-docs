@@ -1,0 +1,27 @@
+{
+  "id": "exercises",
+  "title": "Workshop Exercises",
+  "description": "This section contains detailed instructions for each exercise in the Testus Patronus workshop. Follow these exercises in order to build your own AI testing assistant.",
+  "source": "@site/docs/exercises.md",
+  "sourceDirName": ".",
+  "slug": "/exercises",
+  "permalink": "/QAI/docs/exercises",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/paulabassaganas/QAI/tree/main/conference-docs/docs/exercises.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Exercise 1: LLM Configuration",
+    "permalink": "/QAI/docs/exercise-1-llm-configuration"
+  },
+  "next": {
+    "title": "Exercise 2: Knowledge Ingestion",
+    "permalink": "/QAI/docs/exercise-2-knowledge-ingestion"
+  }
+}
