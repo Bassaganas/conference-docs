@@ -1,5 +1,5 @@
 {
-  "blogBasePath": "/dify_jira/blog",
+  "blogBasePath": "/conference-docs/blog",
   "blogTitle": "Blog",
-  "authorsListPath": "/dify_jira/blog/authors"
+  "authorsListPath": "/conference-docs/blog/authors"
 }

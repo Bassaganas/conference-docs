@@ -1,48 +1,48 @@
 {
-  "/dify_jira/__docusaurus/debug-99f": {
+  "/conference-docs/__docusaurus/debug-32b": {
     "__comp": "__comp---theme-debug-config-23-a-2ff",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/config-c82": {
+  "/conference-docs/__docusaurus/debug/config-7c7": {
     "__comp": "__comp---theme-debug-config-23-a-2ff",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/content-faa": {
+  "/conference-docs/__docusaurus/debug/content-463": {
     "__comp": "__comp---theme-debug-contentba-8-ce7",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     },
-    "__props": "__props---dify-jira-docusaurus-debug-content-1-d-7-e3e"
+    "__props": "__props---conference-docs-docusaurus-debug-content-1-dd-ac7"
   },
-  "/dify_jira/__docusaurus/debug/globalData-70a": {
+  "/conference-docs/__docusaurus/debug/globalData-6c8": {
     "__comp": "__comp---theme-debug-global-dataede-0fa",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/metadata-7a8": {
+  "/conference-docs/__docusaurus/debug/metadata-c49": {
     "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/registry-d4d": {
+  "/conference-docs/__docusaurus/debug/registry-c22": {
     "__comp": "__comp---theme-debug-registry-679-501",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/routes-6bc": {
+  "/conference-docs/__docusaurus/debug/routes-440": {
     "__comp": "__comp---theme-debug-routes-946-699",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/blog-16b": {
+  "/conference-docs/blog-0a2": {
     "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -62,16 +62,16 @@
         "content": "content---dify-jira-blog-925-9a7"
       }
     ],
-    "__props": "__props---dify-jira-blogb-24-914"
+    "__props": "__props---conference-docs-bloge-72-14e"
   },
-  "/dify_jira/blog/archive-8fd": {
+  "/conference-docs/blog/archive-1b1": {
     "__comp": "__comp---theme-blog-archive-page-9-e-4-1d8",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
     },
-    "__props": "__props---dify-jira-blog-archivea-38-c4f"
+    "__props": "__props---conference-docs-blog-archive-1-dd-632"
   },
-  "/dify_jira/blog/authors-c72": {
+  "/conference-docs/blog/authors-a0d": {
     "__comp": "__comp---theme-blog-pages-blog-authors-list-page-621-70c",
     "__context": {
       "data": {
@@ -80,9 +80,9 @@
       "plugin": "plugin---dify-jira-blog-369-5be"
     },
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---dify-jira-blog-authors-868-7af"
+    "__props": "__props---conference-docs-blog-authorsda-9-985"
   },
-  "/dify_jira/blog/authors/all-sebastien-lorber-articles-bcb": {
+  "/conference-docs/blog/authors/all-sebastien-lorber-articles-c35": {
     "__comp": "__comp---theme-blog-pages-blog-authors-posts-page-33-f-bd5",
     "__context": {
       "data": {
@@ -102,9 +102,9 @@
       }
     ],
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---dify-jira-blog-authors-all-sebastien-lorber-articles-3-d-4-5ae"
+    "__props": "__props---conference-docs-blog-authors-all-sebastien-lorber-articles-3-d-4-743"
   },
-  "/dify_jira/blog/authors/yangshun-ee1": {
+  "/conference-docs/blog/authors/yangshun-1e2": {
     "__comp": "__comp---theme-blog-pages-blog-authors-posts-page-33-f-bd5",
     "__context": {
       "data": {
@@ -124,9 +124,9 @@
       }
     ],
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---dify-jira-blog-authors-yangshun-477-9d4"
+    "__props": "__props---conference-docs-blog-authors-yangshuna-52-5d8"
   },
-  "/dify_jira/blog/first-blog-post-d46": {
+  "/conference-docs/blog/first-blog-post-b13": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -137,7 +137,7 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-first-blog-poste-27-6c3"
   },
-  "/dify_jira/blog/long-blog-post-7db": {
+  "/conference-docs/blog/long-blog-post-5ab": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -148,7 +148,7 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-long-blog-post-736-7b6"
   },
-  "/dify_jira/blog/mdx-blog-post-257": {
+  "/conference-docs/blog/mdx-blog-post-a9c": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -159,15 +159,15 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-mdx-blog-post-593-93c"
   },
-  "/dify_jira/blog/tags-668": {
+  "/conference-docs/blog/tags-759": {
     "__comp": "__comp---theme-blog-tags-list-page-01-a-d0b",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
     },
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---dify-jira-blog-tagsffd-48f"
+    "__props": "__props---conference-docs-blog-tags-06-a-84e"
   },
-  "/dify_jira/blog/tags/docusaurus-298": {
+  "/conference-docs/blog/tags/docusaurus-f49": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -187,9 +187,9 @@
         "content": "content---dify-jira-blog-925-9a7"
       }
     ],
-    "__props": "__props---dify-jira-blog-tags-docusaurus-187-386"
+    "__props": "__props---conference-docs-blog-tags-docusaurusda-9-417"
   },
-  "/dify_jira/blog/tags/facebook-87a": {
+  "/conference-docs/blog/tags/facebook-9e7": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -200,9 +200,9 @@
         "content": "content---dify-jira-blog-766-ad8"
       }
     ],
-    "__props": "__props---dify-jira-blog-tags-facebook-8-e-5-78d"
+    "__props": "__props---conference-docs-blog-tags-facebook-4-ec-5ca"
   },
-  "/dify_jira/blog/tags/hello-39b": {
+  "/conference-docs/blog/tags/hello-a05": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -216,9 +216,9 @@
         "content": "content---dify-jira-blog-871-112"
       }
     ],
-    "__props": "__props---dify-jira-blog-tags-hello-561-1da"
+    "__props": "__props---conference-docs-blog-tags-helloc-77-bba"
   },
-  "/dify_jira/blog/tags/hola-eca": {
+  "/conference-docs/blog/tags/hola-931": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -229,9 +229,9 @@
         "content": "content---dify-jira-blog-925-9a7"
       }
     ],
-    "__props": "__props---dify-jira-blog-tags-holab-30-4c9"
+    "__props": "__props---conference-docs-blog-tags-hola-223-331"
   },
-  "/dify_jira/blog/welcome-ea9": {
+  "/conference-docs/blog/welcome-066": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -242,51 +242,51 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-welcomed-9-f-25e"
   },
-  "/dify_jira/markdown-page-a47": {
+  "/conference-docs/markdown-page-065": {
     "__comp": "__comp---theme-mdx-page-1-f-3-b90",
     "__context": {
       "plugin": "plugin---dify-jira-markdown-pagea-74-25d"
     },
     "content": "content---dify-jira-markdown-page-393-0f5"
   },
-  "/dify_jira/docs-beb": {
+  "/conference-docs/docs-3c0": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---dify-jira-docsaba-d01"
     }
   },
-  "/dify_jira/docs-8b9": {
+  "/conference-docs/docs-026": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
-    "__props": "__props---dify-jira-docs-16-d-2e8"
+    "__props": "__props---conference-docs-docs-8-ac-c06"
   },
-  "/dify_jira/docs-0a6": {
+  "/conference-docs/docs-3e7": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
-  "/dify_jira/docs/exercise-1-llm-configuration-bd6": {
+  "/conference-docs/docs/exercise-1-llm-configuration-0ef": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-1-llm-configurationf-35-e68"
   },
-  "/dify_jira/docs/exercise-2-knowledge-ingestion-243": {
+  "/conference-docs/docs/exercise-2-knowledge-ingestion-cff": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-2-knowledge-ingestion-4-c-3-096"
   },
-  "/dify_jira/docs/exercise-3-ai-chatbot-setup-beb": {
+  "/conference-docs/docs/exercise-3-ai-chatbot-setup-354": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-3-ai-chatbot-setupc-5-d-5d3"
   },
-  "/dify_jira/docs/exercise-4-advanced-prompting-117": {
+  "/conference-docs/docs/exercise-4-advanced-prompting-4fd": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-4-advanced-prompting-576-45d"
   },
-  "/dify_jira/docs/intro-939": {
+  "/conference-docs/docs/intro-b84": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-intro-0-e-3-469"
   },
-  "/dify_jira/docs/troubleshooting-234": {
+  "/conference-docs/docs/troubleshooting-471": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-troubleshooting-9-d-9-ac2"
   },
-  "/dify_jira/-69a": {
+  "/conference-docs/-fb9": {
     "__comp": "__comp---site-src-pages-index-tsx-1-df-d3e",
     "__context": {
       "plugin": "plugin---dify-jira-markdown-pagea-74-25d"

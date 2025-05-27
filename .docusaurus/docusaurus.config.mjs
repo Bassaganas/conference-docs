@@ -29,7 +29,7 @@ export default {
     "experimental_router": "browser"
   },
   "url": "https://bassaganas.github.io",
-  "baseUrl": "/dify_jira/",
+  "baseUrl": "/conference-docs/",
   "organizationName": "Bassaganas",
   "projectName": "conference-docs",
   "onBrokenLinks": "throw",

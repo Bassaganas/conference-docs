@@ -1,5 +1,5 @@
 {
-  "permalink": "/dify_jira/blog/long-blog-post",
+  "permalink": "/conference-docs/blog/long-blog-post",
   "source": "@site/blog/2019-05-29-long-blog-post.md",
   "title": "Long Blog Post",
   "description": "This is the summary of a very long blog post,",
@@ -8,13 +8,13 @@
     {
       "inline": false,
       "label": "Hello",
-      "permalink": "/dify_jira/blog/tags/hello",
+      "permalink": "/conference-docs/blog/tags/hello",
       "description": "Hello tag description"
     },
     {
       "inline": false,
       "label": "Docusaurus",
-      "permalink": "/dify_jira/blog/tags/docusaurus",
+      "permalink": "/conference-docs/blog/tags/docusaurus",
       "description": "Docusaurus tag description"
     }
   ],
@@ -26,7 +26,7 @@
       "title": "Ex-Meta Staff Engineer, Co-founder GreatFrontEnd",
       "url": "https://linkedin.com/in/yangshun",
       "page": {
-        "permalink": "/dify_jira/blog/authors/yangshun"
+        "permalink": "/conference-docs/blog/authors/yangshun"
       },
       "socials": {
         "x": "https://x.com/yangshunz",
@@ -50,10 +50,10 @@
   "unlisted": false,
   "prevItem": {
     "title": "MDX Blog Post",
-    "permalink": "/dify_jira/blog/mdx-blog-post"
+    "permalink": "/conference-docs/blog/mdx-blog-post"
   },
   "nextItem": {
     "title": "First Blog Post",
-    "permalink": "/dify_jira/blog/first-blog-post"
+    "permalink": "/conference-docs/blog/first-blog-post"
   }
 }
