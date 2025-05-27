@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main  # Set this to your default branch
+      - features/*
+
+permissions:
+  contents: write  # This line ensures the token has write access to the repository
 
 jobs:
   deploy:
