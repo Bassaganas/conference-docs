@@ -11,17 +11,13 @@
   "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/exercise-4-advanced-prompting.md",
   "tags": [],
   "version": "current",
-  "sidebarPosition": 5,
+  "sidebarPosition": 6,
   "frontMatter": {
-    "sidebar_position": 5
+    "sidebar_position": 6
   },
   "sidebar": "workshopSidebar",
   "previous": {
     "title": "Exercise 3: AI Chatbot Setup",
     "permalink": "/testus-patronus/docs/exercise-3-ai-chatbot-setup"
-  },
-  "next": {
-    "title": "Troubleshooting",
-    "permalink": "/testus-patronus/docs/troubleshooting"
   }
 }

@@ -1,0 +1,178 @@
+app:
+  description: Classical Chatbot to demonstrate connection to LLMs and start discovering
+    Dify
+  icon: 👨‍🦳
+  icon_background: '#E0F2FE'
+  mode: workflow
+  name: Exercise 1 - Classical Chatbot
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.16@e9ebc92e972ae473fc1c26ce215b88ba8780e44dab883685a61bf15e2c11a00d
+kind: app
+version: 0.3.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1748451069050-source-1748451164754-target
+      source: '1748451069050'
+      sourceHandle: source
+      target: '1748451164754'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748451164754-source-1748451294265-target
+      source: '1748451164754'
+      sourceHandle: source
+      target: '1748451294265'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: Start
+        type: start
+        variables:
+        - label: query
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: query
+      height: 90
+      id: '1748451069050'
+      position:
+        x: 191.60404580764805
+        y: 464.81805598967105
+      positionAbsolute:
+        x: 191.60404580764805
+        y: 464.81805598967105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1748451069050'
+          - query
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-35-turbo-16k
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 11aca439-3c4e-40a6-8083-48894003c6f3
+          role: system
+          text: 'Answer in a funny way the query:  {{#1748451069050.query#}}
+
+            {{#context#}}'
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1748451164754'
+      position:
+        x: 495.60404580764805
+        y: 464.81805598967105
+      positionAbsolute:
+        x: 495.60404580764805
+        y: 464.81805598967105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748451164754'
+          - text
+          variable: text
+        selected: false
+        title: End
+        type: end
+      height: 90
+      id: '1748451294265'
+      position:
+        x: 799.604045807648
+        y: 464.81805598967105
+      positionAbsolute:
+        x: 799.604045807648
+        y: 464.81805598967105
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 46.94732204451043
+      y: 14.158868505158779
+      zoom: 0.5009827952937026

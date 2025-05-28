@@ -11,6 +11,16 @@
           "mainDocId": "intro",
           "docs": [
             {
+              "id": "dataset",
+              "path": "/testus-patronus/docs/dataset",
+              "sidebar": "workshopSidebar"
+            },
+            {
+              "id": "ex1_old",
+              "path": "/testus-patronus/docs/ex1_old",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "exercise-1-llm-configuration",
               "path": "/testus-patronus/docs/exercise-1-llm-configuration",
               "sidebar": "workshopSidebar"
@@ -33,11 +43,6 @@
             {
               "id": "intro",
               "path": "/testus-patronus/docs/intro",
-              "sidebar": "workshopSidebar"
-            },
-            {
-              "id": "troubleshooting",
-              "path": "/testus-patronus/docs/troubleshooting",
               "sidebar": "workshopSidebar"
             }
           ],
