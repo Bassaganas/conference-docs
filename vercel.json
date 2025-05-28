@@ -4,5 +4,12 @@
             "source": "/testus-patronus/:match*",
             "destination": "/:match*"
         }
+    ],
+    "redirects": [
+        {
+            "source": "http://docs.bassagan.com/:path*",
+            "destination": "https://docs.bassagan.com/:path*",
+            "permanent": true
+        }
     ]
 }
