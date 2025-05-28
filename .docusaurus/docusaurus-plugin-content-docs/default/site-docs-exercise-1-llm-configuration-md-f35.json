@@ -5,7 +5,7 @@
   "source": "@site/docs/exercise-1-llm-configuration.md",
   "sourceDirName": ".",
   "slug": "/exercise-1-llm-configuration",
-  "permalink": "/dify_jira/docs/exercise-1-llm-configuration",
+  "permalink": "/testus-patronus/docs/exercise-1-llm-configuration",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/exercise-1-llm-configuration.md",
@@ -18,10 +18,10 @@
   "sidebar": "workshopSidebar",
   "previous": {
     "title": "Introduction to Testus Patronus",
-    "permalink": "/dify_jira/docs/intro"
+    "permalink": "/testus-patronus/docs/intro"
   },
   "next": {
     "title": "Exercise 2: Knowledge Ingestion",
-    "permalink": "/dify_jira/docs/exercise-2-knowledge-ingestion"
+    "permalink": "/testus-patronus/docs/exercise-2-knowledge-ingestion"
   }
 }

@@ -3,25 +3,25 @@
   "items": [
     {
       "title": "Welcome",
-      "permalink": "/dify_jira/blog/welcome",
+      "permalink": "/testus-patronus/blog/welcome",
       "unlisted": false,
       "date": "2021-08-26T00:00:00.000Z"
     },
     {
       "title": "MDX Blog Post",
-      "permalink": "/dify_jira/blog/mdx-blog-post",
+      "permalink": "/testus-patronus/blog/mdx-blog-post",
       "unlisted": false,
       "date": "2021-08-01T00:00:00.000Z"
     },
     {
       "title": "Long Blog Post",
-      "permalink": "/dify_jira/blog/long-blog-post",
+      "permalink": "/testus-patronus/blog/long-blog-post",
       "unlisted": false,
       "date": "2019-05-29T00:00:00.000Z"
     },
     {
       "title": "First Blog Post",
-      "permalink": "/dify_jira/blog/first-blog-post",
+      "permalink": "/testus-patronus/blog/first-blog-post",
       "unlisted": false,
       "date": "2019-05-28T00:00:00.000Z"
     }

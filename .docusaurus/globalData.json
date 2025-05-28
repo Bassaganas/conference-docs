@@ -1,43 +1,43 @@
 {
   "docusaurus-plugin-content-docs": {
     "default": {
-      "path": "/dify_jira/docs",
+      "path": "/testus-patronus/docs",
       "versions": [
         {
           "name": "current",
           "label": "Next",
           "isLast": true,
-          "path": "/dify_jira/docs",
+          "path": "/testus-patronus/docs",
           "mainDocId": "intro",
           "docs": [
             {
               "id": "exercise-1-llm-configuration",
-              "path": "/dify_jira/docs/exercise-1-llm-configuration",
+              "path": "/testus-patronus/docs/exercise-1-llm-configuration",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "exercise-2-knowledge-ingestion",
-              "path": "/dify_jira/docs/exercise-2-knowledge-ingestion",
+              "path": "/testus-patronus/docs/exercise-2-knowledge-ingestion",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "exercise-3-ai-chatbot-setup",
-              "path": "/dify_jira/docs/exercise-3-ai-chatbot-setup",
+              "path": "/testus-patronus/docs/exercise-3-ai-chatbot-setup",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "exercise-4-advanced-prompting",
-              "path": "/dify_jira/docs/exercise-4-advanced-prompting",
+              "path": "/testus-patronus/docs/exercise-4-advanced-prompting",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "intro",
-              "path": "/dify_jira/docs/intro",
+              "path": "/testus-patronus/docs/intro",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "troubleshooting",
-              "path": "/dify_jira/docs/troubleshooting",
+              "path": "/testus-patronus/docs/troubleshooting",
               "sidebar": "workshopSidebar"
             }
           ],
@@ -45,13 +45,13 @@
           "sidebars": {
             "tutorialSidebar": {
               "link": {
-                "path": "/dify_jira/docs/intro",
+                "path": "/testus-patronus/docs/intro",
                 "label": "intro"
               }
             },
             "workshopSidebar": {
               "link": {
-                "path": "/dify_jira/docs/intro",
+                "path": "/testus-patronus/docs/intro",
                 "label": "intro"
               }
             }

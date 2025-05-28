@@ -3,160 +3,160 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
-    path: '/dify_jira/__docusaurus/debug',
-    component: ComponentCreator('/dify_jira/__docusaurus/debug', '99f'),
+    path: '/testus-patronus/__docusaurus/debug',
+    component: ComponentCreator('/testus-patronus/__docusaurus/debug', 'df3'),
     exact: true
   },
   {
-    path: '/dify_jira/__docusaurus/debug/config',
-    component: ComponentCreator('/dify_jira/__docusaurus/debug/config', 'c82'),
+    path: '/testus-patronus/__docusaurus/debug/config',
+    component: ComponentCreator('/testus-patronus/__docusaurus/debug/config', 'd0f'),
     exact: true
   },
   {
-    path: '/dify_jira/__docusaurus/debug/content',
-    component: ComponentCreator('/dify_jira/__docusaurus/debug/content', 'faa'),
+    path: '/testus-patronus/__docusaurus/debug/content',
+    component: ComponentCreator('/testus-patronus/__docusaurus/debug/content', '0b6'),
     exact: true
   },
   {
-    path: '/dify_jira/__docusaurus/debug/globalData',
-    component: ComponentCreator('/dify_jira/__docusaurus/debug/globalData', '70a'),
+    path: '/testus-patronus/__docusaurus/debug/globalData',
+    component: ComponentCreator('/testus-patronus/__docusaurus/debug/globalData', '278'),
     exact: true
   },
   {
-    path: '/dify_jira/__docusaurus/debug/metadata',
-    component: ComponentCreator('/dify_jira/__docusaurus/debug/metadata', '7a8'),
+    path: '/testus-patronus/__docusaurus/debug/metadata',
+    component: ComponentCreator('/testus-patronus/__docusaurus/debug/metadata', '7e2'),
     exact: true
   },
   {
-    path: '/dify_jira/__docusaurus/debug/registry',
-    component: ComponentCreator('/dify_jira/__docusaurus/debug/registry', 'd4d'),
+    path: '/testus-patronus/__docusaurus/debug/registry',
+    component: ComponentCreator('/testus-patronus/__docusaurus/debug/registry', '201'),
     exact: true
   },
   {
-    path: '/dify_jira/__docusaurus/debug/routes',
-    component: ComponentCreator('/dify_jira/__docusaurus/debug/routes', '6bc'),
+    path: '/testus-patronus/__docusaurus/debug/routes',
+    component: ComponentCreator('/testus-patronus/__docusaurus/debug/routes', '378'),
     exact: true
   },
   {
-    path: '/dify_jira/blog',
-    component: ComponentCreator('/dify_jira/blog', '16b'),
+    path: '/testus-patronus/blog',
+    component: ComponentCreator('/testus-patronus/blog', 'cb3'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/archive',
-    component: ComponentCreator('/dify_jira/blog/archive', '8fd'),
+    path: '/testus-patronus/blog/archive',
+    component: ComponentCreator('/testus-patronus/blog/archive', 'e24'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/authors',
-    component: ComponentCreator('/dify_jira/blog/authors', 'c72'),
+    path: '/testus-patronus/blog/authors',
+    component: ComponentCreator('/testus-patronus/blog/authors', '5ce'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/authors/all-sebastien-lorber-articles',
-    component: ComponentCreator('/dify_jira/blog/authors/all-sebastien-lorber-articles', 'bcb'),
+    path: '/testus-patronus/blog/authors/all-sebastien-lorber-articles',
+    component: ComponentCreator('/testus-patronus/blog/authors/all-sebastien-lorber-articles', '1f2'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/authors/yangshun',
-    component: ComponentCreator('/dify_jira/blog/authors/yangshun', 'ee1'),
+    path: '/testus-patronus/blog/authors/yangshun',
+    component: ComponentCreator('/testus-patronus/blog/authors/yangshun', '9ad'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/first-blog-post',
-    component: ComponentCreator('/dify_jira/blog/first-blog-post', 'd46'),
+    path: '/testus-patronus/blog/first-blog-post',
+    component: ComponentCreator('/testus-patronus/blog/first-blog-post', '963'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/long-blog-post',
-    component: ComponentCreator('/dify_jira/blog/long-blog-post', '7db'),
+    path: '/testus-patronus/blog/long-blog-post',
+    component: ComponentCreator('/testus-patronus/blog/long-blog-post', 'ed4'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/mdx-blog-post',
-    component: ComponentCreator('/dify_jira/blog/mdx-blog-post', '257'),
+    path: '/testus-patronus/blog/mdx-blog-post',
+    component: ComponentCreator('/testus-patronus/blog/mdx-blog-post', '9e6'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/tags',
-    component: ComponentCreator('/dify_jira/blog/tags', '668'),
+    path: '/testus-patronus/blog/tags',
+    component: ComponentCreator('/testus-patronus/blog/tags', 'd03'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/tags/docusaurus',
-    component: ComponentCreator('/dify_jira/blog/tags/docusaurus', '298'),
+    path: '/testus-patronus/blog/tags/docusaurus',
+    component: ComponentCreator('/testus-patronus/blog/tags/docusaurus', '5f9'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/tags/facebook',
-    component: ComponentCreator('/dify_jira/blog/tags/facebook', '87a'),
+    path: '/testus-patronus/blog/tags/facebook',
+    component: ComponentCreator('/testus-patronus/blog/tags/facebook', '0af'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/tags/hello',
-    component: ComponentCreator('/dify_jira/blog/tags/hello', '39b'),
+    path: '/testus-patronus/blog/tags/hello',
+    component: ComponentCreator('/testus-patronus/blog/tags/hello', '3f8'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/tags/hola',
-    component: ComponentCreator('/dify_jira/blog/tags/hola', 'eca'),
+    path: '/testus-patronus/blog/tags/hola',
+    component: ComponentCreator('/testus-patronus/blog/tags/hola', 'd18'),
     exact: true
   },
   {
-    path: '/dify_jira/blog/welcome',
-    component: ComponentCreator('/dify_jira/blog/welcome', 'ea9'),
+    path: '/testus-patronus/blog/welcome',
+    component: ComponentCreator('/testus-patronus/blog/welcome', '9d8'),
     exact: true
   },
   {
-    path: '/dify_jira/markdown-page',
-    component: ComponentCreator('/dify_jira/markdown-page', 'a47'),
+    path: '/testus-patronus/markdown-page',
+    component: ComponentCreator('/testus-patronus/markdown-page', '589'),
     exact: true
   },
   {
-    path: '/dify_jira/docs',
-    component: ComponentCreator('/dify_jira/docs', 'beb'),
+    path: '/testus-patronus/docs',
+    component: ComponentCreator('/testus-patronus/docs', '50b'),
     routes: [
       {
-        path: '/dify_jira/docs',
-        component: ComponentCreator('/dify_jira/docs', '8b9'),
+        path: '/testus-patronus/docs',
+        component: ComponentCreator('/testus-patronus/docs', '5fc'),
         routes: [
           {
-            path: '/dify_jira/docs',
-            component: ComponentCreator('/dify_jira/docs', '0a6'),
+            path: '/testus-patronus/docs',
+            component: ComponentCreator('/testus-patronus/docs', 'eb7'),
             routes: [
               {
-                path: '/dify_jira/docs/exercise-1-llm-configuration',
-                component: ComponentCreator('/dify_jira/docs/exercise-1-llm-configuration', 'bd6'),
+                path: '/testus-patronus/docs/exercise-1-llm-configuration',
+                component: ComponentCreator('/testus-patronus/docs/exercise-1-llm-configuration', '169'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/dify_jira/docs/exercise-2-knowledge-ingestion',
-                component: ComponentCreator('/dify_jira/docs/exercise-2-knowledge-ingestion', '243'),
+                path: '/testus-patronus/docs/exercise-2-knowledge-ingestion',
+                component: ComponentCreator('/testus-patronus/docs/exercise-2-knowledge-ingestion', '33f'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/dify_jira/docs/exercise-3-ai-chatbot-setup',
-                component: ComponentCreator('/dify_jira/docs/exercise-3-ai-chatbot-setup', 'beb'),
+                path: '/testus-patronus/docs/exercise-3-ai-chatbot-setup',
+                component: ComponentCreator('/testus-patronus/docs/exercise-3-ai-chatbot-setup', 'b57'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/dify_jira/docs/exercise-4-advanced-prompting',
-                component: ComponentCreator('/dify_jira/docs/exercise-4-advanced-prompting', '117'),
+                path: '/testus-patronus/docs/exercise-4-advanced-prompting',
+                component: ComponentCreator('/testus-patronus/docs/exercise-4-advanced-prompting', '1ff'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/dify_jira/docs/intro',
-                component: ComponentCreator('/dify_jira/docs/intro', '939'),
+                path: '/testus-patronus/docs/intro',
+                component: ComponentCreator('/testus-patronus/docs/intro', 'c04'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/dify_jira/docs/troubleshooting',
-                component: ComponentCreator('/dify_jira/docs/troubleshooting', '234'),
+                path: '/testus-patronus/docs/troubleshooting',
+                component: ComponentCreator('/testus-patronus/docs/troubleshooting', 'a94'),
                 exact: true,
                 sidebar: "workshopSidebar"
               }
@@ -167,8 +167,8 @@ export default [
     ]
   },
   {
-    path: '/dify_jira/',
-    component: ComponentCreator('/dify_jira/', '69a'),
+    path: '/testus-patronus/',
+    component: ComponentCreator('/testus-patronus/', 'ed8'),
     exact: true
   },
   {

@@ -1,48 +1,48 @@
 {
-  "/dify_jira/__docusaurus/debug-99f": {
+  "/testus-patronus/__docusaurus/debug-df3": {
     "__comp": "__comp---theme-debug-config-23-a-2ff",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/config-c82": {
+  "/testus-patronus/__docusaurus/debug/config-d0f": {
     "__comp": "__comp---theme-debug-config-23-a-2ff",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/content-faa": {
+  "/testus-patronus/__docusaurus/debug/content-0b6": {
     "__comp": "__comp---theme-debug-contentba-8-ce7",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     },
-    "__props": "__props---dify-jira-docusaurus-debug-content-1-d-7-e3e"
+    "__props": "__props---testus-patronus-docusaurus-debug-content-925-9c3"
   },
-  "/dify_jira/__docusaurus/debug/globalData-70a": {
+  "/testus-patronus/__docusaurus/debug/globalData-278": {
     "__comp": "__comp---theme-debug-global-dataede-0fa",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/metadata-7a8": {
+  "/testus-patronus/__docusaurus/debug/metadata-7e2": {
     "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/registry-d4d": {
+  "/testus-patronus/__docusaurus/debug/registry-201": {
     "__comp": "__comp---theme-debug-registry-679-501",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/__docusaurus/debug/routes-6bc": {
+  "/testus-patronus/__docusaurus/debug/routes-378": {
     "__comp": "__comp---theme-debug-routes-946-699",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/dify_jira/blog-16b": {
+  "/testus-patronus/blog-cb3": {
     "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -62,16 +62,16 @@
         "content": "content---dify-jira-blog-925-9a7"
       }
     ],
-    "__props": "__props---dify-jira-blogb-24-914"
+    "__props": "__props---testus-patronus-blog-4-d-1-65b"
   },
-  "/dify_jira/blog/archive-8fd": {
+  "/testus-patronus/blog/archive-e24": {
     "__comp": "__comp---theme-blog-archive-page-9-e-4-1d8",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
     },
-    "__props": "__props---dify-jira-blog-archivea-38-c4f"
+    "__props": "__props---testus-patronus-blog-archive-20-a-26a"
   },
-  "/dify_jira/blog/authors-c72": {
+  "/testus-patronus/blog/authors-5ce": {
     "__comp": "__comp---theme-blog-pages-blog-authors-list-page-621-70c",
     "__context": {
       "data": {
@@ -80,9 +80,9 @@
       "plugin": "plugin---dify-jira-blog-369-5be"
     },
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---dify-jira-blog-authors-868-7af"
+    "__props": "__props---testus-patronus-blog-authors-5-d-3-828"
   },
-  "/dify_jira/blog/authors/all-sebastien-lorber-articles-bcb": {
+  "/testus-patronus/blog/authors/all-sebastien-lorber-articles-1f2": {
     "__comp": "__comp---theme-blog-pages-blog-authors-posts-page-33-f-bd5",
     "__context": {
       "data": {
@@ -102,9 +102,9 @@
       }
     ],
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---dify-jira-blog-authors-all-sebastien-lorber-articles-3-d-4-5ae"
+    "__props": "__props---testus-patronus-blog-authors-all-sebastien-lorber-articles-392-7bb"
   },
-  "/dify_jira/blog/authors/yangshun-ee1": {
+  "/testus-patronus/blog/authors/yangshun-9ad": {
     "__comp": "__comp---theme-blog-pages-blog-authors-posts-page-33-f-bd5",
     "__context": {
       "data": {
@@ -124,9 +124,9 @@
       }
     ],
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---dify-jira-blog-authors-yangshun-477-9d4"
+    "__props": "__props---testus-patronus-blog-authors-yangshun-4-de-c3d"
   },
-  "/dify_jira/blog/first-blog-post-d46": {
+  "/testus-patronus/blog/first-blog-post-963": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -137,7 +137,7 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-first-blog-poste-27-6c3"
   },
-  "/dify_jira/blog/long-blog-post-7db": {
+  "/testus-patronus/blog/long-blog-post-ed4": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -148,7 +148,7 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-long-blog-post-736-7b6"
   },
-  "/dify_jira/blog/mdx-blog-post-257": {
+  "/testus-patronus/blog/mdx-blog-post-9e6": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -159,15 +159,15 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-mdx-blog-post-593-93c"
   },
-  "/dify_jira/blog/tags-668": {
+  "/testus-patronus/blog/tags-d03": {
     "__comp": "__comp---theme-blog-tags-list-page-01-a-d0b",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
     },
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---dify-jira-blog-tagsffd-48f"
+    "__props": "__props---testus-patronus-blog-tagsef-0-020"
   },
-  "/dify_jira/blog/tags/docusaurus-298": {
+  "/testus-patronus/blog/tags/docusaurus-5f9": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -187,9 +187,9 @@
         "content": "content---dify-jira-blog-925-9a7"
       }
     ],
-    "__props": "__props---dify-jira-blog-tags-docusaurus-187-386"
+    "__props": "__props---testus-patronus-blog-tags-docusaurus-873-a92"
   },
-  "/dify_jira/blog/tags/facebook-87a": {
+  "/testus-patronus/blog/tags/facebook-0af": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -200,9 +200,9 @@
         "content": "content---dify-jira-blog-766-ad8"
       }
     ],
-    "__props": "__props---dify-jira-blog-tags-facebook-8-e-5-78d"
+    "__props": "__props---testus-patronus-blog-tags-facebook-371-8c7"
   },
-  "/dify_jira/blog/tags/hello-39b": {
+  "/testus-patronus/blog/tags/hello-3f8": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -216,9 +216,9 @@
         "content": "content---dify-jira-blog-871-112"
       }
     ],
-    "__props": "__props---dify-jira-blog-tags-hello-561-1da"
+    "__props": "__props---testus-patronus-blog-tags-helloa-10-c67"
   },
-  "/dify_jira/blog/tags/hola-eca": {
+  "/testus-patronus/blog/tags/hola-d18": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -229,9 +229,9 @@
         "content": "content---dify-jira-blog-925-9a7"
       }
     ],
-    "__props": "__props---dify-jira-blog-tags-holab-30-4c9"
+    "__props": "__props---testus-patronus-blog-tags-holaee-9-497"
   },
-  "/dify_jira/blog/welcome-ea9": {
+  "/testus-patronus/blog/welcome-9d8": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -242,51 +242,51 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-welcomed-9-f-25e"
   },
-  "/dify_jira/markdown-page-a47": {
+  "/testus-patronus/markdown-page-589": {
     "__comp": "__comp---theme-mdx-page-1-f-3-b90",
     "__context": {
       "plugin": "plugin---dify-jira-markdown-pagea-74-25d"
     },
     "content": "content---dify-jira-markdown-page-393-0f5"
   },
-  "/dify_jira/docs-beb": {
+  "/testus-patronus/docs-50b": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---dify-jira-docsaba-d01"
     }
   },
-  "/dify_jira/docs-8b9": {
+  "/testus-patronus/docs-5fc": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
-    "__props": "__props---dify-jira-docs-16-d-2e8"
+    "__props": "__props---testus-patronus-docs-805-381"
   },
-  "/dify_jira/docs-0a6": {
+  "/testus-patronus/docs-eb7": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
-  "/dify_jira/docs/exercise-1-llm-configuration-bd6": {
+  "/testus-patronus/docs/exercise-1-llm-configuration-169": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-1-llm-configurationf-35-e68"
   },
-  "/dify_jira/docs/exercise-2-knowledge-ingestion-243": {
+  "/testus-patronus/docs/exercise-2-knowledge-ingestion-33f": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-2-knowledge-ingestion-4-c-3-096"
   },
-  "/dify_jira/docs/exercise-3-ai-chatbot-setup-beb": {
+  "/testus-patronus/docs/exercise-3-ai-chatbot-setup-b57": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-3-ai-chatbot-setupc-5-d-5d3"
   },
-  "/dify_jira/docs/exercise-4-advanced-prompting-117": {
+  "/testus-patronus/docs/exercise-4-advanced-prompting-1ff": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-4-advanced-prompting-576-45d"
   },
-  "/dify_jira/docs/intro-939": {
+  "/testus-patronus/docs/intro-c04": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-intro-0-e-3-469"
   },
-  "/dify_jira/docs/troubleshooting-234": {
+  "/testus-patronus/docs/troubleshooting-a94": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-troubleshooting-9-d-9-ac2"
   },
-  "/dify_jira/-69a": {
+  "/testus-patronus/-ed8": {
     "__comp": "__comp---site-src-pages-index-tsx-1-df-d3e",
     "__context": {
       "plugin": "plugin---dify-jira-markdown-pagea-74-25d"

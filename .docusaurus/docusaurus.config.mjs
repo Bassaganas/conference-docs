@@ -28,8 +28,8 @@ export default {
     },
     "experimental_router": "browser"
   },
-  "url": "https://bassagap.github.io",
-  "baseUrl": "/dify_jira/",
+  "url": "https://docs.bassagan.com",
+  "baseUrl": "/testus-patronus/",
   "organizationName": "Bassaganas",
   "projectName": "conference-docs",
   "onBrokenLinks": "throw",
