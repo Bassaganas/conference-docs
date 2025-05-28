@@ -155,3 +155,36 @@ body {
   background: #7c3aed22;
   color: #7c3aed !important;
 }
+
+.menu__list {
+  background: #232127 !important;
+  /* or a color that fits your theme */
+}
+
+
+.menu__link {
+  color: #fffce7 !important;
+  /* dark text for readability */
+}
+
+.menu__link--active,
+
+
+.menu__list-item {
+  border-bottom: 1px solid #eee;
+}
+
+/* Ensure the sidebar overlay background is dark on all screen sizes */
+.navbar-sidebar {
+  background: #232127 !important;
+}
+
+/* Also make sure the sidebar menu background is dark */
+.menu__list {
+  background: #232127 !important;
+}
+
+.navbar-sidebar__brand {
+  background: #d1bfff !important;
+  color: #070707 !important;
+}
