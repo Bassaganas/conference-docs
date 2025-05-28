@@ -1,27 +1,27 @@
 {
-  "id": "exercise-1-llm-configuration",
+  "id": "ex1_old",
   "title": "🧙 Exercise 1: Connect to Your Magical LLM",
   "description": "Welcome to your first spell in the Testus Patronus journey! In this exercise, you'll connect your Dify instance to a powerful Azure-hosted Large Language Model (LLM), which will become the core of your AI assistant.",
-  "source": "@site/docs/exercise-1-llm-configuration.md",
+  "source": "@site/docs/ex1_old.mdx",
   "sourceDirName": ".",
-  "slug": "/exercise-1-llm-configuration",
-  "permalink": "/testus-patronus/docs/exercise-1-llm-configuration",
+  "slug": "/ex1_old",
+  "permalink": "/testus-patronus/docs/ex1_old",
   "draft": false,
   "unlisted": false,
-  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/exercise-1-llm-configuration.md",
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/ex1_old.mdx",
   "tags": [],
   "version": "current",
   "sidebarPosition": 3,
   "frontMatter": {
     "sidebar_position": 3
   },
-  "sidebar": "workshopSidebar",
+  "sidebar": "tutorialSidebar",
   "previous": {
     "title": "📚 About the Dataset",
     "permalink": "/testus-patronus/docs/dataset"
   },
   "next": {
-    "title": "Exercise 2: Knowledge Ingestion",
-    "permalink": "/testus-patronus/docs/exercise-2-knowledge-ingestion"
+    "title": "🧙 Exercise 1: Connect to Your Magical LLM",
+    "permalink": "/testus-patronus/docs/exercise-1-llm-configuration"
   }
 }

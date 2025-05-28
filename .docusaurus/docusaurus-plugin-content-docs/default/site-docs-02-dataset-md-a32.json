@@ -1,0 +1,27 @@
+{
+  "id": "dataset",
+  "title": "📚 About the Dataset",
+  "description": "In this workshop, you'll be working with a curated and preprocessed subset of the Public Jira Dataset, originally published by researchers from the University of Hamburg:",
+  "source": "@site/docs/02_dataset.md",
+  "sourceDirName": ".",
+  "slug": "/dataset",
+  "permalink": "/testus-patronus/docs/dataset",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/02_dataset.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "workshopSidebar",
+  "previous": {
+    "title": "Introduction to Testus Patronus",
+    "permalink": "/testus-patronus/docs/intro"
+  },
+  "next": {
+    "title": "🧙 Exercise 1: Connect to Your Magical LLM",
+    "permalink": "/testus-patronus/docs/exercise-1-llm-configuration"
+  }
+}

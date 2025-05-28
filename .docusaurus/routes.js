@@ -114,19 +114,31 @@ export default [
   },
   {
     path: '/testus-patronus/docs',
-    component: ComponentCreator('/testus-patronus/docs', '50b'),
+    component: ComponentCreator('/testus-patronus/docs', '516'),
     routes: [
       {
         path: '/testus-patronus/docs',
-        component: ComponentCreator('/testus-patronus/docs', '5fc'),
+        component: ComponentCreator('/testus-patronus/docs', '011'),
         routes: [
           {
             path: '/testus-patronus/docs',
-            component: ComponentCreator('/testus-patronus/docs', 'eb7'),
+            component: ComponentCreator('/testus-patronus/docs', '36e'),
             routes: [
               {
+                path: '/testus-patronus/docs/dataset',
+                component: ComponentCreator('/testus-patronus/docs/dataset', '2a6'),
+                exact: true,
+                sidebar: "workshopSidebar"
+              },
+              {
+                path: '/testus-patronus/docs/ex1_old',
+                component: ComponentCreator('/testus-patronus/docs/ex1_old', '7da'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
                 path: '/testus-patronus/docs/exercise-1-llm-configuration',
-                component: ComponentCreator('/testus-patronus/docs/exercise-1-llm-configuration', '169'),
+                component: ComponentCreator('/testus-patronus/docs/exercise-1-llm-configuration', '4fe'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
@@ -151,12 +163,6 @@ export default [
               {
                 path: '/testus-patronus/docs/intro',
                 component: ComponentCreator('/testus-patronus/docs/intro', 'c04'),
-                exact: true,
-                sidebar: "workshopSidebar"
-              },
-              {
-                path: '/testus-patronus/docs/troubleshooting',
-                component: ComponentCreator('/testus-patronus/docs/troubleshooting', 'a94'),
                 exact: true,
                 sidebar: "workshopSidebar"
               }
