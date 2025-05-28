@@ -1,5 +1,5 @@
 {
-  "permalink": "/conference-docs/blog/mdx-blog-post",
+  "permalink": "/testus-patronus-docs/blog/mdx-blog-post",
   "source": "@site/blog/2021-08-01-mdx-blog-post.mdx",
   "title": "MDX Blog Post",
   "description": "Blog posts support Docusaurus Markdown features, such as MDX.",
@@ -8,7 +8,7 @@
     {
       "inline": false,
       "label": "Docusaurus",
-      "permalink": "/conference-docs/blog/tags/docusaurus",
+      "permalink": "/testus-patronus-docs/blog/tags/docusaurus",
       "description": "Docusaurus tag description"
     }
   ],
@@ -20,7 +20,7 @@
       "title": "Docusaurus maintainer",
       "url": "https://sebastienlorber.com",
       "page": {
-        "permalink": "/conference-docs/blog/authors/all-sebastien-lorber-articles"
+        "permalink": "/testus-patronus-docs/blog/authors/all-sebastien-lorber-articles"
       },
       "socials": {
         "x": "https://x.com/sebastienlorber",
@@ -45,10 +45,10 @@
   "unlisted": false,
   "prevItem": {
     "title": "Welcome",
-    "permalink": "/conference-docs/blog/welcome"
+    "permalink": "/testus-patronus-docs/blog/welcome"
   },
   "nextItem": {
     "title": "Long Blog Post",
-    "permalink": "/conference-docs/blog/long-blog-post"
+    "permalink": "/testus-patronus-docs/blog/long-blog-post"
   }
 }

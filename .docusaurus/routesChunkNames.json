@@ -1,48 +1,48 @@
 {
-  "/conference-docs/__docusaurus/debug-32b": {
+  "/testus-patronus-docs/__docusaurus/debug-213": {
     "__comp": "__comp---theme-debug-config-23-a-2ff",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/conference-docs/__docusaurus/debug/config-7c7": {
+  "/testus-patronus-docs/__docusaurus/debug/config-584": {
     "__comp": "__comp---theme-debug-config-23-a-2ff",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/conference-docs/__docusaurus/debug/content-463": {
+  "/testus-patronus-docs/__docusaurus/debug/content-d86": {
     "__comp": "__comp---theme-debug-contentba-8-ce7",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     },
-    "__props": "__props---conference-docs-docusaurus-debug-content-1-dd-ac7"
+    "__props": "__props---testus-patronus-docs-docusaurus-debug-content-052-5c9"
   },
-  "/conference-docs/__docusaurus/debug/globalData-6c8": {
+  "/testus-patronus-docs/__docusaurus/debug/globalData-a74": {
     "__comp": "__comp---theme-debug-global-dataede-0fa",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/conference-docs/__docusaurus/debug/metadata-c49": {
+  "/testus-patronus-docs/__docusaurus/debug/metadata-85c": {
     "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/conference-docs/__docusaurus/debug/registry-c22": {
+  "/testus-patronus-docs/__docusaurus/debug/registry-e7c": {
     "__comp": "__comp---theme-debug-registry-679-501",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/conference-docs/__docusaurus/debug/routes-440": {
+  "/testus-patronus-docs/__docusaurus/debug/routes-c62": {
     "__comp": "__comp---theme-debug-routes-946-699",
     "__context": {
       "plugin": "plugin---dify-jira-docusaurus-debugb-38-ac4"
     }
   },
-  "/conference-docs/blog-0a2": {
+  "/testus-patronus-docs/blog-379": {
     "__comp": "__comp---theme-blog-list-pagea-6-a-7ba",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -62,16 +62,16 @@
         "content": "content---dify-jira-blog-925-9a7"
       }
     ],
-    "__props": "__props---conference-docs-bloge-72-14e"
+    "__props": "__props---testus-patronus-docs-blogbde-658"
   },
-  "/conference-docs/blog/archive-1b1": {
+  "/testus-patronus-docs/blog/archive-034": {
     "__comp": "__comp---theme-blog-archive-page-9-e-4-1d8",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
     },
-    "__props": "__props---conference-docs-blog-archive-1-dd-632"
+    "__props": "__props---testus-patronus-docs-blog-archive-343-0fd"
   },
-  "/conference-docs/blog/authors-a0d": {
+  "/testus-patronus-docs/blog/authors-81f": {
     "__comp": "__comp---theme-blog-pages-blog-authors-list-page-621-70c",
     "__context": {
       "data": {
@@ -80,9 +80,9 @@
       "plugin": "plugin---dify-jira-blog-369-5be"
     },
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---conference-docs-blog-authorsda-9-985"
+    "__props": "__props---testus-patronus-docs-blog-authors-3-df-be0"
   },
-  "/conference-docs/blog/authors/all-sebastien-lorber-articles-c35": {
+  "/testus-patronus-docs/blog/authors/all-sebastien-lorber-articles-18a": {
     "__comp": "__comp---theme-blog-pages-blog-authors-posts-page-33-f-bd5",
     "__context": {
       "data": {
@@ -102,9 +102,9 @@
       }
     ],
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---conference-docs-blog-authors-all-sebastien-lorber-articles-3-d-4-743"
+    "__props": "__props---testus-patronus-docs-blog-authors-all-sebastien-lorber-articles-059-aff"
   },
-  "/conference-docs/blog/authors/yangshun-1e2": {
+  "/testus-patronus-docs/blog/authors/yangshun-c5c": {
     "__comp": "__comp---theme-blog-pages-blog-authors-posts-page-33-f-bd5",
     "__context": {
       "data": {
@@ -124,9 +124,9 @@
       }
     ],
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---conference-docs-blog-authors-yangshuna-52-5d8"
+    "__props": "__props---testus-patronus-docs-blog-authors-yangshun-32-f-7a8"
   },
-  "/conference-docs/blog/first-blog-post-b13": {
+  "/testus-patronus-docs/blog/first-blog-post-5d5": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -137,7 +137,7 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-first-blog-poste-27-6c3"
   },
-  "/conference-docs/blog/long-blog-post-5ab": {
+  "/testus-patronus-docs/blog/long-blog-post-637": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -148,7 +148,7 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-long-blog-post-736-7b6"
   },
-  "/conference-docs/blog/mdx-blog-post-a9c": {
+  "/testus-patronus-docs/blog/mdx-blog-post-d22": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -159,15 +159,15 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-mdx-blog-post-593-93c"
   },
-  "/conference-docs/blog/tags-759": {
+  "/testus-patronus-docs/blog/tags-444": {
     "__comp": "__comp---theme-blog-tags-list-page-01-a-d0b",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
     },
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
-    "__props": "__props---conference-docs-blog-tags-06-a-84e"
+    "__props": "__props---testus-patronus-docs-blog-tags-003-679"
   },
-  "/conference-docs/blog/tags/docusaurus-f49": {
+  "/testus-patronus-docs/blog/tags/docusaurus-090": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -187,9 +187,9 @@
         "content": "content---dify-jira-blog-925-9a7"
       }
     ],
-    "__props": "__props---conference-docs-blog-tags-docusaurusda-9-417"
+    "__props": "__props---testus-patronus-docs-blog-tags-docusaurus-428-80c"
   },
-  "/conference-docs/blog/tags/facebook-9e7": {
+  "/testus-patronus-docs/blog/tags/facebook-ee4": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -200,9 +200,9 @@
         "content": "content---dify-jira-blog-766-ad8"
       }
     ],
-    "__props": "__props---conference-docs-blog-tags-facebook-4-ec-5ca"
+    "__props": "__props---testus-patronus-docs-blog-tags-facebookc-85-d6e"
   },
-  "/conference-docs/blog/tags/hello-a05": {
+  "/testus-patronus-docs/blog/tags/hello-c25": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -216,9 +216,9 @@
         "content": "content---dify-jira-blog-871-112"
       }
     ],
-    "__props": "__props---conference-docs-blog-tags-helloc-77-bba"
+    "__props": "__props---testus-patronus-docs-blog-tags-hellof-32-741"
   },
-  "/conference-docs/blog/tags/hola-931": {
+  "/testus-patronus-docs/blog/tags/hola-20b": {
     "__comp": "__comp---theme-blog-tags-posts-page-687-b6c",
     "__context": {
       "plugin": "plugin---dify-jira-blog-369-5be"
@@ -229,9 +229,9 @@
         "content": "content---dify-jira-blog-925-9a7"
       }
     ],
-    "__props": "__props---conference-docs-blog-tags-hola-223-331"
+    "__props": "__props---testus-patronus-docs-blog-tags-holaf-00-f2a"
   },
-  "/conference-docs/blog/welcome-066": {
+  "/testus-patronus-docs/blog/welcome-688": {
     "__comp": "__comp---theme-blog-post-pageccc-cab",
     "__context": {
       "data": {
@@ -242,51 +242,51 @@
     "sidebar": "sidebar---dify-jira-blog-814-6ee",
     "content": "content---dify-jira-blog-welcomed-9-f-25e"
   },
-  "/conference-docs/markdown-page-065": {
+  "/testus-patronus-docs/markdown-page-fbe": {
     "__comp": "__comp---theme-mdx-page-1-f-3-b90",
     "__context": {
       "plugin": "plugin---dify-jira-markdown-pagea-74-25d"
     },
     "content": "content---dify-jira-markdown-page-393-0f5"
   },
-  "/conference-docs/docs-3c0": {
+  "/testus-patronus-docs/docs-715": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---dify-jira-docsaba-d01"
     }
   },
-  "/conference-docs/docs-026": {
+  "/testus-patronus-docs/docs-b1a": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
-    "__props": "__props---conference-docs-docs-8-ac-c06"
+    "__props": "__props---testus-patronus-docs-docs-91-a-ba8"
   },
-  "/conference-docs/docs-3e7": {
+  "/testus-patronus-docs/docs-9d2": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
-  "/conference-docs/docs/exercise-1-llm-configuration-0ef": {
+  "/testus-patronus-docs/docs/exercise-1-llm-configuration-979": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-1-llm-configurationf-35-e68"
   },
-  "/conference-docs/docs/exercise-2-knowledge-ingestion-cff": {
+  "/testus-patronus-docs/docs/exercise-2-knowledge-ingestion-2d6": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-2-knowledge-ingestion-4-c-3-096"
   },
-  "/conference-docs/docs/exercise-3-ai-chatbot-setup-354": {
+  "/testus-patronus-docs/docs/exercise-3-ai-chatbot-setup-dd6": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-3-ai-chatbot-setupc-5-d-5d3"
   },
-  "/conference-docs/docs/exercise-4-advanced-prompting-4fd": {
+  "/testus-patronus-docs/docs/exercise-4-advanced-prompting-7cd": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-exercise-4-advanced-prompting-576-45d"
   },
-  "/conference-docs/docs/intro-b84": {
+  "/testus-patronus-docs/docs/intro-57f": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-intro-0-e-3-469"
   },
-  "/conference-docs/docs/troubleshooting-471": {
+  "/testus-patronus-docs/docs/troubleshooting-677": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---dify-jira-docs-troubleshooting-9-d-9-ac2"
   },
-  "/conference-docs/-fb9": {
+  "/testus-patronus-docs/-c0b": {
     "__comp": "__comp---site-src-pages-index-tsx-1-df-d3e",
     "__context": {
       "plugin": "plugin---dify-jira-markdown-pagea-74-25d"

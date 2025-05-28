@@ -3,160 +3,160 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
-    path: '/conference-docs/__docusaurus/debug',
-    component: ComponentCreator('/conference-docs/__docusaurus/debug', '32b'),
+    path: '/testus-patronus-docs/__docusaurus/debug',
+    component: ComponentCreator('/testus-patronus-docs/__docusaurus/debug', '213'),
     exact: true
   },
   {
-    path: '/conference-docs/__docusaurus/debug/config',
-    component: ComponentCreator('/conference-docs/__docusaurus/debug/config', '7c7'),
+    path: '/testus-patronus-docs/__docusaurus/debug/config',
+    component: ComponentCreator('/testus-patronus-docs/__docusaurus/debug/config', '584'),
     exact: true
   },
   {
-    path: '/conference-docs/__docusaurus/debug/content',
-    component: ComponentCreator('/conference-docs/__docusaurus/debug/content', '463'),
+    path: '/testus-patronus-docs/__docusaurus/debug/content',
+    component: ComponentCreator('/testus-patronus-docs/__docusaurus/debug/content', 'd86'),
     exact: true
   },
   {
-    path: '/conference-docs/__docusaurus/debug/globalData',
-    component: ComponentCreator('/conference-docs/__docusaurus/debug/globalData', '6c8'),
+    path: '/testus-patronus-docs/__docusaurus/debug/globalData',
+    component: ComponentCreator('/testus-patronus-docs/__docusaurus/debug/globalData', 'a74'),
     exact: true
   },
   {
-    path: '/conference-docs/__docusaurus/debug/metadata',
-    component: ComponentCreator('/conference-docs/__docusaurus/debug/metadata', 'c49'),
+    path: '/testus-patronus-docs/__docusaurus/debug/metadata',
+    component: ComponentCreator('/testus-patronus-docs/__docusaurus/debug/metadata', '85c'),
     exact: true
   },
   {
-    path: '/conference-docs/__docusaurus/debug/registry',
-    component: ComponentCreator('/conference-docs/__docusaurus/debug/registry', 'c22'),
+    path: '/testus-patronus-docs/__docusaurus/debug/registry',
+    component: ComponentCreator('/testus-patronus-docs/__docusaurus/debug/registry', 'e7c'),
     exact: true
   },
   {
-    path: '/conference-docs/__docusaurus/debug/routes',
-    component: ComponentCreator('/conference-docs/__docusaurus/debug/routes', '440'),
+    path: '/testus-patronus-docs/__docusaurus/debug/routes',
+    component: ComponentCreator('/testus-patronus-docs/__docusaurus/debug/routes', 'c62'),
     exact: true
   },
   {
-    path: '/conference-docs/blog',
-    component: ComponentCreator('/conference-docs/blog', '0a2'),
+    path: '/testus-patronus-docs/blog',
+    component: ComponentCreator('/testus-patronus-docs/blog', '379'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/archive',
-    component: ComponentCreator('/conference-docs/blog/archive', '1b1'),
+    path: '/testus-patronus-docs/blog/archive',
+    component: ComponentCreator('/testus-patronus-docs/blog/archive', '034'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/authors',
-    component: ComponentCreator('/conference-docs/blog/authors', 'a0d'),
+    path: '/testus-patronus-docs/blog/authors',
+    component: ComponentCreator('/testus-patronus-docs/blog/authors', '81f'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/authors/all-sebastien-lorber-articles',
-    component: ComponentCreator('/conference-docs/blog/authors/all-sebastien-lorber-articles', 'c35'),
+    path: '/testus-patronus-docs/blog/authors/all-sebastien-lorber-articles',
+    component: ComponentCreator('/testus-patronus-docs/blog/authors/all-sebastien-lorber-articles', '18a'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/authors/yangshun',
-    component: ComponentCreator('/conference-docs/blog/authors/yangshun', '1e2'),
+    path: '/testus-patronus-docs/blog/authors/yangshun',
+    component: ComponentCreator('/testus-patronus-docs/blog/authors/yangshun', 'c5c'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/first-blog-post',
-    component: ComponentCreator('/conference-docs/blog/first-blog-post', 'b13'),
+    path: '/testus-patronus-docs/blog/first-blog-post',
+    component: ComponentCreator('/testus-patronus-docs/blog/first-blog-post', '5d5'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/long-blog-post',
-    component: ComponentCreator('/conference-docs/blog/long-blog-post', '5ab'),
+    path: '/testus-patronus-docs/blog/long-blog-post',
+    component: ComponentCreator('/testus-patronus-docs/blog/long-blog-post', '637'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/mdx-blog-post',
-    component: ComponentCreator('/conference-docs/blog/mdx-blog-post', 'a9c'),
+    path: '/testus-patronus-docs/blog/mdx-blog-post',
+    component: ComponentCreator('/testus-patronus-docs/blog/mdx-blog-post', 'd22'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/tags',
-    component: ComponentCreator('/conference-docs/blog/tags', '759'),
+    path: '/testus-patronus-docs/blog/tags',
+    component: ComponentCreator('/testus-patronus-docs/blog/tags', '444'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/tags/docusaurus',
-    component: ComponentCreator('/conference-docs/blog/tags/docusaurus', 'f49'),
+    path: '/testus-patronus-docs/blog/tags/docusaurus',
+    component: ComponentCreator('/testus-patronus-docs/blog/tags/docusaurus', '090'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/tags/facebook',
-    component: ComponentCreator('/conference-docs/blog/tags/facebook', '9e7'),
+    path: '/testus-patronus-docs/blog/tags/facebook',
+    component: ComponentCreator('/testus-patronus-docs/blog/tags/facebook', 'ee4'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/tags/hello',
-    component: ComponentCreator('/conference-docs/blog/tags/hello', 'a05'),
+    path: '/testus-patronus-docs/blog/tags/hello',
+    component: ComponentCreator('/testus-patronus-docs/blog/tags/hello', 'c25'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/tags/hola',
-    component: ComponentCreator('/conference-docs/blog/tags/hola', '931'),
+    path: '/testus-patronus-docs/blog/tags/hola',
+    component: ComponentCreator('/testus-patronus-docs/blog/tags/hola', '20b'),
     exact: true
   },
   {
-    path: '/conference-docs/blog/welcome',
-    component: ComponentCreator('/conference-docs/blog/welcome', '066'),
+    path: '/testus-patronus-docs/blog/welcome',
+    component: ComponentCreator('/testus-patronus-docs/blog/welcome', '688'),
     exact: true
   },
   {
-    path: '/conference-docs/markdown-page',
-    component: ComponentCreator('/conference-docs/markdown-page', '065'),
+    path: '/testus-patronus-docs/markdown-page',
+    component: ComponentCreator('/testus-patronus-docs/markdown-page', 'fbe'),
     exact: true
   },
   {
-    path: '/conference-docs/docs',
-    component: ComponentCreator('/conference-docs/docs', '3c0'),
+    path: '/testus-patronus-docs/docs',
+    component: ComponentCreator('/testus-patronus-docs/docs', '715'),
     routes: [
       {
-        path: '/conference-docs/docs',
-        component: ComponentCreator('/conference-docs/docs', '026'),
+        path: '/testus-patronus-docs/docs',
+        component: ComponentCreator('/testus-patronus-docs/docs', 'b1a'),
         routes: [
           {
-            path: '/conference-docs/docs',
-            component: ComponentCreator('/conference-docs/docs', '3e7'),
+            path: '/testus-patronus-docs/docs',
+            component: ComponentCreator('/testus-patronus-docs/docs', '9d2'),
             routes: [
               {
-                path: '/conference-docs/docs/exercise-1-llm-configuration',
-                component: ComponentCreator('/conference-docs/docs/exercise-1-llm-configuration', '0ef'),
+                path: '/testus-patronus-docs/docs/exercise-1-llm-configuration',
+                component: ComponentCreator('/testus-patronus-docs/docs/exercise-1-llm-configuration', '979'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/conference-docs/docs/exercise-2-knowledge-ingestion',
-                component: ComponentCreator('/conference-docs/docs/exercise-2-knowledge-ingestion', 'cff'),
+                path: '/testus-patronus-docs/docs/exercise-2-knowledge-ingestion',
+                component: ComponentCreator('/testus-patronus-docs/docs/exercise-2-knowledge-ingestion', '2d6'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/conference-docs/docs/exercise-3-ai-chatbot-setup',
-                component: ComponentCreator('/conference-docs/docs/exercise-3-ai-chatbot-setup', '354'),
+                path: '/testus-patronus-docs/docs/exercise-3-ai-chatbot-setup',
+                component: ComponentCreator('/testus-patronus-docs/docs/exercise-3-ai-chatbot-setup', 'dd6'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/conference-docs/docs/exercise-4-advanced-prompting',
-                component: ComponentCreator('/conference-docs/docs/exercise-4-advanced-prompting', '4fd'),
+                path: '/testus-patronus-docs/docs/exercise-4-advanced-prompting',
+                component: ComponentCreator('/testus-patronus-docs/docs/exercise-4-advanced-prompting', '7cd'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/conference-docs/docs/intro',
-                component: ComponentCreator('/conference-docs/docs/intro', 'b84'),
+                path: '/testus-patronus-docs/docs/intro',
+                component: ComponentCreator('/testus-patronus-docs/docs/intro', '57f'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
               {
-                path: '/conference-docs/docs/troubleshooting',
-                component: ComponentCreator('/conference-docs/docs/troubleshooting', '471'),
+                path: '/testus-patronus-docs/docs/troubleshooting',
+                component: ComponentCreator('/testus-patronus-docs/docs/troubleshooting', '677'),
                 exact: true,
                 sidebar: "workshopSidebar"
               }
@@ -167,8 +167,8 @@ export default [
     ]
   },
   {
-    path: '/conference-docs/',
-    component: ComponentCreator('/conference-docs/', 'fb9'),
+    path: '/testus-patronus-docs/',
+    component: ComponentCreator('/testus-patronus-docs/', 'c0b'),
     exact: true
   },
   {

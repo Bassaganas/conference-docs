@@ -1,6 +1,6 @@
 {
   "type": "mdx",
-  "permalink": "/conference-docs/markdown-page",
+  "permalink": "/testus-patronus-docs/markdown-page",
   "source": "@site/src/pages/markdown-page.md",
   "title": "Markdown page example",
   "description": "You don't need React to write simple standalone pages.",

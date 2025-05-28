@@ -5,7 +5,7 @@
   "source": "@site/docs/exercise-3-ai-chatbot-setup.md",
   "sourceDirName": ".",
   "slug": "/exercise-3-ai-chatbot-setup",
-  "permalink": "/conference-docs/docs/exercise-3-ai-chatbot-setup",
+  "permalink": "/testus-patronus-docs/docs/exercise-3-ai-chatbot-setup",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/exercise-3-ai-chatbot-setup.md",
@@ -18,10 +18,10 @@
   "sidebar": "workshopSidebar",
   "previous": {
     "title": "Exercise 2: Knowledge Ingestion",
-    "permalink": "/conference-docs/docs/exercise-2-knowledge-ingestion"
+    "permalink": "/testus-patronus-docs/docs/exercise-2-knowledge-ingestion"
   },
   "next": {
     "title": "Exercise 4: Advanced Prompting & Relevance Tuning",
-    "permalink": "/conference-docs/docs/exercise-4-advanced-prompting"
+    "permalink": "/testus-patronus-docs/docs/exercise-4-advanced-prompting"
   }
 }
