@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkconference_docs=self.webpackChunkconference_docs||[]).push([[667],{5243:e=>{e.exports=JSON.parse('{"metadata":{"permalink":"/testus-patronus-docs/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
