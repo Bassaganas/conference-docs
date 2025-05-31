@@ -7,10 +7,6 @@ app:
   name: Exercise 1 - Classical Chatbot
   use_icon_as_answer_icon: false
 dependencies:
-- current_identifier: null
-  type: marketplace
-  value:
-    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.16@e9ebc92e972ae473fc1c26ce215b88ba8780e44dab883685a61bf15e2c11a00d
 kind: app
 version: 0.3.0
 workflow:
@@ -127,7 +123,7 @@ workflow:
         prompt_template:
         - id: 11aca439-3c4e-40a6-8083-48894003c6f3
           role: system
-          text: 'Answer in a funny way the query:  {{#1748451069050.query#}}
+          text: 'Answer in a clean, professional tone. Be concise but precise:  {{#1748451069050.query#}}
 
             {{#context#}}'
         selected: false
