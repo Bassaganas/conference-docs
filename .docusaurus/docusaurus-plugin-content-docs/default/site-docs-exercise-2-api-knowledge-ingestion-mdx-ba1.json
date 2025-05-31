@@ -1,0 +1,27 @@
+{
+  "id": "exercise-2-api-knowledge-ingestion",
+  "title": "⚙️ 2.1. Optional: Ingest Using the API",
+  "description": "If you want to go beyond manual upload and see how teams can automate the ingestion of Jira issues or JSON exports into Dify, we've built a small API just for that!",
+  "source": "@site/docs/exercise-2-api-knowledge-ingestion.mdx",
+  "sourceDirName": ".",
+  "slug": "/exercise-2-api-knowledge-ingestion",
+  "permalink": "/testus-patronus/docs/exercise-2-api-knowledge-ingestion",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/exercise-2-api-knowledge-ingestion.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "workshopSidebar",
+  "previous": {
+    "title": "📄 2: Build Your Knowledge Base",
+    "permalink": "/testus-patronus/docs/exercise-2-knowledge-ingestion"
+  },
+  "next": {
+    "title": "3: AI Chatbot Setup",
+    "permalink": "/testus-patronus/docs/exercise-3-ai-chatbot-setup"
+  }
+}

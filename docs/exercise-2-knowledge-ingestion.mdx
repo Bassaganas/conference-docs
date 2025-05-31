@@ -1,0 +1,199 @@
+---
+sidebar_position: 4
+---
+
+# 📄 2: Build Your Knowledge Base
+
+<div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
+  <div>
+    Welcome to the second step of your Testus Patronus journey! In this exercise, you'll learn how to build a <b>Knowledge Base</b> that your AI assistant can search through using <b>retrieval-augmented generation (RAG)</b>.<br /><br />
+    <blockquote style={{ background: '#f3f0ff', borderLeft: '4px solid #7c3aed', padding: '0.7em 1em', borderRadius: '6px' }}>
+      This is where your assistant starts to <em>understand</em> your testing documentation, requirements, and historical issues.
+    </blockquote>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img src={require('../static/img/retrieval.png').default} alt="Retrieval" style={{ maxWidth: '100%', height: 'auto' }} />
+  </div>
+</div>
+
+---
+
+## 📌 What You'll Learn
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <ul style={{ listStyle: 'none', paddingLeft: '1em', margin: 0 }}>
+    <li><label><input type="checkbox" /> Understand how embeddings represent meaning</label></li>
+    <li><label><input type="checkbox" /> Explore chunking: what it is and why size matters</label></li>
+    <li><label><input type="checkbox" /> Learn the role of chunk <em>overlap</em> for better results</label></li>
+    <li><label><input type="checkbox" /> Discover why ranking and <code>top_k</code> are critical for relevance</label></li>
+    <li><label><input type="checkbox" /> Practice ingesting documents manually via Dify UI</label></li>
+    <li><label><input type="checkbox" /> Learn to ingest programmatically via Dify API</label></li>
+  </ul>
+</div>
+
+---
+
+## 🧠 Embeddings
+
+When a document is ingested, it's transformed into a <b>vector representation</b> using an <i>embedding model</i>. These vectors help the AI <b>understand meaning and similarity</b> between pieces of text.
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  Embeddings let the model know that <b>"bug report"</b> and <b>"defect ticket"</b> might refer to the same concept.
+</div>
+
+In this tutorial, we use the model <code>text-embedding-ada-002</code> from Azure OpenAI.
+
+---
+
+## 🍰 Chunking: Breaking Text into Pieces
+
+### 📏 Chunk Size
+
+Your documents are too long to fit directly into the model's input window, so they are divided into <b>chunks</b>.
+
+<table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2em' }}>
+  <thead>
+    <tr style={{ background: '#f3f0ff' }}>
+      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Chunk Size</th>
+      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Pros</th>
+      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Cons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}><b>Small Chunks</b> (200–300 tokens)</td><td style={{ border: '1px solid #e5e7eb' }}>🎯 High precision<br/>🔍 Matches narrow queries well</td><td style={{ border: '1px solid #e5e7eb' }}>🧩 May lose broader context</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}><b>Large Chunks</b> (800–1000 tokens)</td><td style={{ border: '1px solid #e5e7eb' }}>📚 Preserve more context<br/>🔁 Fewer retrievals needed</td><td style={{ border: '1px solid #e5e7eb' }}>🧊 More noise<br/>🎯 Lower match precision</td></tr>
+  </tbody>
+</table>
+
+<img src={require('../static/img/ex2/chunk-sizing.png').default} alt="Chunk Size Tradeoff" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  Think of it like reading pages of a book — too many pages at once and the meaning blurs. Too few and you lose the plot.
+</div>
+
+### 🔄 Chunk Overlap
+
+Overlap ensures that context near the boundaries of chunks isn't lost.
+
+<img src={require('../static/img/ex2/chunk-overlap.png').default} alt="Chunk Overlap Visual" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+For example, if two chunks overlap by 100 tokens, the second chunk repeats the last 100 tokens of the first. This helps the model "remember" what came before — improving answers that need continuity.
+
+---
+
+## 🎯 Ranking and top-k Retrieval
+
+Once you have all your documents chunked and embedded, you'll want to find the most relevant ones to a query.
+
+This is where <b>ranking</b> comes in:
+<ul>
+  <li>The <b>retriever</b> uses cosine similarity (or a similar metric) to score each chunk.</li>
+  <li>Then it picks the <b>top K</b> chunks (usually 3–5) with the highest scores.</li>
+  <li>These are sent to the LLM for final answer generation.</li>
+</ul>
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Getting the <code>top K</code> right can dramatically improve performance!</b>
+</div>
+
+---
+
+## 🛠️ Step-by-Step: Ingesting Documents
+
+### 📝 Manual Upload via Dify UI
+
+<ol style={{ marginBottom: '2em' }}>
+  <li>Go to the <b>Knowledge</b> tab in your Dify instance.<br /><img src={require('../static/img/ex2/knowledge-landing.png').default} alt="Knowledge Landing" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} /></li>
+  <li>Click <b>Create Knowledge Base</b>.</li>
+</ol>
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Get your Jira Dataset sample in .txt format:</b><br />
+  <a
+    href="/testus-patronus/dataset/dataset_txt.zip"
+    download="jira-dataset.zip"
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '0.6em 1.2em',
+      color: '#fffce7',
+      background: '#7c3aed',
+      borderRadius: '6px',
+      fontWeight: 600,
+      textDecoration: 'none',
+      marginTop: '1em',
+      marginBottom: '2em'
+    }}
+  >
+    ⬇️ Download Jira Dataset Files
+  </a>
+</div>
+
+<ol start="3" style={{ marginBottom: '2em' }}>
+  <li>Upload <code>WEBHOOKS_JiraEcosystem_issues.txt</code> and <code>WEBHOOKS_JiraEcosystem_issues_SUMMARY.txt</code> manually.</li>
+  <li>
+    Configure:
+    <ul>
+      <li><b>Chunk size</b>: Start with 2000 characters.</li>
+      <li><b>Overlap</b>: Try 200 characters (10% of chunk size).</li>
+    </ul>
+    <img src={require('../static/img/ex2/knowledge-chunk-settings.png').default} alt="Knowledge Chunk Settings" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+  </li>
+  <li>
+    Select <b>High Quality</b> index method and select the <b>ada</b> embeddings model.<br />
+    <img src={require('../static/img/ex2/knowledge-retrieval-settings-high.png').default} alt="Knowledge Retrieval Settings High" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+  </li>
+  <li>
+    Click on <b>Save & Process</b>. You can now investigate your document chunks, sizes, content, etc. What do you think?<br />
+    <img src={require('../static/img/ex2/knowledge-documents.png').default} alt="Knowledge Documents" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+  </li>
+</ol>
+
+### 🔌 Ingest via API
+
+You can also upload data programmatically for automation:
+
+```bash
+curl -X POST https://<your-dify-instance>/v1/knowledge-bases/{kb_id}/documents \
+  -H "Authorization: Bearer <your-api-key>" \
+  -F "file=@REST_JiraEcosystem_issues.json"
+```
+
+Or use Python with the <code>requests</code> library.
+
+---
+
+## 📦 Example Issue (JSON)
+
+```json
+{
+  "summary": "Support 'expand' param on GET /rest/api/2/project",
+  "description": "The GET /rest/api/2/project endpoint should support 'expand' to allow additional project details.",
+  "issueType": "New Feature",
+  "priority": "Medium"
+}
+```
+
+---
+
+## 🧑‍💻 Advanced: Ingesting via API
+
+Need a working config?
+
+<details style={{
+  border: '2px solid #7c3aed',
+  borderRadius: '8px',
+  background: '#faf9ff',
+  padding: '0.5em 1em',
+  marginTop: '1em',
+  marginBottom: '1em'
+}}>
+<summary>Why is API ingestion better?</summary>
+
+<ul>
+  <li>✅ Supports more complex documents and formats.</li>
+  <li>🔁 Enables automation and batch processing.</li>
+  <li>📦 You can attach metadata (e.g. <code>issue_key</code>) for filtering or analytics.</li>
+</ul>
+</details>

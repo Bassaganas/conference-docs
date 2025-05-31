@@ -1,8 +1,8 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 ---
 
-# Exercise 4: Advanced Prompting & Relevance Tuning
+# 4: Advanced Prompting & Relevance Tuning
 
 **Objective:** Improve output quality and relevance for software testing queries.
 

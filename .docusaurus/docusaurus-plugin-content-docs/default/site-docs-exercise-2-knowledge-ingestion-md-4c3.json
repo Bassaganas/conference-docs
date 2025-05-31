@@ -1,7 +1,7 @@
 {
   "id": "exercise-2-knowledge-ingestion",
-  "title": "Exercise 2: Knowledge Ingestion",
-  "description": "Objective: Connect a vector database and upload test documentation.",
+  "title": "🧙 Exercise 2: Building Your Magical Knowledge Base",
+  "description": "In this exercise, you’ll learn how to transform software testing artifacts into a structured knowledge base that your AI assistant can understand and query. This is where your Retrieval-Augmented Generation (RAG) assistant starts to gain context.",
   "source": "@site/docs/exercise-2-knowledge-ingestion.md",
   "sourceDirName": ".",
   "slug": "/exercise-2-knowledge-ingestion",

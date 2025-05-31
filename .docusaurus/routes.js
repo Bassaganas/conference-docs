@@ -114,27 +114,21 @@ export default [
   },
   {
     path: '/testus-patronus/docs',
-    component: ComponentCreator('/testus-patronus/docs', '516'),
+    component: ComponentCreator('/testus-patronus/docs', '150'),
     routes: [
       {
         path: '/testus-patronus/docs',
-        component: ComponentCreator('/testus-patronus/docs', '011'),
+        component: ComponentCreator('/testus-patronus/docs', '19c'),
         routes: [
           {
             path: '/testus-patronus/docs',
-            component: ComponentCreator('/testus-patronus/docs', '36e'),
+            component: ComponentCreator('/testus-patronus/docs', '43b'),
             routes: [
               {
                 path: '/testus-patronus/docs/dataset',
-                component: ComponentCreator('/testus-patronus/docs/dataset', '2a6'),
+                component: ComponentCreator('/testus-patronus/docs/dataset', 'c95'),
                 exact: true,
                 sidebar: "workshopSidebar"
-              },
-              {
-                path: '/testus-patronus/docs/ex1_old',
-                component: ComponentCreator('/testus-patronus/docs/ex1_old', '7da'),
-                exact: true,
-                sidebar: "tutorialSidebar"
               },
               {
                 path: '/testus-patronus/docs/exercise-1-llm-configuration',
@@ -143,8 +137,14 @@ export default [
                 sidebar: "workshopSidebar"
               },
               {
+                path: '/testus-patronus/docs/exercise-2-api-knowledge-ingestion',
+                component: ComponentCreator('/testus-patronus/docs/exercise-2-api-knowledge-ingestion', '435'),
+                exact: true,
+                sidebar: "workshopSidebar"
+              },
+              {
                 path: '/testus-patronus/docs/exercise-2-knowledge-ingestion',
-                component: ComponentCreator('/testus-patronus/docs/exercise-2-knowledge-ingestion', '33f'),
+                component: ComponentCreator('/testus-patronus/docs/exercise-2-knowledge-ingestion', '9b8'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },

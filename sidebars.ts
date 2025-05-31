@@ -34,6 +34,7 @@ const sidebars: SidebarsConfig = {
     'dataset',
     'exercise-1-llm-configuration',
     'exercise-2-knowledge-ingestion',
+    'exercise-2-api-knowledge-ingestion',
     'exercise-3-ai-chatbot-setup',
     'exercise-4-advanced-prompting'
   ],
