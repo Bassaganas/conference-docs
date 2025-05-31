@@ -1,6 +1,6 @@
 {
   "id": "exercise-4-advanced-prompting",
-  "title": "Exercise 4: Advanced Prompting & Relevance Tuning",
+  "title": "4: Advanced Prompting & Relevance Tuning",
   "description": "Objective: Improve output quality and relevance for software testing queries.",
   "source": "@site/docs/exercise-4-advanced-prompting.md",
   "sourceDirName": ".",
@@ -11,13 +11,13 @@
   "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/exercise-4-advanced-prompting.md",
   "tags": [],
   "version": "current",
-  "sidebarPosition": 6,
+  "sidebarPosition": 7,
   "frontMatter": {
-    "sidebar_position": 6
+    "sidebar_position": 7
   },
   "sidebar": "workshopSidebar",
   "previous": {
-    "title": "Exercise 3: AI Chatbot Setup",
+    "title": "3: AI Chatbot Setup",
     "permalink": "/testus-patronus/docs/exercise-3-ai-chatbot-setup"
   }
 }

@@ -1,0 +1,146 @@
+---
+sidebar_position: 2
+---
+
+# 📚 About the Dataset
+
+<div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
+  <div>
+    In this workshop, you'll be working with a curated and preprocessed subset of the <b>Public Jira Dataset</b>, originally published by researchers from the University of Hamburg:
+    <blockquote style={{ marginTop: '1em', background: '#f3f0ff', borderLeft: '4px solid #7c3aed', padding: '0.7em 1em', borderRadius: '6px' }}>
+      Montgomery, Lloyd • Lüders, Clara • Prof. Dr. Walid Maalej<br />
+      <a href="https://zenodo.org/records/15393866" target="_blank" rel="noopener noreferrer">Public Jira Dataset Project (Zenodo)</a>
+    </blockquote>
+    <p>This dataset contains real-world Jira issue data from over 1,800 projects and more than 2.7 million issues. We've distilled this massive collection into a focused and workshop-friendly format.</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img src={require('../static/img/ex2/dataset-api-config.png').default} alt="Dataset Overview" style={{ maxWidth: '100%', borderRadius: '8px', boxShadow: '0 2px 8px #ddd' }} />
+    <div style={{ fontSize: '0.95em', color: '#444', marginTop: '0.5em' }}>
+      <b>Sample Dataset Structure</b>
+    </div>
+  </div>
+</div>
+
+---
+
+## ✨ Workshop Dataset
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>To make the dataset manageable and practical for hands-on Retrieval-Augmented Generation (RAG) tasks, we extracted relevant projects, filtered noise, and generated summaries with GPT-3.5 Turbo.</b><br />
+  You'll be working primarily with data from the <b>JiraEcosystem</b>, including modules like REST APIs, Webhooks, and Voting systems.
+</div>
+
+### 📦 Included Files
+
+<table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2em' }}>
+  <thead>
+    <tr style={{ background: '#f3f0ff' }}>
+      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>File</th>
+      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>REST_JiraEcosystem_issues.json</code></td><td style={{ border: '1px solid #e5e7eb' }}>Raw cleaned issues related to REST API</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>REST_JiraEcosystem_SUMMARY.json</code></td><td style={{ border: '1px solid #e5e7eb' }}>GPT-generated summaries of REST-related issues</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>TOC_JiraEcosystem_issues.json</code></td><td style={{ border: '1px solid #e5e7eb' }}>Table of Contents module issues</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>VOTE_JiraEcosystem_issues.json</code></td><td style={{ border: '1px solid #e5e7eb' }}>Voting component-related issues</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>WEBHOOKS_JiraEcosystem_issues.json</code></td><td style={{ border: '1px solid #e5e7eb' }}>Event/webhook handling issues</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>*_SUMMARY.json</code></td><td style={{ border: '1px solid #e5e7eb' }}>LLM-generated summaries per module</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>full_quidditch_jira_issues.json</code></td><td style={{ border: '1px solid #e5e7eb' }}>Simulated internal Jira project for demo/testing</td></tr>
+  </tbody>
+</table>
+
+---
+
+## 🔍 Sample Entry: Raw Issue Example
+
+Here's a peek at what a cleaned issue looks like from <code>REST_JiraEcosystem_issues.json</code>:
+
+```json
+{
+  "key": "REST-50",
+  "summary": "Return HTTP 500 when plugin fails to load component",
+  "description": "The REST API will throw an HTTP 500 error if a plugin fails to load a required component. This is hard to debug and provides little feedback.",
+  "issueType": "Bug",
+  "components": ["REST Module"],
+  "status": "Open",
+  "priority": "Major",
+  "comments": [
+    {
+      "author": "developer42",
+      "body": "I also encountered this when working with a broken plugin descriptor.",
+      "created": "2023-01-05T08:23:00Z"
+    }
+  ]
+}
+```
+
+---
+
+## 🧠 Sample Entry: GPT-Generated Summary
+
+The <code>REST_JiraEcosystem_SUMMARY.json</code> file contains LLM-generated summaries like this:
+
+```json
+{
+  "project": "REST",
+  "summary": "This set of issues revolves around the handling and resilience of Jira's REST API. Common themes include error codes not being descriptive enough, plugin dependency resolution problems, and inconsistent JSON serialization across endpoints. Several bugs concern the lack of backward compatibility when upgrading REST modules."
+}
+```
+
+---
+
+## 🧾 Why We Generate Summaries
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  In real-world software projects, technical documentation is often sparse or outdated. While issue trackers like Jira contain valuable information, the data is typically verbose and unstructured.<br /><br />
+  <b>We generate <span style={{ color: '#7c3aed' }}>summaries</span> to simulate internal documentation</b> that teams often create manually—think <i>release notes</i>, <i>design specs</i>, or <i>project overviews</i>. These summaries help:
+  <ul>
+    <li>Provide a <b>digestible context</b> to the AI assistant</li>
+    <li>Allow the model to answer <b>high-level or cross-issue questions</b></li>
+    <li>Enable queries like <i>"Who contributed to this project the most?"</i> or <i>"What is the main focus of the REST module?"</i></li>
+  </ul>
+  This kind of enriched summary acts as a bridge between raw issue data and meaningful insights—just like internal documentation would in a real team.
+</div>
+
+---
+
+## 🛠️ How the Data Was Built
+
+<ol style={{ marginBottom: '2em' }}>
+  <li><b>Data Extraction</b><br />From a local MongoDB dump of the Public Jira Dataset, grouped by project/component.</li>
+  <li><b>Field Normalization</b><br />We simplified and flattened nested structures with a custom script (<code>extract_and_clean_jira_data.py</code>).</li>
+  <li><b>Sampling & Filtering</b><br />Only issues with meaningful descriptions, summaries, or comments were retained.</li>
+  <li><b>Summarization</b><br />Azure OpenAI's GPT-3.5 Turbo was used to generate overviews of each project subset.</li>
+  <li><b>Output Format</b><br />Final JSON files are optimized for ingestion into vector databases and LLM pipelines.</li>
+</ol>
+
+---
+
+## 💡 Optional Enrichment Ideas
+
+If you'd like to extend the dataset, consider:
+<ul>
+  <li>Adding GitHub release notes or changelogs for Jira components</li>
+  <li>Scraping official Atlassian REST API docs to complement issues</li>
+  <li>Creating FAQ-style entries by grouping similar issues</li>
+  <li>Generating synthetic feature specs from multiple related issues</li>
+</ul>
+
+---
+
+## 🎯 Why This Matters
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  This dataset is structured to simulate the kind of <b>heterogeneous documentation</b> you'd find in enterprise software projects. It includes bugs, change requests, and dev conversations—all ripe for retrieval-based reasoning.<br /><br />
+  You'll be using this to build and test a <b>RAG-powered AI assistant</b> capable of:
+  <ul>
+    <li>Understanding feature behavior</li>
+    <li>Identifying high-risk areas</li>
+    <li>Suggesting test cases based on natural language descriptions</li>
+  </ul>
+</div>
+
+> ✨ <b>Bonus</b>: You can reuse our scripts to extract, clean, and summarize your <i>own</i> Jira data, giving you a real-world path to bring Testus Patronus into your projects.
+
+---

@@ -249,34 +249,34 @@
     },
     "content": "content---testus-patronus-markdown-page-393-266"
   },
-  "/testus-patronus/docs-516": {
+  "/testus-patronus/docs-150": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---testus-patronus-docsaba-32c"
     }
   },
-  "/testus-patronus/docs-011": {
+  "/testus-patronus/docs-19c": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---testus-patronus-docs-805-381"
   },
-  "/testus-patronus/docs-36e": {
+  "/testus-patronus/docs-43b": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
-  "/testus-patronus/docs/dataset-2a6": {
+  "/testus-patronus/docs/dataset-c95": {
     "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---testus-patronus-docs-dataseta-32-394"
-  },
-  "/testus-patronus/docs/ex1_old-7da": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---testus-patronus-docs-ex-1-old-5-a-1-e00"
+    "content": "content---testus-patronus-docs-datasetec-0-4e4"
   },
   "/testus-patronus/docs/exercise-1-llm-configuration-4fe": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---testus-patronus-docs-exercise-1-llm-configuration-524-1d0"
   },
-  "/testus-patronus/docs/exercise-2-knowledge-ingestion-33f": {
+  "/testus-patronus/docs/exercise-2-api-knowledge-ingestion-435": {
     "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---testus-patronus-docs-exercise-2-knowledge-ingestion-4-c-3-837"
+    "content": "content---testus-patronus-docs-exercise-2-api-knowledge-ingestionba-1-a96"
+  },
+  "/testus-patronus/docs/exercise-2-knowledge-ingestion-9b8": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---testus-patronus-docs-exercise-2-knowledge-ingestione-88-9f6"
   },
   "/testus-patronus/docs/exercise-3-ai-chatbot-setup-b57": {
     "__comp": "__comp---theme-doc-item-178-a40",

@@ -1,8 +1,8 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 ---
 
-# Exercise 3: AI Chatbot Setup
+# 3: AI Chatbot Setup
 
 **Objective:** Connect RAG with uploaded knowledge for context-aware responses.
 

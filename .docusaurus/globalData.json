@@ -16,13 +16,13 @@
               "sidebar": "workshopSidebar"
             },
             {
-              "id": "ex1_old",
-              "path": "/testus-patronus/docs/ex1_old",
-              "sidebar": "tutorialSidebar"
-            },
-            {
               "id": "exercise-1-llm-configuration",
               "path": "/testus-patronus/docs/exercise-1-llm-configuration",
+              "sidebar": "workshopSidebar"
+            },
+            {
+              "id": "exercise-2-api-knowledge-ingestion",
+              "path": "/testus-patronus/docs/exercise-2-api-knowledge-ingestion",
               "sidebar": "workshopSidebar"
             },
             {

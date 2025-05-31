@@ -1,0 +1,156 @@
+---
+sidebar_position: 5
+---
+
+# ⚙️ 2.1. Optional: Ingest Using the API
+
+If you want to go beyond manual upload and see how teams can automate the ingestion of Jira issues or JSON exports into Dify, we've built a small API just for that!
+
+> You'll use it to load Jira issue samples as structured documents with metadata. This is much cleaner than plain `.txt` files.
+
+---
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
+  <div>
+    <h2>🚀 Why Use the API?</h2>
+    <p>Manually uploading <code>.txt</code> files gives you a starting point, but <b>API ingestion</b> offers superpowers:</p>
+    <ul>
+      <li>🧠 Rich documents with metadata</li>
+      <li>🤖 Upload multiple files or issues at once</li>
+      <li>✅ Each document linked to an <code>issue_key</code></li>
+      <li>🧰 Perfect for pipelines or daily ingestion</li>
+    </ul>
+    <p>Use this optional API if you want to:</p>
+    <ul>
+      <li>Experiment with JSON ingestion instead of raw <code>.txt</code></li>
+      <li>See how metadata improves search (like <code>issue_key</code>)</li>
+      <li>Reuse this approach at work with real Jira projects</li>
+    </ul>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img src={require('../static/img/ex2/dataset-api-config.png').default} alt="API Config Screenshot" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', boxShadow: '0 2px 8px #ddd' }} />
+    <div style={{ fontSize: '0.95em', color: '#444', marginTop: '0.5em' }}>
+      <b>API Ingestion Example</b>
+    </div>
+  </div>
+</div>
+
+---
+
+## 🛠️ Step-by-Step Setup (Codespaces)
+
+We will deploy a simple API to ingest Jira issues. To do so, visit <a href="https://github.com/bassagap/dify_jira" target="_blank" rel="noopener noreferrer">https://github.com/bassagap/dify_jira</a> and create a <b>Codespace</b> on the <b>main</b> branch:
+
+1. Click the <b>Code</b> button:
+
+   <img src={require('../static/img/ex2/github-codespaces.png').default} alt="Codespaces" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+2. Click <b>Create a codespace in main</b>.
+
+   <img src={require('../static/img/ex2/github-codespaces-create.png').default} alt="Codespaces Create" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+3. Wait for the setup to complete. You should see the whole repository loaded. This may take a few minutes!
+
+   <img src={require('../static/img/ex2/github-codespaces-ready.png').default} alt="Codespaces Ready" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+4. Create a copy of the <code>example.env</code> file and name it <code>.env</code>. You don't need to add any Jira-specific information yet. For now, set up your Dify information:
+
+   ```env
+   DIFY_BASE_URL=http://your_ip/v1
+   DIFY_DATASET_API_KEY=your-api-key
+   ```
+
+   - In your Dify instance, go to <b>Knowledge</b> and copy your Dify <b>API Server</b> URL. Paste it as <code>DIFY_BASE_URL</code> in your Codespace.
+   - Then click the <b>API Key</b> button and create an API key for your Dify datasets. Paste it as <code>DIFY_DATASET_API_KEY</code>.
+
+   <img src={require('../static/img/ex2/kb-api-access.png').default} alt="API Access" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+   <img src={require('../static/img/ex2/kb-create-apikey.png').default} alt="Create API Key" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+5. Run the Jira Ingestion API from the terminal:
+
+   ```bash
+   ./scripts/run_api.sh
+   ```
+
+   <img src={require('../static/img/ex2/github-codespaces-script.png').default} alt="Run API Script" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+6. Now you can use the Ingestion API. We'll use the <code>ingest/json</code> endpoint. Later, you can connect your own organization's Jira or build new endpoints to ingest other types of documents.
+
+   <img src={require('../static/img/ex2/github-codespaces-script.png').default} alt="API Script" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+---
+
+## 📤 Upload JSON to Dify (via API)
+
+Find your <code>.json</code> files inside the Codespace folder <code>data/dataset/</code>.
+
+Now use the <code>/ingest/json</code> endpoint:
+
+### 🧪 Example Request Body
+
+```json
+{
+  "file_names": [
+      "REST_JiraEcosystem_issues.json",
+      "REST_JiraEcosystem_SUMMARY.json"
+  ],
+  "dataset_dir": "data/dataset"
+}
+```
+
+<img src={require('../static/img/ex2/jira-api-ingestion-endpoint.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+### Data is now ingested!
+
+Take a look at Dify and you will see your ingested data has been created!
+
+<img src={require('../static/img/ex2/kb-created-api.png').default} alt="KB Created API" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<img src={require('../static/img/ex2/dataset-api-config.png').default} alt="Dataset API Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+---
+
+## 🔍 Try These Queries
+
+<div style={{
+  border: '2px solid #facc15',
+  background: '#fffbe8',
+  borderRadius: '10px',
+  padding: '1.2em 1.5em',
+  margin: '2em 0',
+  boxShadow: '0 2px 8px #facc1533',
+}}>
+  <h3 style={{ marginTop: 0, color: '#b45309' }}>🔍 <b>Try These Queries!</b></h3>
+  <p style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: '0.7em' }}>
+    <b>Notice how having better data generates better results!</b> After uploading, go to <b>Retrieval testing</b> and try:
+  </p>
+  <ul style={{ fontSize: '1.05em' }}>
+    <li>👉 <code>What is this issue about: Jira Issue: REST-259?</code></li>
+  </ul>
+  <p style={{ marginTop: '0.7em' }}>
+    Compare the answers you get from structured JSON ingestion to those from manually ingested <code>.txt</code> files. <b>Structured data enables smarter, more accurate answers!</b>
+  </p>
+  <img src={require('../static/img/ex2/test-queries.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+</div>
+
+<details style={{
+  border: '2px solid #7c3aed',
+  borderRadius: '8px',
+  background: '#faf9ff',
+  padding: '0.5em 1em',
+  marginTop: '1em',
+  marginBottom: '1em'
+}}>
+<summary><b>What Happens Behind the Scenes?</b></summary>
+<ul>
+  <li>Each issue is converted into a descriptive <b>document</b>: summary, description, project, type, etc.</li>
+  <li>Smart chunking ensures readable chunks with overlap for better search.</li>
+  <li>Metadata (like <code>issue_key</code>) is attached, improving traceability.</li>
+</ul>
+</details>
+
+---
+
+
+
+This optional API is a great next step if you want to automate ingestion in your organization, connect to real Jira, or just test richer search results with Dify.
+

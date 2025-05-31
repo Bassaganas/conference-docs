@@ -1,6 +1,6 @@
 {
   "id": "exercise-1-llm-configuration",
-  "title": "🧙 Exercise 1: Connect to Your Magical LLM",
+  "title": "🧙 1: Connect to Your Magical LLM",
   "description": "Welcome to your first spell in the Testus Patronus journey!",
   "source": "@site/docs/exercise-1-llm-configuration.mdx",
   "sourceDirName": ".",
@@ -21,7 +21,7 @@
     "permalink": "/testus-patronus/docs/dataset"
   },
   "next": {
-    "title": "Exercise 2: Knowledge Ingestion",
+    "title": "📄 2: Build Your Knowledge Base",
     "permalink": "/testus-patronus/docs/exercise-2-knowledge-ingestion"
   }
 }
