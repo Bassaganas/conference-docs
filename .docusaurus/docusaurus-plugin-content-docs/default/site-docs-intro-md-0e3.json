@@ -1,6 +1,6 @@
 {
   "id": "intro",
-  "title": "Introduction to Testus Patronus",
+  "title": "🧙 Introduction to Testus Patronus",
   "description": "Welcome to the Testus Patronus workshop! This hands-on tutorial is designed for the EuroSTAR Software Testing Conference, where you'll learn how to build your own AI assistant using Retrieval-Augmented Generation (RAG) with a focus on software testing use cases.",
   "source": "@site/docs/intro.md",
   "sourceDirName": ".",

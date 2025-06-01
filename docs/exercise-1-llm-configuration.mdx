@@ -22,16 +22,16 @@ sidebar_position: 3
 
 ---
 
-## 🧭 What You'll Do in This Exercise
+## 🎯 What You'll Do in This Exercise
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-<ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-  <li><label><input type="checkbox" /> <b>Launch</b> your personal Dify instance</label></li>
-  <li><label><input type="checkbox" /> <b>Configure</b> a connection to Azure-hosted LLMs (GPT-3.5 Turbo & Embeddings)</label></li>
-  <li><label><input type="checkbox" /> <b>Set up</b> your admin account</label></li>
-  <li><label><input type="checkbox" /> <b>Explore</b> Dify's main sections</label></li>
-  <li><label><input type="checkbox" /> <b>Create</b> your first chatbot using Dify's visual workflow editor</label></li>
-</ul>
+  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+    <li><label><input type="checkbox" /> <b>Launch</b> your personal Dify instance</label></li>
+    <li><label><input type="checkbox" /> <b>Configure</b> a connection to Azure-hosted LLMs (GPT-3.5 Turbo & Embeddings)</label></li>
+    <li><label><input type="checkbox" /> <b>Set up</b> your admin account</label></li>
+    <li><label><input type="checkbox" /> <b>Explore</b> Dify's main sections</label></li>
+    <li><label><input type="checkbox" /> <b>Create</b> your first chatbot using Dify's visual workflow editor</label></li>
+  </ul>
 </div>
 
 ---
@@ -46,6 +46,7 @@ sidebar_position: 3
 You'll be redirected to a personalized portal like this:
 
 <img src={require('../static/img/ex1/dify-instance-credentials.png').default} alt="Dify Instance Portal" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Your personalized Dify instance portal with credentials</i></div>
 
 This page includes:
 <ul>
@@ -65,6 +66,7 @@ This page includes:
 On your first visit, you'll need to create an admin account:
 
 <img src={require('../static/img/ex1/dify-admin-setup.png').default} alt="Dify Admin Setup" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Create your admin account to access Dify</i></div>
 
 <ul>
   <li>You can enter <i>any email address</i> (it doesn't need to be real), but you <b>must remember</b> it.</li>
@@ -79,18 +81,25 @@ On your first visit, you'll need to create an admin account:
 
 ## 🧪 Step 3: Log in to Dify
 
-1. Log in using the credentials you just created:
-
-<img src={require('../static/img/ex1/dify-login-form.png').default} alt="Dify Login Form" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-2. You'll land on the Dify dashboard.
+<ol>
+  <li>
+    Log in using the credentials you just created:
+    <img src={require('../static/img/ex1/dify-login-form.png').default} alt="Dify Login Form" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Log in to your Dify instance</i></div>
+  </li>
+  <li>
+    You'll land on the Dify dashboard.
+  </li>
+</ol>
 
 ### 🗂️ Explore Dify's Main Sections
 
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5em', alignItems: 'start', margin: '1em 0' }}>
   <div>
     <img src={require('../static/img/ex1/dify-landing-page.png').default} alt="Dify Landing Page" style={{ maxWidth: '100%', borderRadius: '8px', marginBottom: '1em' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Dify's main dashboard</i></div>
     <img src={require('../static/img/ex1/dify-account-menu.png').default} alt="Dify Account Menu" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Account menu and settings</i></div>
   </div>
   <div>
     <ul>
@@ -103,6 +112,7 @@ On your first visit, you'll need to create an admin account:
 </div>
 
 <img src={require('../static/img/ex1/dify-settings.png').default} alt="Dify Settings" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Dify settings page where you'll configure your LLM</i></div>
 
 ---
 
@@ -112,36 +122,55 @@ Now let's wire your Dify to use Azure-hosted GPT models.
 
 ### 1. Install Model Provider
 
-- Navigate to <b>Settings → Model Provider</b>
-
-<img src={require('../static/img/ex1/dify-settings-model-provider.png').default} alt="Dify Settings Model Provider" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-- Install <b>Azure OpenAI Service</b>
-
-<img src={require('../static/img/ex1/dify-install-azure-openai.png').default} alt="Install Azure OpenAI" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<ol>
+  <li>
+    Navigate to <b>Settings → Model Provider</b>
+    <img src={require('../static/img/ex1/dify-settings-model-provider.png').default} alt="Dify Settings Model Provider" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Model provider settings page</i></div>
+  </li>
+  <li>
+    Install <b>Azure OpenAI Service</b>
+    <img src={require('../static/img/ex1/dify-install-azure-openai.png').default} alt="Install Azure OpenAI" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Installing Azure OpenAI service</i></div>
+  </li>
+</ol>
 
 ### 2. Add a GPT-3.5 LLM
 
 Use the credentials provided earlier to configure the model:
 
-<table>
-  <tr><th>Field</th><th>Value</th></tr>
-  <tr><td>Provider</td><td>Azure OpenAI</td></tr>
-  <tr><td>Model Name</td><td><code>gpt-35-turbo-16k</code></td></tr>
-  <tr><td>Endpoint</td><td><i>(paste endpoint URL)</i></td></tr>
-  <tr><td>API Key</td><td><i>(paste your key)</i></td></tr>
-  <tr><td>API Version</td><td><code>2024-12-01-preview</code></td></tr>
+<table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2em' }}>
+  <thead>
+    <tr style={{ background: '#f3f0ff' }}>
+      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Field</th>
+      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>Provider</td><td style={{ border: '1px solid #e5e7eb' }}>Azure OpenAI</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>Model Name</td><td style={{ border: '1px solid #e5e7eb' }}><code>gpt-35-turbo-16k</code></td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>Endpoint</td><td style={{ border: '1px solid #e5e7eb' }}><i>(paste endpoint URL)</i></td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>API Key</td><td style={{ border: '1px solid #e5e7eb' }}><i>(paste your key)</i></td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>API Version</td><td style={{ border: '1px solid #e5e7eb' }}><code>2024-12-01-preview</code></td></tr>
+  </tbody>
 </table>
 
 ### 3. Add Embedding Model
 
-<table>
-  <tr><th>Field</th><th>Value</th></tr>
-  <tr><td>Model Name</td><td><code>text-embedding-ada-002</code></td></tr>
-  <tr><td>API Version</td><td><code>2023-05-15</code></td></tr>
+<table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2em' }}>
+  <thead>
+    <tr style={{ background: '#f3f0ff' }}>
+      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Field</th>
+      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>Model Name</td><td style={{ border: '1px solid #e5e7eb' }}><code>text-embedding-ada-002</code></td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>API Version</td><td style={{ border: '1px solid #e5e7eb' }}><code>2023-05-15</code></td></tr>
+  </tbody>
 </table>
 
-<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
   ✅ <b>You're now LLM-connected and ready to build!</b>
 </div>
 
@@ -151,51 +180,80 @@ Use the credentials provided earlier to configure the model:
 
 ### 1. Create From Blank
 
-Go to <b>Studio → Chatbot → Create from Blank</b>:
-
-<img src={require('../static/img/ex1/dify-chatboot-from-blank.png').default} alt="Blank Chatbot" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-- Select <b>Workflow</b>
-- Give your bot a name and description
-
-<img src={require('../static/img/ex1/dify-chatboot-config.png').default} alt="Config Bot" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<ol>
+  <li>
+    Go to <b>Studio → Chatbot → Create from Blank</b>:
+    <img src={require('../static/img/ex1/dify-chatboot-from-blank.png').default} alt="Blank Chatbot" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Creating a new chatbot from scratch</i></div>
+  </li>
+  <li>
+    Select <b>Workflow</b>
+  </li>
+  <li>
+    Give your bot a name and description
+    <img src={require('../static/img/ex1/dify-chatboot-config.png').default} alt="Config Bot" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Configuring your chatbot</i></div>
+  </li>
+</ol>
 
 ### 2. Setup Query Input
 
-- Click on the <b>start</b> block
-- Click <b>+</b> to create an <i>Input Field</i> named <code>query</code>
-- Set a suitable max length, e.g., <code>200</code>
-
-<img src={require('../static/img/ex1/dify-chatboot-add-input.png').default} alt="Add Input" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-<img src={require('../static/img/ex1/dify-chatboot-start-config.png').default} alt="Start Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<ol>
+  <li>
+    Click on the <b>start</b> block
+  </li>
+  <li>
+    Click <b>+</b> to create an <i>Input Field</i> named <code>query</code>
+  </li>
+  <li>
+    Set a suitable max length, e.g., <code>200</code>
+    <img src={require('../static/img/ex1/dify-chatboot-add-input.png').default} alt="Add Input" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Adding input field to your chatbot</i></div>
+    <img src={require('../static/img/ex1/dify-chatboot-start-config.png').default} alt="Start Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Configuring the start block</i></div>
+  </li>
+</ol>
 
 ### 3. Add LLM Block
 
-- Click <b>+</b> and select the <b>LLM</b> block
-
-<img src={require('../static/img/ex1/dify-chatboot-blocks.png').default} alt="Blocks" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-- Reference your model
-- Add a System prompt like:
-
-<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-  <i>"Answer in a clean, professional tone. Be concise but precise."</i>
-</div>
-
-- Bind the prompt to <code>query</code> and <code>context</code> using the <b>{'{'}x{'}'}</b> selector
-
-<img src={require('../static/img/ex1/dify-chatboot-LLM-config.png').default} alt="LLM Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<ol>
+  <li>
+    Click <b>+</b> and select the <b>LLM</b> block
+    <img src={require('../static/img/ex1/dify-chatboot-blocks.png').default} alt="Blocks" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Available blocks for your chatbot</i></div>
+  </li>
+  <li>
+    Reference your model
+  </li>
+  <li>
+    Add a System prompt like:
+    <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+      <i>"Answer in a clean, professional tone. Be concise but precise."</i>
+    </div>
+  </li>
+  <li>
+    Bind the prompt to <code>query</code> and <code>context</code> using the <b>{'{'}x{'}'}</b> selector
+    <img src={require('../static/img/ex1/dify-chatboot-LLM-config.png').default} alt="LLM Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Configuring the LLM block</i></div>
+  </li>
+</ol>
 
 ### 4. Add End Block
 
-- Add an <b>End</b> block
-- Create an output variable (e.g., <code>text</code>) linked to the LLM response
-
-<img src={require('../static/img/ex1/dify-chatboot-end-config.png').default} alt="End Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<ol>
+  <li>
+    Add an <b>End</b> block
+  </li>
+  <li>
+    Create an output variable (e.g., <code>text</code>) linked to the LLM response
+    <img src={require('../static/img/ex1/dify-chatboot-end-config.png').default} alt="End Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Configuring the end block</i></div>
+  </li>
+</ol>
 
 ---
 
-### 🧪 Run and Debug
+## 🧪 Run and Debug
 
 Click <b>Run</b>, input a question, and hit <b>Start Run</b>:
 
@@ -206,10 +264,29 @@ Click <b>Run</b>, input a question, and hit <b>Start Run</b>:
 🎉 You should get a response from your magical assistant!
 
 <img src={require('../static/img/ex1/dify-chatboot-run-input.png').default} alt="Run Input" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Testing your chatbot with a sample question</i></div>
 
 Check the <b>Tracing</b> tab for a breakdown of what your chatbot did:
 
 <img src={require('../static/img/ex1/dify-chatboot-run-tab.png').default} alt="Tracing" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Tracing the chatbot's response generation</i></div>
+
+---
+
+## 🎯 What's Next?
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>Great job! You've set up your LLM and created your first chatbot. In the next exercise, you'll:</b>
+  <ul>
+    <li>Learn about chunking strategies for document ingestion</li>
+    <li>Upload Jira issues and technical documentation</li>
+    <li>Compare different knowledge base approaches</li>
+    <li>Prepare your chatbot for RAG capabilities</li>
+  </ul>
+  <div style={{ marginTop: '1em' }}>
+    <b>Ready to continue?</b> Head to <a href="./exercise-2-knowledge-ingestion">Exercise 2: Knowledge Ingestion</a> to start building your magical knowledge base! 📚
+  </div>
+</div>
 
 ---
 
