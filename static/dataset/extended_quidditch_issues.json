@@ -1,0 +1,80 @@
+{
+  "issues": [
+    {
+      "key": "QUIDAPP-300",
+      "fields": {
+        "summary": "Implement match schedule with reminders",
+        "description": "As a fan, I want to view upcoming matches and set reminders so I never miss a game.\nReminders should trigger push notifications 30 min before match start time.\nEdge cases include: changing time zones, overlapping reminders.\nAcceptance Criteria:\n- Match dates are displayed in local time\n- Users can enable/disable reminders per match\n- Reminder triggers a notification\n",
+        "status": {
+          "name": "To Do"
+        },
+        "assignee": null,
+        "created": "2025-06-01T04:48:06.345682",
+        "updated": "2025-06-01T04:48:06.345698",
+        "project": {
+          "key": "QUIDAPP"
+        },
+        "issuetype": {
+          "name": "Story"
+        }
+      }
+    },
+    {
+      "key": "QUIDAPP-301",
+      "fields": {
+        "summary": "Add leaderboard showing top scorers and stats",
+        "description": "As a user, I want to see a leaderboard of the top Quidditch players with stats such as:\n- Goals\n- Assists\n- MVPs\n- Saves\n\nStats should be updated after every match.\nAcceptance Criteria:\n- Leaderboard is sorted by goals\n- Each player's row includes profile picture and team\n",
+        "status": {
+          "name": "To Do"
+        },
+        "assignee": null,
+        "created": "2025-06-01T04:48:06.345703",
+        "updated": "2025-06-01T04:48:06.345706",
+        "project": {
+          "key": "QUIDAPP"
+        },
+        "issuetype": {
+          "name": "Story"
+        }
+      }
+    },
+    {
+      "key": "QUIDAPP-302",
+      "fields": {
+        "summary": "Allow users to place match predictions and display odds",
+        "description": "As a user, I want to predict the winner of a match and see current odds.\nOptional: leaderboard of users with best prediction accuracy.\nAcceptance Criteria:\n- Odds update based on overall predictions\n- Bets are time-locked X minutes before match\n- UI shows predicted team and win chance\n",
+        "status": {
+          "name": "To Do"
+        },
+        "assignee": null,
+        "created": "2025-06-01T04:48:06.345711",
+        "updated": "2025-06-01T04:48:06.345714",
+        "project": {
+          "key": "QUIDAPP"
+        },
+        "issuetype": {
+          "name": "Story"
+        }
+      }
+    },
+    {
+      "key": "QUIDAPP-303",
+      "fields": {
+        "summary": "Push notification system for key match events",
+        "description": "Send real-time push notifications for key in-game events:\n- Match start\n- Score change\n- Red cards\n- Match end\n\nAcceptance Criteria:\n- Events are pushed in <5s\n- Notification content is concise and relevant\n- User can choose which event types to receive\n",
+        "status": {
+          "name": "To Do"
+        },
+        "assignee": null,
+        "created": "2025-06-01T04:48:06.345718",
+        "updated": "2025-06-01T04:48:06.345721",
+        "project": {
+          "key": "QUIDAPP"
+        },
+        "issuetype": {
+          "name": "Story"
+        }
+      }
+    }
+  ]
+}

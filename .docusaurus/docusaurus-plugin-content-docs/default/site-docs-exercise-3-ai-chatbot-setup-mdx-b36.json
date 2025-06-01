@@ -1,6 +1,6 @@
 {
   "id": "exercise-3-ai-chatbot-setup",
-  "title": "🤖 3: AI Chatbot Setup",
+  "title": "3: AI Chatbot Setup",
   "description": "Welcome to the next step of your Testus Patronus journey! In this exercise, you'll connect your RAG pipeline to your chatbot, enabling it to answer questions using your uploaded knowledge base.",
   "source": "@site/docs/exercise-3-ai-chatbot-setup.mdx",
   "sourceDirName": ".",
@@ -13,6 +13,7 @@
   "version": "current",
   "sidebarPosition": 6,
   "frontMatter": {
+    "title": "3: AI Chatbot Setup",
     "sidebar_position": 6
   },
   "sidebar": "workshopSidebar",
