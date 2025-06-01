@@ -36,6 +36,8 @@ These are conceptual strategies used in many RAG systems that help with retrieva
 
 ### 🪜 1. Parent–Child Retrieval
 
+<h2 id="parent-child-retrieval"></h2>
+
 <b>Why it matters:</b> You often need related items together: a parent epic with child issues, or a test suite with all cases. This improves reasoning and coverage.
 
   <img src={require('../static/img/ex4/parent-child-dilema.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
@@ -47,6 +49,8 @@ These are conceptual strategies used in many RAG systems that help with retrieva
 
   <img src={require('../static/img/ex4/parent-child.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
 ### 🧹 2. Query Rewriting
+
+<h2 id="query-rewriting"></h2>
 
 <b>Why it matters:</b> Many queries are vague or poorly phrased. Rewriting improves retrieval and LLM generation.
 
@@ -116,6 +120,8 @@ Use it to generate a loop over multiple issues. Great for:
   <img src={require('../static/img/ex4/iterations.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
 
 ### ⚖️ 4. If/Else Routing
+
+<h2 id="ifelse-routing"></h2>
 
 Adds logic to your flow:
 <ul>
