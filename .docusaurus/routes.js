@@ -114,15 +114,15 @@ export default [
   },
   {
     path: '/testus-patronus/docs',
-    component: ComponentCreator('/testus-patronus/docs', '9b6'),
+    component: ComponentCreator('/testus-patronus/docs', 'b4b'),
     routes: [
       {
         path: '/testus-patronus/docs',
-        component: ComponentCreator('/testus-patronus/docs', 'bd6'),
+        component: ComponentCreator('/testus-patronus/docs', 'ad5'),
         routes: [
           {
             path: '/testus-patronus/docs',
-            component: ComponentCreator('/testus-patronus/docs', 'e8b'),
+            component: ComponentCreator('/testus-patronus/docs', '421'),
             routes: [
               {
                 path: '/testus-patronus/docs/dataset',
@@ -156,7 +156,7 @@ export default [
               },
               {
                 path: '/testus-patronus/docs/exercise-4-advanced-prompting',
-                component: ComponentCreator('/testus-patronus/docs/exercise-4-advanced-prompting', '1ff'),
+                component: ComponentCreator('/testus-patronus/docs/exercise-4-advanced-prompting', '24c'),
                 exact: true,
                 sidebar: "workshopSidebar"
               },
