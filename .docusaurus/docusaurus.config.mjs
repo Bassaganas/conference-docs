@@ -71,6 +71,11 @@ export default {
   ],
   "themeConfig": {
     "image": "img/docusaurus-social-card.jpg",
+    "colorMode": {
+      "defaultMode": "light",
+      "disableSwitch": true,
+      "respectPrefersColorScheme": false
+    },
     "navbar": {
       "title": "Testus Patronus",
       "logo": {
@@ -347,11 +352,6 @@ export default {
           }
         }
       ]
-    },
-    "colorMode": {
-      "defaultMode": "light",
-      "disableSwitch": false,
-      "respectPrefersColorScheme": false
     },
     "docs": {
       "versionPersistence": "localStorage",
