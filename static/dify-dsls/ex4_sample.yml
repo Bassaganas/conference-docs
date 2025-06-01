@@ -1,0 +1,1676 @@
+app:
+  description: The chatboot will be able to answer only about our documents context
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 'Exercise 4: Building an advanced RAG'
+  use_icon_as_answer_icon: false
+dependencies:
+kind: app
+version: 0.3.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: "Hi there! I'm your AI-powered testing assistant. Here's what\
+      \ I can help you with:\n\n    •  Ask me about specific Jira issues (e.g., \"\
+      What does REST-433 fix?\")\n    •  Request summaries or comparisons for multiple\
+      \ issues\n    •  Get Gherkin-style test cases based on requirements or bugs\n\
+      \    •  Ask questions about your project’s scope, documentation, or contributors\n\
+      \n    Just type your question below and I’ll take it from there!"
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+    - What is this project about?
+    - How to test issue REST-266?
+    - Create test scenarios for issue REST-320
+    - Find issues related to Jira API
+    suggested_questions_after_answer:
+      enabled: true
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1748687775954-source-llm-target
+      selected: false
+      source: '1748687775954'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: knowledge-retrieval
+      id: 1748719005808-source-1748687775954-target
+      source: '1748719005808'
+      sourceHandle: source
+      target: '1748687775954'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: question-classifier
+      id: 1748687003240-source-1748756681684-target
+      source: '1748687003240'
+      sourceHandle: source
+      target: '1748756681684'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: parameter-extractor
+      id: 1748756681684-1-1748719005808-target
+      source: '1748756681684'
+      sourceHandle: '1'
+      target: '1748719005808'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: knowledge-retrieval
+      id: 1748756681684-1748767162845-1748767429892-target
+      source: '1748756681684'
+      sourceHandle: '1748767162845'
+      target: '1748767429892'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1748767429892-source-1748767447593-target
+      source: '1748767429892'
+      sourceHandle: source
+      target: '1748767447593'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1748767447593-source-1748767451380-target
+      source: '1748767447593'
+      sourceHandle: source
+      target: '1748767451380'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: parameter-extractor
+      id: 1748756681684-2-1748767570289-target
+      source: '1748756681684'
+      sourceHandle: '2'
+      target: '1748767570289'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1748783029512-source-1748783041984-target
+      source: '1748783029512'
+      sourceHandle: source
+      target: '1748783041984'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: iteration
+      id: 1748767570289-source-1748783526414-target
+      source: '1748767570289'
+      sourceHandle: source
+      target: '1748783526414'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1748783526414'
+        sourceType: iteration-start
+        targetType: knowledge-retrieval
+      id: 1748783526414start-source-1748783571565-target
+      source: 1748783526414start
+      sourceHandle: source
+      target: '1748783571565'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1748783526414-source-1748783029512-target
+      source: '1748783526414'
+      sourceHandle: source
+      target: '1748783029512'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: knowledge-retrieval
+      id: 1748756681684-1748767109717-1748784602400-target
+      source: '1748756681684'
+      sourceHandle: '1748767109717'
+      target: '1748784602400'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1748784602400-source-1748784677999-target
+      source: '1748784602400'
+      sourceHandle: source
+      target: '1748784677999'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1748784677999-source-1748784661836-target
+      source: '1748784677999'
+      sourceHandle: source
+      target: '1748784661836'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: parameter-extractor
+      id: 1748756681684-1748774938291-17487850509710-target
+      source: '1748756681684'
+      sourceHandle: '1748774938291'
+      target: '17487850509710'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1748783526414'
+        sourceType: iteration-start
+        targetType: knowledge-retrieval
+      id: 1748785286399start-source-1748785286399017487852864000-target
+      source: 1748785286399start
+      sourceHandle: source
+      target: '1748785286399017487852864000'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: if-else
+      id: 17487850509710-source-1748785479296-target
+      source: '17487850509710'
+      sourceHandle: source
+      target: '1748785479296'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: iteration
+      id: 1748785479296-true-17487852863990-target
+      source: '1748785479296'
+      sourceHandle: 'true'
+      target: '17487852863990'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1748785479296-f2be164b-f0ce-4db6-9a7b-69786c02a988-1748785532843-target
+      source: '1748785479296'
+      sourceHandle: f2be164b-f0ce-4db6-9a7b-69786c02a988
+      target: '1748785532843'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 17487852863990-source-1748785557565-target
+      source: '17487852863990'
+      sourceHandle: source
+      target: '1748785557565'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1748785557565-source-1748785836978-target
+      source: '1748785557565'
+      sourceHandle: source
+      target: '1748785836978'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1748785532843-source-1748786521492-target
+      source: '1748785532843'
+      sourceHandle: source
+      target: '1748786521492'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1748756681684-1748785172818-1748786653855-target
+      source: '1748756681684'
+      sourceHandle: '1748785172818'
+      target: '1748786653855'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1748786653855-source-1748785149607-target
+      source: '1748786653855'
+      sourceHandle: source
+      target: '1748785149607'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: Start
+        type: start
+        variables: []
+      height: 54
+      id: '1748687003240'
+      position:
+        x: -1083.666487928184
+        y: 288.65445462792803
+      positionAbsolute:
+        x: -1083.666487928184
+        y: 288.65445462792803
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1748687775954'
+          - result
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 5c286fbf-33f9-4150-8c64-696789577558
+          role: system
+          text: "You are a software testing assistant helping engineers understand\
+            \ Jira issues, project documentation, and related work.\n\nOnly answer\
+            \ questions using the information provided in the context below.\nIf the\
+            \ context does not contain relevant information to answer the user's question,\
+            \ clearly say so.\n\nContext documents are formatted like this:\n\n- Jira\
+            \ issues follow this structure:\n  Jira Issue: <KEY>\n  Project: <project\
+            \ name>\n  Type: <Bug | Feature | Task>\n  Status: <Open | Closed | etc.>\n\
+            \  Assignee: <Name or Unassigned>\n  Created: <date>\n  Updated: <date>\n\
+            \n  Summary: <short summary>\n\n  Description:\n  <full description>\n\
+            \n- Summaries and technical documentation may also include:\n  Summary,\
+            \ Contributors, Assignees, Reporters, Issue Count, Type.\n\nUse this format\
+            \ to extract and organize key information when answering.\n\nYour reply\
+            \ should:\n- Be concise and professional\n- Highlight relevant fields\
+            \ (e.g., Summary, Type, Assignee)\n- Mention related issues if they exist\
+            \ in the context\n- Focus on the implications for software testing when\
+            \ possible\n- Never answer using outside knowledge or speculation\n\n\
+            If the question is outside the scope of the documents (e.g. “Why is the\
+            \ sky blue?”), respond with:\n> I'm sorry, I can't find relevant information\
+            \ in the project documentation to answer that.\n\nOnly answer using the\
+            \ provided context.\n\nOnly answer using the provided context.\n\nIf the\
+            \ context does NOT clearly mention the Jira issue referenced in the user's\
+            \ question (e.g. REST-XXX, issue XXX, XXX, Jira Issue XXX), then respond\
+            \ with:\n\n> I’m sorry, I can’t find details about that specific issue\
+            \ in the project documentation.\n\n\n\n\n\nContext:\n{{#context#}}\n\n\
+            User question:\n{{#sys.query#}}\n\nReminder: If the Jira issue mentioned\
+            \ above is not present in the context chunks, do not guess or fabricate\
+            \ the answer.\nExamples:\n\nQ: What does REST-433 fix?\nContext includes\
+            \ \"Jira Issue: REST-433\"\n✅ Answer with issue details.\n\nQ: What does\
+            \ REST-433 fix?\nContext does NOT include REST-433\n❌ Do not guess. Respond\
+            \ with: \"I’m sorry, I can’t find details about that specific issue...\"\
+            \n\n"
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: llm
+      position:
+        x: 456.2543663027028
+        y: 33.57027864430731
+      positionAbsolute:
+        x: 456.2543663027028
+        y: 33.57027864430731
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#llm.text#}}'
+        desc: ''
+        selected: false
+        title: Answer Specific Issue Queries
+        type: answer
+        variables: []
+      height: 105
+      id: answer
+      position:
+        x: 792.566799557453
+        y: 33.57027864430731
+      positionAbsolute:
+        x: 792.566799557453
+        y: 33.57027864430731
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        dataset_ids:
+        - D0GbUOG+JtZlHlg4fWiHVkbc+a0HHu+xcqg66vgcXiRUZRyauQblVaYqjrse2eQh
+        desc: ''
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: b4b5b794-62a8-4152-aa44-ef618b1e3be1
+            name: issue_key
+            value: '{{#1748719005808.issue_key#}}'
+          logical_operator: and
+        metadata_filtering_mode: manual
+        metadata_model_config:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-35-turbo-16k
+          provider: langgenius/azure_openai/azure_openai
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: weighted_score
+          reranking_model:
+            model: ''
+            provider: ''
+          score_threshold: 0.31
+          top_k: 10
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: text-embedding-ada-002
+              embedding_provider_name: langgenius/azure_openai/azure_openai
+              vector_weight: 0.7
+        query_variable_selector:
+        - '1748687003240'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: KR - Single Issue
+        type: knowledge-retrieval
+      height: 92
+      id: '1748687775954'
+      position:
+        x: 89.0778811944802
+        y: 33.57027864430731
+      positionAbsolute:
+        x: 89.0778811944802
+        y: 33.57027864430731
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        instruction: "You are an intelligent assistant specialized in understanding\
+          \ user requests related to Jira issues and test case management. Your primary\
+          \ goal is to analyze the user's {{#sys.query#}} and extract one piece of\
+          \ information in a precise JSON format: \n1. **`issue_key`**: A Jira issue\
+          \ key, if explicitly mentioned or strongly implied. \n\n\n --- **Detailed\
+          \ Instructions for `issue_key` Extraction:** * An issue key follows the\
+          \ format: `[ONE_OR_MORE_UPPERCASE_LETTERS]-[ONE_OR_MORE_DIGITS]`. * Examples:\
+          \ `PROJ-123`, `BUG-42`, `INC-005`, `SUPPORT-789`. * Look for the issue key\
+          \ appearing after phrases like 'related to issue', 'ticket:', 'issue:',\
+          \ 'for ticket', 'for issue', or within the user's general statement. * If\
+          \ no string matches the exact 'PROJNAME-XXX' format (e.g., '123-PROJ', 'PROJ123',\
+          \ 'PROJ-ABC'), correct and give appropiate format and return this `issue_key`.\
+          \ \n/\n"
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        parameters:
+        - description: 'An issue key typically consists of an uppercase project prefix,
+            followed by an hyphen, and then one or more digits. For example: JIRA-123,
+            PROJ-45, BUG-007.'
+          name: issue_key
+          required: true
+          type: string
+        query:
+        - sys
+        - query
+        reasoning_mode: prompt
+        selected: false
+        title: Single Issue Key Extractor
+        type: parameter-extractor
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1748719005808'
+      position:
+        x: -284.44013680327953
+        y: 33.57027864430731
+      positionAbsolute:
+        x: -284.44013680327953
+        y: 33.57027864430731
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        classes:
+        - id: '1'
+          name: ' specific_issue'
+        - id: '2'
+          name: list_issues
+        - id: '1748767109717'
+          name: general_project
+        - id: '1748767162845'
+          name: test_related
+        - id: '1748774938291'
+          name: test_generation
+        - id: '1748785172818'
+          name: unrelated_or_invalid
+        desc: ''
+        instruction: "    You are a smart assistant helping with software testing,\
+          \ Jira issues, and documentation.\n\n    Your task is to classify the user's\
+          \ query into ONE of the following categories:\n\n    - `specific_issue`:\
+          \ The user is asking about one particular Jira issue.\n      > Example:\
+          \ \"What does REST-433 fix?\" or \"Who closed issue BUG-123?\"\n\n    -\
+          \ `list_issues`: The user is referencing multiple **explicit issue keys**\
+          \ (e.g. REST-123, BUG-456). This category applies **only** when two or more\
+          \ issue keys are clearly mentioned.\n      > Example: \"How are REST-433\
+          \ and REST-426 related?\"\n\n    - `general_project`: The question relates\
+          \ to overall project scope, architecture, documentation, contributors, or\
+          \ themes of work. Includes filtered requests like \"List bugs related to\
+          \ the Jira plugin\" when no issue keys are named.\n      > Example: \"What\
+          \ is this project about?\" or \"List some bugs related to Jira plugin\"\n\
+          \n    - `test_related`: The user is asking about testing activities, strategies,\
+          \ or coverage.\n      > Example: \"What is the test plan for this feature?\"\
+          \ or \"Which tests cover the login module?\"\n\n    - `test_generation`:\
+          \ The user is asking to generate test cases. This includes:\n      • questions\
+          \ starting with \"write\", \"generate\", or \"create test\"\n      • generation\
+          \ requests from bugs, requirements, or user text\n      > Example: \"Create\
+          \ test cases for password reset\" or \"Generate tests for REST-433 and REST-434\"\
+          \n\n    - `unrelated_or_invalid`: The query is not related to testing, documentation,\
+          \ or issue analysis.\n      > Example: \"Write me a poem\" or \"What's the\
+          \ weather today?\"\n\n    ⚠️ Always return ONE label from:\n    `specific_issue`,\
+          \ `list_issues`, `general_project`, `test_related`, `test_generation`, `unrelated_or_invalid`\n\
+          \n    Do NOT explain your answer.\n\n    ---\n    User query:\n    {{#sys.query#}}\n"
+        instructions: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        query_variable_selector:
+        - '1748687003240'
+        - sys.query
+        selected: false
+        title: Question Classifier
+        topics: []
+        type: question-classifier
+        vision:
+          enabled: false
+      height: 324
+      id: '1748756681684'
+      position:
+        x: -694.8206093064899
+        y: 288.65445462792803
+      positionAbsolute:
+        x: -694.8206093064899
+        y: 288.65445462792803
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        dataset_ids:
+        - D0GbUOG+JtZlHlg4fWiHVkbc+a0HHu+xcqg66vgcXiRUZRyauQblVaYqjrse2eQh
+        desc: ''
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: weighted_score
+          top_k: 4
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: text-embedding-ada-002
+              embedding_provider_name: langgenius/azure_openai/azure_openai
+              vector_weight: 0.7
+        query_variable_selector:
+        - '1748687003240'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: KR General Knowledge
+        type: knowledge-retrieval
+      height: 92
+      id: '1748767429892'
+      position:
+        x: -284.44013680327953
+        y: 610.4803953947226
+      positionAbsolute:
+        x: -284.44013680327953
+        y: 610.4803953947226
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 8c741de7-7353-402c-bfcb-a1e6b6798e35
+          role: system
+          text: 'You are a software testing assistant helping engineers understand
+            project-level information, contributors, documentation, and testing scope.
+
+
+            Only answer questions using the information provided in the context below.
+
+            If the context does not contain relevant information to answer the user''s
+            question, clearly say so.
+
+
+            Context documents may include:
+
+            - Project summaries, descriptions, and objectives
+
+            - Contributor and assignee lists
+
+            - Component or module overviews
+
+            - Documentation of testing scope or strategies
+
+            - Aggregated metrics such as issue count by type or status
+
+
+            Do not answer about specific Jira issues unless they are mentioned as
+            part of a broader project summary.
+
+
+            Your reply should:
+
+            - Be concise and professional
+
+            - Highlight key facts about the project (e.g., modules, teams, goals,
+            test scope)
+
+            - Mention totals or distributions (e.g., "There are 12 open bugs", "Main
+            modules are X, Y")
+
+            - Focus on information relevant to project-level understanding or software
+            testing readiness
+
+            - Never answer using outside knowledge or speculation
+
+
+            If the user’s question is not answered in the context, respond with:
+
+            > I''m sorry, I can''t find relevant project-level information in the
+            documentation to answer that.
+
+
+            Only answer using the provided context.
+
+
+            ---
+
+
+            Context:
+
+            {{#context#}}
+
+
+            User question:
+
+            {{#sys.query#}}
+
+
+            Examples:
+
+
+            Q: What does the project include?
+
+            Context includes a project summary and modules
+
+            ✅ Answer with module names and summary.
+
+
+            Q: What modules are included?
+
+            Context does NOT mention modules
+
+            ❌ Do not guess. Respond: "I can''t find relevant project-level information..."
+
+
+            Q: What’s the testing strategy for this release?
+
+            Context includes QA section
+
+            ✅ Answer with scope or strategy
+
+
+            Q: What’s the testing strategy for this release?
+
+            Context does NOT include any testing info
+
+            ❌ Do not guess.'
+        selected: false
+        title: LLM 2
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1748767447593'
+      position:
+        x: 89.0778811944802
+        y: 610.4803953947226
+      positionAbsolute:
+        x: 89.0778811944802
+        y: 610.4803953947226
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: ''
+        desc: ''
+        selected: false
+        title: Answer 2
+        type: answer
+        variables: []
+      height: 86
+      id: '1748767451380'
+      position:
+        x: 456.2543663027028
+        y: 610.4803953947226
+      positionAbsolute:
+        x: 456.2543663027028
+        y: 610.4803953947226
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        instruction: "You are an intelligent assistant specialized in understanding\
+          \ user requests related to Jira issues and test case management. Your primary\
+          \ goal is to analyze the user's {{#sys.query#}} and extract all mentioned\
+          \ Jira issue keys in a precise JSON format:\n\n1. **`issue_keys`**: A list\
+          \ of Jira issue keys explicitly mentioned or strongly implied in the user's\
+          \ query.\n\n---\n\n**Detailed Instructions for `issue_keys` Extraction:**\n\
+          \n- An issue key follows the format: `[ONE_OR_MORE_UPPERCASE_LETTERS]-[ONE_OR_MORE_DIGITS]`.\n\
+          \  - Examples: `PROJ-123`, `BUG-42`, `INC-005`, `SUPPORT-789`.\n- Look for\
+          \ issue keys appearing after phrases like:\n  - 'related to issues'\n  -\
+          \ 'tickets:'\n  - 'issues:'\n  - 'for tickets'\n  - 'for issues'\n  - or\
+          \ within the user's general statement.\n- If a string closely resembles\
+          \ an issue key but deviates slightly (e.g., '123-PROJ', 'PROJ123', 'PROJ-ABC'),\
+          \ correct it to the appropriate format and include it in the `issue_keys`\
+          \ list.\n- If no valid issue keys are found, return an empty list.\n\n---\n\
+          \n**Output Format:**\n\n```json\n{\n  \"issue_keys\": [\"PROJ-123\", \"\
+          BUG-42\"]\n}"
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        parameters:
+        - description: 'A coma separated list of issue keys that the user is interested
+            in.
+
+            An issue key typically consists of an uppercase project prefix, followed
+            by an hyphen, and then one or more digits. For example: JIRA-123, PROJ-45,
+            BUG-007.'
+          name: issues_keys
+          required: true
+          type: array[string]
+        query:
+        - sys
+        - query
+        reasoning_mode: prompt
+        selected: false
+        title: Issue Keys Extractor
+        type: parameter-extractor
+        variables: []
+        vision:
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: false
+      height: 90
+      id: '1748767570289'
+      position:
+        x: -284.44013680327953
+        y: 211.5747334168887
+      positionAbsolute:
+        x: -284.44013680327953
+        y: 211.5747334168887
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1748783526414'
+          - output
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 41d8a4b2-979b-4166-a924-d9b9e7b724da
+          role: system
+          text: "You are a software testing assistant helping engineers understand\
+            \ Jira issues, project documentation, and related work.\n\nOnly answer\
+            \ questions using the information provided in the context below.\nIf the\
+            \ context does not contain relevant information to answer the user's question,\
+            \ clearly say so.\n\nContext documents are formatted like this:\n\n- Jira\
+            \ issues follow this structure:\n  Jira Issue: <KEY>\n  Project: <project\
+            \ name>\n  Type: <Bug | Feature | Task>\n  Status: <Open | Closed | etc.>\n\
+            \  Assignee: <Name or Unassigned>\n  Created: <date>\n  Updated: <date>\n\
+            \n  Summary: <short summary>\n\n  Description:\n  <full description>\n\
+            \n- Summaries and technical documentation may also include:\n  Summary,\
+            \ Contributors, Assignees, Reporters, Issue Count, Type.\n\nUse this format\
+            \ to extract and organize key information when answering.\n\nYour reply\
+            \ should:\n- Be concise and professional\n- Highlight relevant fields\
+            \ (e.g., Summary, Type, Assignee)\n- Mention related issues if they exist\
+            \ in the context\n- Focus on the implications for software testing when\
+            \ possible\n- Never answer using outside knowledge or speculation\n\n\
+            If the question is outside the scope of the documents (e.g. “Why is the\
+            \ sky blue?”), respond with:\n> I'm sorry, I can't find relevant information\
+            \ in the project documentation to answer that.\n\nOnly answer using the\
+            \ provided context.\n\nOnly answer using the provided context.\n\nIf the\
+            \ context does NOT clearly mention the Jira issue referenced in the user's\
+            \ question (e.g. REST-XXX, issue XXX, XXX, Jira Issue XXX), then respond\
+            \ with:\n\n> I’m sorry, I can’t find details about that specific issue\
+            \ in the project documentation.\n\n\nContext:\n{{#context#}}\n\nUser question:\n\
+            {{#sys.query#}}\n\nReminder: If the Jira issue mentioned above is not\
+            \ present in the context chunks, do not guess or fabricate the answer.\n\
+            Examples:\n\nQ: What does REST-433 fix?\nContext includes \"Jira Issue:\
+            \ REST-433\"\n✅ Answer with issue details.\n\nQ: What does REST-433 fix?\n\
+            Context does NOT include REST-433\n❌ Do not guess. Respond with: \"I’m\
+            \ sorry, I can’t find details about that specific issue...\"\n\n"
+        selected: false
+        title: LLM 3
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1748783029512'
+      position:
+        x: 792.566799557453
+        y: 211.5747334168887
+      positionAbsolute:
+        x: 792.566799557453
+        y: 211.5747334168887
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#1748783029512.text#}}'
+        desc: ''
+        selected: false
+        title: Answer 3
+        type: answer
+        variables: []
+      height: 105
+      id: '1748783041984'
+      position:
+        x: 1136.1121280862612
+        y: 211.5747334168887
+      positionAbsolute:
+        x: 1136.1121280862612
+        y: 211.5747334168887
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 187
+        is_parallel: true
+        iterator_selector:
+        - '1748767570289'
+        - issues_keys
+        output_selector:
+        - '1748783571565'
+        - result
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1748783526414start
+        title: Iteration
+        type: iteration
+        width: 618
+      height: 187
+      id: '1748783526414'
+      position:
+        x: 89.0778811944802
+        y: 211.5747334168887
+      positionAbsolute:
+        x: 89.0778811944802
+        y: 211.5747334168887
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 618
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1748783526414start
+      parentId: '1748783526414'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 113.0778811944802
+        y: 279.5747334168887
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        dataset_ids:
+        - 3t+kSryMgqByavo6GgEWMmcujHtkU1pRtQcl/sYwXWB4YphlEV2c1sE6cRpPUeoe
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1748783526414'
+        metadata_filtering_conditions:
+          conditions: []
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          reranking_model:
+            model: ''
+            provider: ''
+          score_threshold: null
+          top_k: 10
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: text-embedding-ada-002
+              embedding_provider_name: langgenius/azure_openai/azure_openai
+              vector_weight: 0.7
+        query_variable_selector:
+        - '1748687003240'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: KR - Multiple Issues
+        type: knowledge-retrieval
+      height: 92
+      id: '1748783571565'
+      parentId: '1748783526414'
+      position:
+        x: 213.39028285937735
+        y: 65
+      positionAbsolute:
+        x: 302.46816405385755
+        y: 276.5747334168887
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        dataset_ids:
+        - D0GbUOG+JtZlHlg4fWiHVkbc+a0HHu+xcqg66vgcXiRUZRyauQblVaYqjrse2eQh
+        desc: ''
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          reranking_model:
+            model: ''
+            provider: ''
+          score_threshold: null
+          top_k: 10
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: text-embedding-ada-002
+              embedding_provider_name: langgenius/azure_openai/azure_openai
+              vector_weight: 0.7
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        selected: false
+        title: 'KR General Knowledge '
+        type: knowledge-retrieval
+      height: 92
+      id: '1748784602400'
+      position:
+        x: -284.44013680327953
+        y: 464.40811576196575
+      positionAbsolute:
+        x: -284.44013680327953
+        y: 464.40811576196575
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#1748784677999.text#}}/'
+        desc: ''
+        selected: false
+        title: Answer 4
+        type: answer
+        variables: []
+      height: 105
+      id: '1748784661836'
+      position:
+        x: 456.2543663027028
+        y: 464.40811576196575
+      positionAbsolute:
+        x: 456.2543663027028
+        y: 464.40811576196575
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1748784602400'
+          - result
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: b3c07274-69ce-4bb7-843b-e6db08c42df1
+          role: system
+          text: 'You are a software testing assistant helping engineers understand
+            project, product, and company context.
+
+
+            Only answer questions using the retrieved context provided below. Do not
+            make assumptions or use outside knowledge.
+
+
+            Your goal is to synthesize information across the provided context and
+            answer the user''s question as fully as possible. If relevant content
+            is spread across multiple context blocks, combine them into a cohesive
+            answer.
+
+
+            Context documents may include:
+
+            - Project summaries or goals
+
+            - Technical overviews or API scopes
+
+            - Lists of contributors or reporters
+
+            - Fixes, optimizations, and technical constraints
+
+
+            Your response should:
+
+            - Be concise and professional
+
+            - Highlight specific facts from the context
+
+            - Focus on what the project is about and why it matters
+
+            - Relate the information to software testing implications if relevant
+
+
+            If no relevant information can be found in the context, respond with:
+
+            > I’m sorry, I can’t find relevant information in the documentation to
+            answer that.
+
+
+            ---
+
+
+            Context:
+
+            {{#context#}}
+
+
+            User question:
+
+            {{#sys.query#}}
+
+            '
+        selected: false
+        structured_output_enabled: false
+        title: LLM 4
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1748784677999'
+      position:
+        x: 89.0778811944802
+        y: 464.40811576196575
+      positionAbsolute:
+        x: 89.0778811944802
+        y: 464.40811576196575
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        instruction: "You are an intelligent assistant specialized in understanding\
+          \ user requests related to Jira issues and test case management. Your primary\
+          \ goal is to analyze the user's {{#sys.query#}} and extract all mentioned\
+          \ Jira issue keys in a precise JSON format:\n\n1. **`issue_keys`**: A list\
+          \ of Jira issue keys explicitly mentioned or strongly implied in the user's\
+          \ query.\n\n---\n\n**Detailed Instructions for `issue_keys` Extraction:**\n\
+          \n- An issue key follows the format: `[ONE_OR_MORE_UPPERCASE_LETTERS]-[ONE_OR_MORE_DIGITS]`.\n\
+          \  - Examples: `PROJ-123`, `BUG-42`, `INC-005`, `SUPPORT-789`.\n- Look for\
+          \ issue keys appearing after phrases like:\n  - 'related to issues'\n  -\
+          \ 'tickets:'\n  - 'issues:'\n  - 'for tickets'\n  - 'for issues'\n  - or\
+          \ within the user's general statement.\n- If a string closely resembles\
+          \ an issue key but deviates slightly (e.g., '123-PROJ', 'PROJ123', 'PROJ-ABC'),\
+          \ correct it to the appropriate format and include it in the `issue_keys`\
+          \ list.\n- If no valid issue keys are found, return an empty list.\n\n---\n\
+          \n**Output Format:**\n\n```json\n{\n  \"issue_keys\": [\"PROJ-123\", \"\
+          BUG-42\"]\n}"
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        parameters:
+        - description: 'A coma separated list of issue keys that the user is interested
+            in.
+
+            An issue key typically consists of an uppercase project prefix, followed
+            by an hyphen, and then one or more digits. For example: JIRA-123, PROJ-45,
+            BUG-007.'
+          name: issues_keys
+          required: true
+          type: array[string]
+        query:
+        - sys
+        - query
+        reasoning_mode: prompt
+        selected: false
+        title: Issue Keys Extractor (1)
+        type: parameter-extractor
+        variables: []
+        vision:
+          configs:
+            detail: high
+            variable_selector:
+            - sys
+            - files
+          enabled: false
+      height: 90
+      id: '17487850509710'
+      position:
+        x: -284.44013680327953
+        y: 754.9250298061089
+      positionAbsolute:
+        x: -284.44013680327953
+        y: 754.9250298061089
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#1748786653855.text#}}'
+        desc: ''
+        selected: false
+        title: Answer 5
+        type: answer
+        variables: []
+      height: 105
+      id: '1748785149607'
+      position:
+        x: 89.0778811944802
+        y: 1011.2915512785755
+      positionAbsolute:
+        x: 89.0778811944802
+        y: 1011.2915512785755
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 187
+        is_parallel: true
+        iterator_selector:
+        - '17487850509710'
+        - issues_keys
+        output_selector:
+        - '1748785286399017487852864000'
+        - result
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1748785286399start
+        title: Iteration (1)
+        type: iteration
+        width: 618
+      height: 187
+      id: '17487852863990'
+      position:
+        x: 456.2543663027028
+        y: 743.564737158242
+      positionAbsolute:
+        x: 456.2543663027028
+        y: 743.564737158242
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 618
+      zIndex: 1
+    - data:
+        dataset_ids:
+        - 3t+kSryMgqByavo6GgEWMmcujHtkU1pRtQcl/sYwXWB4YphlEV2c1sE6cRpPUeoe
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '17487852863990'
+        metadata_filtering_conditions:
+          conditions: []
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          reranking_model:
+            model: ''
+            provider: ''
+          score_threshold: null
+          top_k: 10
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: text-embedding-ada-002
+              embedding_provider_name: langgenius/azure_openai/azure_openai
+              vector_weight: 0.7
+        query_variable_selector:
+        - '1748687003240'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: Knowledge Retrieval 5
+        type: knowledge-retrieval
+      height: 92
+      id: '1748785286399017487852864000'
+      parentId: '17487852863990'
+      position:
+        x: 213.39028285937735
+        y: 65
+      positionAbsolute:
+        x: 669.6446491620802
+        y: 808.564737158242
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1748785286399start
+      parentId: '17487852863990'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 480.2543663027028
+        y: 811.564737158242
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: 1f00de1d-b3c7-4f97-8409-165cb5d04016
+            value: ''
+            varType: array[string]
+            variable_selector:
+            - '17487850509710'
+            - issues_keys
+          id: 'true'
+          logical_operator: and
+        - case_id: f2be164b-f0ce-4db6-9a7b-69786c02a988
+          conditions:
+          - comparison_operator: empty
+            id: 94834777-b870-481f-9bce-d5977fd70fe7
+            value: ''
+            varType: array[string]
+            variable_selector:
+            - '17487850509710'
+            - issues_keys
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: IF/ELSE
+        type: if-else
+      height: 174
+      id: '1748785479296'
+      position:
+        x: 89.0778811944802
+        y: 754.9250298061089
+      positionAbsolute:
+        x: 89.0778811944802
+        y: 754.9250298061089
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: f1e90d8d-abc0-478c-8604-f2805bc0c2f1
+          role: system
+          text: "You are an experienced Test Case Generator.\n\n              Your\
+            \ task is to create Gherkin-style test cases based on a user-reported\
+            \ requirement or issue described in natural language.\n              The\
+            \ requirement may reference features, behaviors, bugs, or changes not\
+            \ currently in the knowledge base. You must rely solely on the user’s\
+            \ input and any additional context in the flow.\n\n              <context>\n\
+            \              {{#context#}}\n              </context>\n\n           \
+            \   User requirement:\n              {{#sys.query#}}\n\n             \
+            \ ---\n\n              \U0001F50D Once you have the requirement details,\
+            \ do the following:\n              1. Analyze the user input and extract\
+            \ the intent, preconditions, actions, and expected outcomes.\n       \
+            \       2. Generate one or more test cases using the Gherkin format.\n\
+            \n              ---\n\n              \U0001F4CA Test Case Format:\n\n\
+            \              ```gherkin\n              Feature: [Concise feature name]\n\
+            \                Scenario: [High-level description of the scenario]\n\
+            \                  Given [Initial precondition]\n                  And\
+            \ [Optional second precondition]\n                  When [Action performed\
+            \ by the user or system]\n                  And [Optional secondary action]\n\
+            \                  Then [Expected outcome or behavior]\n             \
+            \     And [Optional second expected outcome]\n              ```\n\n  \
+            \            ---\n\n              ✅ Guidelines:\n              - Use clear,\
+            \ concise, domain-appropriate language.\n              - Focus on realistic\
+            \ testable behavior.\n              - Avoid filler steps — each line should\
+            \ add functional value.\n              - If multiple scenarios are implied,\
+            \ provide each in its own clearly labeled block.\n\n              \U0001F4C6\
+            \ Present each test case inside a styled markdown code block, like this:\n\
+            \n              ```gherkin\n              Feature: Login security\n\n\
+            \                Scenario: User enters incorrect password\n          \
+            \        Given the user is on the login page\n                  When the\
+            \ user enters a valid username\n                  And an incorrect password\n\
+            \                  Then the user should see an error message\n       \
+            \           And should not be logged in\n              ```\n\n       \
+            \       Do not include any explanation or commentary — only output the\
+            \ test case(s) in clean, Gherkin-formatted code blocks.\n"
+        selected: false
+        title: LLM 5
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1748785532843'
+      position:
+        x: 456.2543663027028
+        y: 986.9215676569963
+      positionAbsolute:
+        x: 456.2543663027028
+        y: 986.9215676569963
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '17487852863990'
+          - output
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 94d687e6-c23d-43e3-977c-65cb9c4a8cc1
+          role: system
+          text: "\nYou are an experienced Test Case Generator. Your task is to create\
+            \ test cases related to  issues in context in Gherkin format based on\
+            \ the following user-reported issue (obtained from the knoledge retrieval\
+            \ node) and flow context:\n<context>\n{{#context#}}\n</context>\n{{#sys.query#}}\n\
+            Once you have the issue details, analyze the information, paying close\
+            \ attention to the title, description, and any steps to reproduce. \n\
+            Based on this analysis, generate a test case in Gherkin format using the\
+            \ following structure: \nFeature: [Concise title summarizing the feature\
+            \ being tested, derived from the Jira issue title] \n  Scenario: [Specific\
+            \ scenario derived from the Jira issue details] \n  - Given [Precondition\
+            \ 1, based on the issue context] \n  - And [Precondition 2, if any] \n\
+            \  - When [Action 1 taken by the user, based on steps to reproduce] \n\
+            \  - And [Action 2 taken by the user, if any] \n  - Then [Expected outcome\
+            \ based on the problem description and intended functionality] \n  - And\
+            \ [Further expected outcome, if any] \n\nPlease ensure the Gherkin steps\
+            \ are clear, concise, and directly relate to the Jira issue.\nProvide\
+            \ the test cases in a visual way easy to identify, leave clear which is\
+            \ each scenario (with colours and inside a \"box\" as it was code)\n\n"
+        selected: false
+        title: LLM 6
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1748785557565'
+      position:
+        x: 1134.2543663027027
+        y: 743.564737158242
+      positionAbsolute:
+        x: 1134.2543663027027
+        y: 743.564737158242
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#1748785557565.text#}}'
+        desc: ''
+        selected: false
+        title: Answer 6
+        type: answer
+        variables: []
+      height: 105
+      id: '1748785836978'
+      position:
+        x: 1438.2543663027027
+        y: 743.564737158242
+      positionAbsolute:
+        x: 1438.2543663027027
+        y: 743.564737158242
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#1748785532843.text#}}'
+        desc: ''
+        selected: false
+        title: Answer 7
+        type: answer
+        variables: []
+      height: 105
+      id: '1748786521492'
+      position:
+        x: 760.2543663027028
+        y: 986.9215676569963
+      positionAbsolute:
+        x: 760.2543663027028
+        y: 986.9215676569963
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 3c1b3adc-6c0e-4224-a8e1-18c5f6c6fb6d
+          role: system
+          text: "Since this query {{#sys.query#}} is not related to the chatbot context\
+            \ it should return one of these answers:\ndefault_non_testing_responses:\n\
+            \  - \"I'm here to help with software testing topics. Could you rephrase\
+            \ your question to focus on testing or technical documentation?\"\n  -\
+            \ \"This assistant is specialized in analyzing test cases, requirements,\
+            \ and project documentation. That question might be better suited for\
+            \ a general assistant.\"\n  - \"I couldn’t find testing-relevant content\
+            \ in your question. If you’d like help with test generation or issue analysis,\
+            \ just let me know!\"\n  - \"Hmm, I’m not sure how to assist with that.\
+            \ I specialize in software quality, requirements, and test design. Want\
+            \ to dig into a specific feature or issue?\"\n  - \"This assistant works\
+            \ best with technical context. Try asking about a feature, bug, or test\
+            \ scenario you'd like to explore.\"\n"
+        selected: false
+        title: LLM 7
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1748786653855'
+      position:
+        x: -284.44013680327953
+        y: 1011.2915512785755
+      positionAbsolute:
+        x: -284.44013680327953
+        y: 1011.2915512785755
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 223.0038451274604
+      y: 280.24312569093024
+      zoom: 0.6390496816015229

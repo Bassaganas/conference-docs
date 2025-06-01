@@ -1,0 +1,23 @@
+{
+  "id": "exercise-4-advanced-techniques(1)",
+  "title": "🎓 Bonus Exercise – Advanced Techniques for Smarter RAGs",
+  "description": "🪄 This is a free-form, bonus exercise. There’s no “correct” outcome — only deeper exploration.",
+  "source": "@site/docs/exercise-4-advanced-techniques(1).mdx",
+  "sourceDirName": ".",
+  "slug": "/exercise-4-advanced-techniques(1)",
+  "permalink": "/testus-patronus/docs/exercise-4-advanced-techniques(1)",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/exercise-4-advanced-techniques(1).mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "sidebar_position": 8
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "🎓 Bonus Exercise – Advanced Techniques for Smarter RAGs",
+    "permalink": "/testus-patronus/docs/exercise-4-advanced-prompting"
+  }
+}

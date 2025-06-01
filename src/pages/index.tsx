@@ -161,6 +161,71 @@ function HomepageHeader() {
             </Link>
           </div>
         </div>
+        {/* Quick Links Section */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '1em',
+          justifyContent: 'center',
+          marginTop: '2em',
+          marginBottom: '1.5em',
+        }}>
+          <a href="docs/exercise-2-knowledge-ingestion#-chunking-breaking-text-into-pieces" style={{
+            background: '#f3f0ff',
+            color: '#7c3aed',
+            borderRadius: '999px',
+            padding: '0.6em 1.4em',
+            fontWeight: 600,
+            textDecoration: 'none',
+            border: '2px solid #7c3aed',
+            fontSize: '1.08em',
+            boxShadow: '0 2px 8px #7c3aed22',
+          }}>📏 Chunk Size Tradeoff</a>
+          <a href="docs/exercise-4-advanced-prompting#-1-parentchild-retrieval" style={{
+            background: '#f3f0ff',
+            color: '#7c3aed',
+            borderRadius: '999px',
+            padding: '0.6em 1.4em',
+            fontWeight: 600,
+            textDecoration: 'none',
+            border: '2px solid #7c3aed',
+            fontSize: '1.08em',
+            boxShadow: '0 2px 8px #7c3aed22',
+          }}>🪜 Parent–Child Retrieval</a>
+          <a href="docs/exercise-4-advanced-prompting#-2-query-rewriting" style={{
+            background: '#f3f0ff',
+            color: '#7c3aed',
+            borderRadius: '999px',
+            padding: '0.6em 1.4em',
+            fontWeight: 600,
+            textDecoration: 'none',
+            border: '2px solid #7c3aed',
+            fontSize: '1.08em',
+            boxShadow: '0 2px 8px #7c3aed22',
+          }}>🧹 Query Rewriting</a>
+          <a href="docs/exercise-3-ai-chatbot-setup#%EF%B8%8F-step-5-augmenting-your-prompt" style={{
+            background: '#f3f0ff',
+            color: '#7c3aed',
+            borderRadius: '999px',
+            padding: '0.6em 1.4em',
+            fontWeight: 600,
+            textDecoration: 'none',
+            border: '2px solid #7c3aed',
+            fontSize: '1.08em',
+            boxShadow: '0 2px 8px #7c3aed22',
+          }}>⚠️ Preventing Hallucinations</a>
+          <a href="docs/exercise-2-api-knowledge-ingestion#-compare-manual-basic-and-advanced-knowledge-bases" style={{
+            background: '#f3f0ff',
+            color: '#7c3aed',
+            borderRadius: '999px',
+            padding: '0.6em 1.4em',
+            fontWeight: 600,
+            textDecoration: 'none',
+            border: '2px solid #7c3aed',
+            fontSize: '1.08em',
+            boxShadow: '0 2px 8px #7c3aed22',
+          }}>🔌 Manual vs API Ingestion</a>
+        </div>
       </div>
       {/* Gradient overlay for blending */}
       <div style={{
