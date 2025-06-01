@@ -1,0 +1,334 @@
+---
+title: "3: AI Chatbot Setup"
+sidebar_position: 6
+---
+
+import CodeBlock from '@theme/CodeBlock';
+
+# 🤖 3: AI Chatbot Setup
+
+Welcome to the next step of your Testus Patronus journey! In this exercise, you'll connect your RAG pipeline to your chatbot, enabling it to answer questions using your uploaded knowledge base.
+
+---
+
+## 🧩 What You'll Do
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+    <li><label><input type="checkbox" /> Create a new <b>Chatflow</b></label></li>
+    <li><label><input type="checkbox" /> Integrate a <b>Retriever</b> block between the user query and the LLM</label></li>
+    <li><label><input type="checkbox" /> Connect your knowledge base (manual or API-ingested)</label></li>
+    <li><label><input type="checkbox" /> Test retrieval-augmented answers</label></li>
+    <li><label><input type="checkbox" /> <b>Augment</b> your prompt to prevent hallucinations and improve results</label></li>
+    <li><label><input type="checkbox" /> Try sample queries</label></li>
+    <li><label><input type="checkbox" /> Publish your Chatflow</label></li>
+  </ul>
+</div>
+
+---
+
+## 🛠️ Step 1: Start a New Chatflow
+
+<ol style={{ marginBottom: '2em' }}>
+  <li>
+    Go to the <b>Studio</b> and create a new Chatflow.<br />
+    <img src={require('../static/img/ex3/chatflow-landing.png').default} alt="Chatflow Landing" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Chatflow landing page</i></div>
+  </li>
+  <li>
+    Select <b>Chatflow</b>, give it a meaningful name and description, and create it.<br />
+    <img src={require('../static/img/ex3/chatflow-create.png').default} alt="Chatflow Create" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Creating a new Chatflow</i></div>
+  </li>
+  <li>
+    Add a <b>Prompt</b> to the LLM block. Be sure to include both the query and context in your prompt!<br />
+    <img src={require('../static/img/ex3/chatflow-llm-config.png').default} alt="LLM Config" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: LLM block configuration</i></div>
+  </li>
+  <li>
+    Preview your chatbot.<br />
+    <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+      <b>Tip:</b> Pay attention to the <b>Workflow</b> process to see how your chatbot handles queries step by step.
+    </div>
+    <img src={require('../static/img/ex3/chatflow-preview.png').default} alt="Chatflow Preview" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Chatbot preview</i></div>
+  </li>
+</ol>
+
+---
+
+## 🛠️ Step 2: Add a Retriever Block
+
+<ol style={{ marginBottom: '2em' }}>
+  <li>
+    In your chatbot workflow, <b>insert a Retriever block</b> between the user query input (Start Block) and the LLM block.<br />
+    <img src={require('../static/img/ex3/knowledge-retrieval.png').default} alt="Knowledge Retrieval" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Adding a Retriever block</i></div>
+    <img src={require('../static/img/ex3/chatflow-with-knowledge-retrieval.png').default} alt="Chatflow with Knowledge Retrieval" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Chatflow with Retriever block</i></div>
+  </li>
+  <li>
+    Configure the Retriever to use your knowledge base:
+    <ul>
+      <li>
+        If you completed <b>Exercise 2.1 (API ingestion)</b>, select your API-generated knowledge base (recommended for best results).<br />
+        <img src={require('../static/img/ex3/retrieval-config.png').default} alt="Retrieval Config" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+        <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Retrieval config</i></div>
+        <img src={require('../static/img/ex3/retrieval-select.png').default} alt="Retrieval Select" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+        <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Selecting a knowledge base</i></div>
+      </li>
+      <li>If you only did the manual upload, select your manually created knowledge base.</li>
+    </ul>
+  </li>
+  <li>
+    Configure <b>metadata filtering</b> to further refine your retrieval. You can choose <b>Disabled</b>, <b>Automatic</b>, or <b>Manual</b> filtering.<br />
+    <img src={require('../static/img/ex3/retrieval-metadata.png').default} alt="Metadata Filtering" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Metadata filtering options</i></div>
+  </li>
+</ol>
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Tip:</b> The Retriever block will fetch the most relevant chunks from your knowledge base and pass them as context to the LLM.
+</div>
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Oops! But does it really work already?</b>
+</div>
+<img src={require('../static/img/ex3/chatflow-failed-answer.png').default} alt="Failed Answer" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+<div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#b91c1c', fontSize: '1.1em' }}>
+  <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>❌</span>
+  <b>Failure:</b> If you haven't connected the Retriever correctly, your chatbot will <u>not</u> be able to answer questions using your knowledge base.<br />
+  <span style={{ fontWeight: 400, color: '#991b1b' }}>You'll see a generic or empty answer, and the context will be missing!</span>
+</div>
+
+---
+
+## 🛠️ Step 3: Connect the Retriever to the LLM
+
+<ol style={{ marginBottom: '2em' }}>
+  <li>
+    Make sure the output of the Retriever block is connected to the <b>context</b> input of your LLM block.<br />
+    <img src={require('../static/img/ex3/chatflow-llm-retrieval.png').default} alt="LLM Retrieval" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Connecting Retriever to LLM</i></div>
+  </li>
+  <li>
+    Now, once the Retriever is properly connected, try again!
+    <div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#166534', fontSize: '1.1em' }}>
+      <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>✅</span>
+      <b>Success:</b> Your chatbot now uses the retrieved context and provides accurate, knowledge-based answers!
+    </div>
+    <img src={require('../static/img/ex3/chatflow-answer-correct.png').default} alt="Correct Answer" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Correct answer with context</i></div>
+  </li>
+</ol>
+
+---
+
+## 🛠️ Step 4: Test Your RAG Chatbot
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>Try asking questions that require knowledge from your uploaded documents, such as:</b>
+  <ul>
+    <li>What is the main focus of the REST module?</li>
+    <li>Describe the issue REST-259.</li>
+    <li>List features related to webhook support.</li>
+  </ul>
+  <b>Notice:</b> If you used the API-ingested knowledge base, you'll see richer, more accurate answers thanks to structured data and metadata!
+</div>
+
+
+---
+
+## 🛠️ Step 5: Augmenting Your Prompt
+
+### 1. Current Behaviour, Hallucinations, and Out-of-Scope Answers
+
+<div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#b91c1c', fontSize: '1.1em' }}>
+  <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>⚠️</span>
+  <b>Current Behaviour:</b> Your chatbot may sometimes provide answers that are not based on your knowledge base, leading to hallucinations or out-of-scope responses.<br />
+  <span style={{ fontWeight: 400, color: '#991b1b' }}>This can happen if the prompt does not clearly instruct the LLM to stick to the provided context.</span>
+</div>
+<img src={require('../static/img/ex3/chatflow-answer-correct.png').default} alt="Hallucination Example" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+
+### 2. Preventing Hallucination and Out-of-Scope Answers
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#854d0e', fontSize: '1.1em' }}>
+  <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>🔍</span>
+  <b>Preventing Hallucination:</b> To reduce hallucinations, ensure your prompt explicitly instructs the LLM to only use the provided context and to avoid making up information.<br />
+  <span style={{ fontWeight: 400, color: '#854d0e' }}>For example, include instructions like: "Only answer based on the provided context. If the answer is not in the context, say 'I don't know.'"</span>
+</div>
+
+<details>
+  <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#facc15' }}>Copy-paste Prompt Example</summary>
+  <div style={{ margin: '1em 0' }}>
+    <CodeBlock language="text">{`Answer in a clean, professional tone. Be concise but precise.
+Only answer questions using the information provided in the context below.
+If the context does not contain relevant information to answer the user's question, clearly say so.
+
+Context:
+{{#context#}}
+
+User question:
+{{#sys.query#}}
+`}</CodeBlock>
+  </div>
+</details>
+
+<img src={require('../static/img/ex3/chatflow-fix-hallucinations.png').default} alt="Prevent Hallucination" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+
+### 3. Improving Our Prompt and Results
+
+<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#166534', fontSize: '1.1em' }}>
+  <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>✨</span>
+  <b>Improving Our Prompt:</b> Refine your prompt to be more specific and structured for your use case. For example, you can:
+  <ul style={{ fontWeight: 400, color: '#166534', marginTop: '0.7em' }}>
+    <li>Define the assistant's role (e.g., "You are a software testing assistant helping engineers understand Jira issues, project documentation, and related work.")</li>
+    <li>Specify the expected format of context documents (such as Jira issue fields and documentation summaries)</li>
+    <li>Instruct the assistant to extract and organize key information, highlight relevant fields, clarify technical areas, and reflect testing relevance</li>
+    <li>Clearly state how to handle missing information (e.g., mention what's known and what isn't)</li>
+  </ul>
+  This level of detail helps the LLM provide more accurate, relevant, and actionable answers.
+</div>
+<img src={require('../static/img/ex3/chatflow-prompt.png').default} alt="Improved Prompt" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+
+<details>
+  <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#7c3aed' }}>Sample Prompt for Students</summary>
+  <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+    <CodeBlock language="text">{`
+You are a software testing assistant helping engineers understand Jira issues, project documentation, and related work.
+
+Context documents are formatted like this:
+
+- Jira issues follow this structure:
+  Jira Issue: <KEY>
+  Project: <project name>
+  Type: <Bug | Feature | Task>
+  Status: <Open | Closed | etc.>
+  Assignee: <Name or Unassigned>
+  Created: <date>
+  Updated: <date>
+
+  Summary: <short summary>
+
+  Description:
+  <full description>
+
+- Summaries and technical documentation may also include:
+  Summary, Contributors, Assignees, Reporters, Issue Count, Type.
+
+Use this format to extract and organize key information when answering.
+
+Your reply should:
+- Provide a concise, professional summary of the issue or topic
+- Highlight relevant fields (summary, type, status, assignee, etc.)
+- Mention related issues or documentation when available
+- Clarify technical areas (e.g. endpoints, APIs, modules)
+- Reflect relevance for testing (e.g. requires new test case, linked to bug, feature readiness)
+
+If information is missing, mention what's known and what isn't.
+
+Context:
+{{#context#}}
+
+User question:
+{{#sys.query#}}
+`}</CodeBlock>
+  </div>
+</details>
+
+---
+
+### ✨ Optional: Enable Chatflow Features (e.g., Conversation Opener)
+
+<details>
+  <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#7c3aed' }}>Consider enabling a Conversation Opener to make your chatbot more welcoming and user-friendly!</summary>
+  <CodeBlock language="text">{`🎩 Welcome to Testus Patronus, the AI assistant for magical testers!
+
+Before we begin, tell me what you're working on today:
+- A Jira issue?
+- Reviewing test coverage?
+- Looking for documentation insights?
+
+Just ask your question below and I'll see what's in the spellbook 📚
+`}</CodeBlock>
+  <b>Default queries you can offer as suggestions:</b>
+  <ul>
+    <li>What kind of bug is issue 266 and what is it about?</li>
+    <li>Who is assigned to REST-266?</li>
+    <li>What is the project about?</li>
+    <li>Which issues are currently open?</li>
+    <li>Does the project support webhooks?</li>
+  </ul>
+  <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+    <b>Tip:</b> You can configure these features in your Chatflow settings to improve user experience!
+  </div>
+</details>
+
+---
+
+## 📝 Sample Queries
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>Try asking your chatbot questions like:</b>
+  <ul>
+    <li>What kind of bug is issue 266 and what is it about?</li>
+    <li>Who is assigned to REST-266?</li>
+    <li>What is the project about?</li>
+    <li>Which issues are currently open?</li>
+    <li>Does the project support webhooks?</li>
+    <li>What features are planned for the next release?</li>
+    <li>Who is assigned to REST-259?</li>
+    <li>Summarize the technical documentation for the REST module.</li>
+  </ul>
+  <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0', fontWeight: 500 }}>
+    <span style={{ fontSize: '1.2em', marginRight: '0.5em' }}>🤔</span>
+    <b>Open Question:</b> Are all the queries above answered properly by your chatbot? If not, why do you think that is? What could you improve in your knowledge base or prompt? <br />
+    <span style={{ color: '#a16207' }}>You'll learn more about troubleshooting and improving your chatbot's answers in <b>Exercise 4: Advanced Prompting & Relevance Tuning</b>!</span>
+  </div>
+</div>
+
+---
+
+## 🚀 Publishing Your Chatflow
+
+<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>Make your chatbot available to others!</b>
+  <ol>
+    <li>In the Dify Studio, open your Chatflow project.</li>
+    <li>Look for the <b>Publish</b> or <b>Share</b> option (usually in the top-right corner).</li>
+    <img src={require('../static/img/ex3/chatflow-publish.png').default} alt="Publish Chatbot" style={{ maxWidth: '100%', height: 'auto' }} />
+    <li>Click on <b>Publish Update</b> and then <b>Run App</b>.</li>
+    <img src={require('../static/img/ex3/chatflow-published.png').default} alt="Chatflow Published" style={{ maxWidth: '100%', height: 'auto' }} />
+    <li>Share the link with your team or test it in a new browser window.</li>
+    <img src={require('../static/img/ex3/chatflow-deployed.png').default} alt="Chatflow Deployed" style={{ maxWidth: '100%', height: 'auto' }} />
+    <li>Optionally, you can also share it as an embed on a website.</li>
+    <img src={require('../static/img/ex3/chatflow-embed-on-web.png').default} alt="Embed Chatflow on Web" style={{ maxWidth: '100%', height: 'auto' }} />
+  </ol>
+  <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+    <b>Tip:</b> Test your published chatbot with the sample queries above to ensure everything works as expected!
+  </div>
+</div>
+
+---
+
+## 🧩 Solution Download
+
+<a
+  href="/testus-patronus/dify-dsls/ex3_solved.yml"
+  download
+  style={{
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0.6em 1.2em',
+    color: '#fffce7',
+    background: '#7c3aed',
+    borderRadius: '6px',
+    fontWeight: 600,
+    textDecoration: 'none',
+    marginTop: '1em',
+  }}
+>
+  ⬇️ Download Exercise 3 Solution DSL
+</a>
+Ready to see your chatbot answer questions with real context? Move on to the next exercise to explore advanced prompting and evaluation! 

@@ -2,65 +2,107 @@
 sidebar_position: 1
 ---
 
-# Introduction to Testus Patronus
+# 🧙 Introduction to Testus Patronus
 
-Welcome to the Testus Patronus workshop! This hands-on tutorial is designed for the EuroSTAR Software Testing Conference, where you'll learn how to build your own AI assistant using Retrieval-Augmented Generation (RAG) with a focus on software testing use cases.
+<div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
+  <div>
+    Welcome to the <b>Testus Patronus</b> workshop! This hands-on tutorial is designed for the EuroSTAR Software Testing Conference, where you'll learn how to build your own AI assistant using Retrieval-Augmented Generation (RAG) with a focus on software testing use cases.
+    <blockquote style={{ marginTop: '1em', background: '#f3f0ff', borderLeft: '4px solid #7c3aed', padding: '0.7em 1em', borderRadius: '6px' }}>
+      ✨ <b>By the end of this workshop, you'll have built a magical AI assistant that can help testers understand requirements, generate test cases, and answer technical questions!</b>
+    </blockquote>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img src={require('../static/img/ex1/dify-instance-credentials.png').default} alt="Dify Instance Portal" style={{ maxWidth: '100%', borderRadius: '8px', boxShadow: '0 2px 8px #ddd' }} />
+    <div style={{ fontSize: '0.95em', color: '#444', marginTop: '0.5em' }}>
+      <b>Your AI Assistant Portal</b>
+    </div>
+  </div>
+</div>
 
-## What You'll Learn
+---
 
-In this workshop, you'll learn to:
-- Ingest product requirements, test cases, and technical documentation into a pre-configured RAG stack
-- Customize the AI assistant to support your testing workflows
-- Understand the theory behind RAG
-- Set up and configure your own chatbot
-- Ingest custom knowledge
-- Adjust parameters for accuracy and relevance
-- Use AI to explore product context, generate test cases, and answer technical questions
+## 🎯 What You'll Learn
 
-## Workshop Structure
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+    <li><label><input type="checkbox" /> <b>Connect</b> to powerful Azure-hosted LLMs</label></li>
+    <li><label><input type="checkbox" /> <b>Ingest</b> Jira issues and technical documentation</label></li>
+    <li><label><input type="checkbox" /> <b>Build</b> a RAG-powered chatbot with Dify</label></li>
+    <li><label><input type="checkbox" /> <b>Optimize</b> retrieval and generation quality</label></li>
+    <li><label><input type="checkbox" /> <b>Deploy</b> your AI assistant for your team</label></li>
+  </ul>
+</div>
 
-The workshop is divided into four main modules:
+---
 
-1. **LLM Configuration**
-   - Understanding and setting up the base LLM with Dify
-   - Exploring model settings
-   - Testing default LLM behavior
+## 📚 Workshop Structure
 
-2. **Knowledge Ingestion**
-   - Connecting vector database
-   - Uploading test documentation
-   - Managing data chunks
+The workshop is divided into four main exercises:
 
-3. **AI Chatbot Setup**
-   - Setting up the QA app
-   - Defining prompt templates
-   - Testing retrieval and generation
+### 1. 🧙 LLM Configuration
+- Set up your Dify instance
+- Configure Azure-hosted GPT models
+- Create your first chatbot
+- Test basic LLM capabilities
 
-4. **Advanced Prompting & Relevance Tuning**
-   - Refining prompt templates
-   - Tuning settings for document similarity
-   - Validating with custom testing queries
+### 2. 📥 Knowledge Ingestion
+- Understand chunking strategies
+- Upload Jira issues manually
+- Use the API for structured ingestion
+- Compare different knowledge base approaches
 
-## Prerequisites
+### 3. 🤖 AI Chatbot Setup
+- Create a RAG-powered chatflow
+- Connect knowledge retrieval
+- Design effective prompts
+- Prevent hallucinations
+- Publish your chatbot
 
-Before starting the workshop, ensure you have:
-- Basic understanding of software testing concepts
-- Familiarity with AI/ML concepts (helpful but not required)
-- Access to the workshop environment (will be provided)
+### 4. 🎯 Advanced Prompting & Relevance Tuning
+- Refine prompt templates
+- Tune retrieval parameters
+- Validate with test queries
+- Improve answer quality
 
-## Getting Started
+---
 
-To begin the workshop:
-1. Review the prerequisites
-2. Set up your development environment
-3. Follow the exercises in order
-4. Complete the hands-on tasks in each module
+## 🛠️ Prerequisites
 
-## Need Help?
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>Before starting the workshop, ensure you have:</b>
+  <ul>
+    <li>Basic understanding of software testing concepts</li>
+    <li>Familiarity with Jira or similar issue tracking systems</li>
+    <li>Access to the workshop environment (will be provided)</li>
+    <li>A modern web browser (Chrome, Firefox, or Edge recommended)</li>
+  </ul>
+</div>
 
-If you encounter any issues or have questions:
-- Check the troubleshooting section in each exercise
-- Open an issue on GitHub
-- Contact the workshop organizers
+---
 
-Happy learning and building your own testing Pensieve! 🔮
+## 🚀 Getting Started
+
+<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>To begin your magical journey:</b>
+  <ol>
+    <li>Review the prerequisites above</li>
+    <li>Set up your Dify instance (Exercise 1)</li>
+    <li>Follow the exercises in order</li>
+    <li>Complete the hands-on tasks in each module</li>
+  </ol>
+</div>
+
+---
+
+## 💡 Need Help?
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>If you encounter any issues, have questions or would like to organize a session:</b>
+  <ul>
+    <li>Send a mail to: paula.bassaganas@gmail.com</li>
+  </ul>
+</div>
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>Ready to begin?</b> Head to <a href="./exercise-1-llm-configuration">Exercise 1: LLM Configuration</a> to start building your magical AI assistant! 🧙
+</div>

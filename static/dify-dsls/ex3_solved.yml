@@ -1,0 +1,278 @@
+app:
+  description: The chatboot will be able to answer only about our documents context
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 'Exercise 3: Building a RAG'
+  use_icon_as_answer_icon: false
+dependencies:
+kind: app
+version: 0.3.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: '🎩 Welcome to Testus Patronus, the AI assistant for magical
+      testers!
+
+
+      Before we begin, tell me what you''re working on today:
+
+      - A Jira issue?
+
+      - Reviewing test coverage?
+
+      - Looking for documentation insights?
+
+
+      Just ask your question below and I’ll see what’s in the spellbook 📚'
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions:
+    - What kind of bug is issue 266 and what is it about?
+    - Who is assigned to REST-266?
+    - What is the project about?
+    - Does the project support webhooks?
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1748687775954-source-llm-target
+      selected: false
+      source: '1748687775954'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: 1748687003240-source-1748687775954-target
+      source: '1748687003240'
+      sourceHandle: source
+      target: '1748687775954'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: Start
+        type: start
+        variables: []
+      height: 54
+      id: '1748687003240'
+      position:
+        x: -62.620223822018175
+        y: 288.65445462792803
+      positionAbsolute:
+        x: -62.620223822018175
+        y: 288.65445462792803
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1748687775954'
+          - result
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-4o
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 5c286fbf-33f9-4150-8c64-696789577558
+          role: system
+          text: "You are a software testing assistant helping engineers understand\
+            \ Jira issues, project documentation, and related work.\n\nOnly answer\
+            \ questions using the information provided in the context below.\nIf the\
+            \ context does not contain relevant information to answer the user's question,\
+            \ clearly say so.\n\nContext documents are formatted like this:\n\n- Jira\
+            \ issues follow this structure:\n  Jira Issue: <KEY>\n  Project: <project\
+            \ name>\n  Type: <Bug | Feature | Task>\n  Status: <Open | Closed | etc.>\n\
+            \  Assignee: <Name or Unassigned>\n  Created: <date>\n  Updated: <date>\n\
+            \n  Summary: <short summary>\n\n  Description:\n  <full description>\n\
+            \n- Summaries and technical documentation may also include:\n  Summary,\
+            \ Contributors, Assignees, Reporters, Issue Count, Type.\n\nUse this format\
+            \ to extract and organize key information when answering.\n\nYour reply\
+            \ should:\n- Be concise and professional\n- Highlight relevant fields\
+            \ (e.g., Summary, Type, Assignee)\n- Mention related issues if they exist\
+            \ in the context\n- Focus on the implications for software testing when\
+            \ possible\n- Never answer using outside knowledge or speculation\n\n\
+            If the question is outside the scope of the documents (e.g. “Why is the\
+            \ sky blue?”), respond with:\n> I'm sorry, I can't find relevant information\
+            \ in the project documentation to answer that.\n\nOnly answer using the\
+            \ provided context.\n\nOnly answer using the provided context.\n\nIf the\
+            \ context does NOT clearly mention the Jira issue referenced in the user's\
+            \ question (e.g. REST-XXX, issue XXX, XXX, Jira Issue XXX), then respond\
+            \ with:\n\n> I’m sorry, I can’t find details about that specific issue\
+            \ in the project documentation.\n\n\n\n\n\nContext:\n{{#context#}}\n\n\
+            User question:\n{{#sys.query#}}\n\nReminder: If the Jira issue mentioned\
+            \ above is not present in the context chunks, do not guess or fabricate\
+            \ the answer.\nExamples:\n\nQ: What does REST-433 fix?\nContext includes\
+            \ \"Jira Issue: REST-433\"\n✅ Answer with issue details.\n\nQ: What does\
+            \ REST-433 fix?\nContext does NOT include REST-433\n❌ Do not guess. Respond\
+            \ with: \"I’m sorry, I can’t find details about that specific issue...\"\
+            \n\n"
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: llm
+      position:
+        x: 541.4138707850025
+        y: 288.65445462792803
+      positionAbsolute:
+        x: 541.4138707850025
+        y: 288.65445462792803
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        answer: '{{#llm.text#}}'
+        desc: ''
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 105
+      id: answer
+      position:
+        x: 837.3014154783782
+        y: 288.65445462792803
+      positionAbsolute:
+        x: 837.3014154783782
+        y: 288.65445462792803
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        dataset_ids:
+        - Q8/0yFWJvIZov3J0h9q3hONYwpMrHItCHc2LnfR4VSXMWSFn8MHGJN03Nzdr2fdC
+        desc: ''
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: db73a7f1-3763-4489-b45d-316468f2069e
+            name: issue_key
+            value: '{{#1748719005808.issue_key#}}'
+          logical_operator: and
+        metadata_filtering_mode: disabled
+        metadata_model_config:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-35-turbo-16k
+          provider: langgenius/azure_openai/azure_openai
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          reranking_model:
+            model: ''
+            provider: ''
+          score_threshold: 0.31
+          top_k: 10
+          weights:
+            keyword_setting:
+              keyword_weight: 0.8
+            vector_setting:
+              embedding_model_name: text-embedding-ada-002
+              embedding_provider_name: langgenius/azure_openai/azure_openai
+              vector_weight: 0.2
+        query_variable_selector:
+        - '1748687003240'
+        - sys.query
+        retrieval_mode: multiple
+        selected: true
+        title: Knowledge Retrieval
+        type: knowledge-retrieval
+      height: 92
+      id: '1748687775954'
+      position:
+        x: 272.73455370608775
+        y: 288.65445462792803
+      positionAbsolute:
+        x: 272.73455370608775
+        y: 288.65445462792803
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 137.35092697280808
+      y: 58.450533068697226
+      zoom: 0.35208605672801996

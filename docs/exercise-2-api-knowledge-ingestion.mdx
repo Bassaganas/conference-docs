@@ -107,29 +107,36 @@ Take a look at Dify and you will see your ingested data has been created!
 <img src={require('../static/img/ex2/kb-created-api.png').default} alt="KB Created API" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
 <img src={require('../static/img/ex2/dataset-api-config.png').default} alt="Dataset API Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
 
----
+## 📚 Compare Manual, Basic, and Advanced Knowledge Bases
 
-## 🔍 Try These Queries
-
-<div style={{
-  border: '2px solid #facc15',
-  background: '#fffbe8',
-  borderRadius: '10px',
-  padding: '1.2em 1.5em',
-  margin: '2em 0',
-  boxShadow: '0 2px 8px #facc1533',
-}}>
-  <h3 style={{ marginTop: 0, color: '#b45309' }}>🔍 <b>Try These Queries!</b></h3>
-  <p style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: '0.7em' }}>
-    <b>Notice how having better data generates better results!</b> After uploading, go to <b>Retrieval testing</b> and try:
-  </p>
-  <ul style={{ fontSize: '1.05em' }}>
-    <li>👉 <code>What is this issue about: Jira Issue: REST-259?</code></li>
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '10px', padding: '1.5em 2em', margin: '2em 0', fontSize: '1.08em', boxShadow: '0 2px 8px #facc1533' }}>
+  <b>In this exercise, you will work with <span style={{ color: '#b45309' }}>three knowledge bases</span> in Dify:</b>
+  <ul>
+    <li><b>Manual Ingestion</b>: Created in the previous exercise by uploading <code>.txt</code> files manually.</li>
+    <li><b>Basic API Ingestion</b>: Your first API-based knowledge base, created by ingesting the provided Jira issues and summaries as-is, without enhancements.</li>
+    <li><b>Advanced API Ingestion</b>: A second API-based knowledge base, but this time use <b>query seeding</b> (adding example queries to improve retrieval) and <b>aliases</b> (alternative names for issues, projects, or fields) to make your knowledge base smarter and more flexible.</li>
   </ul>
-  <p style={{ marginTop: '0.7em' }}>
-    Compare the answers you get from structured JSON ingestion to those from manually ingested <code>.txt</code> files. <b>Structured data enables smarter, more accurate answers!</b>
-  </p>
-  <img src={require('../static/img/ex2/test-queries.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+  <b>What's the difference?</b>
+  <ul>
+    <li><b>Manual</b>: Simple upload of raw text files, with limited structure and no metadata.</li>
+    <li><b>Basic API</b>: Straightforward import of structured data, useful for simple lookups and basic retrieval.</li>
+    <li><b>Advanced API</b>: Leverages query seeding and aliases, helping the AI understand more user intents, synonyms, and related queries. This results in better, more relevant answers—especially for ambiguous or varied user questions.</li>
+  </ul>
+  <div style={{ margin: '1.5em 0' }}>
+    <b>Try these queries on all three knowledge bases and compare the results:</b>
+    <ul style={{ fontSize: '1.05em' }}>
+      <li>👉 <code>What is this issue about: Jira Issue: REST-259?</code></li>
+      <li>👉 <code>Give a test plan for REST-266</code></li>
+      <li>👉 <code>Who is the assignee for REST-266?</code></li>
+      <li>👉 <code>Summarize the technical documentation for the REST module.</code></li>
+    </ul>
+    <span style={{ color: '#b45309', fontWeight: 500 }}>Notice how having better data and advanced techniques generates better results!</span>
+  </div>
+  <img src={require('../static/img/ex2/queries-compare.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <img src={require('../static/img/ex2/queries-compare-advanced.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+  <div style={{ marginTop: '1em' }}>
+    <b>Tip:</b> After uploading, go to <b>Retrieval testing</b> in Dify and try the queries above. Compare the answers you get from each knowledge base. <b>Structured data and advanced techniques enable smarter, more accurate answers!</b>
+  </div>
 </div>
 
 <details style={{
