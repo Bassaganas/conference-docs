@@ -1,15 +1,8 @@
 {
     "rewrites": [
         {
-            "source": "/testus-patronus/:match*",
+            "source": "/tp/:match*",
             "destination": "/:match*"
-        }
-    ],
-    "redirects": [
-        {
-            "source": "/testus-patronus/:match*",
-            "destination": "/tp/:match*",
-            "permanent": true
         }
     ]
 }
