@@ -29,7 +29,7 @@ export default {
     "experimental_router": "browser"
   },
   "url": "https://docs.bassagan.com",
-  "baseUrl": "/testus-patronus/",
+  "baseUrl": "/tp/",
   "organizationName": "Bassaganas",
   "projectName": "conference-docs",
   "onBrokenLinks": "throw",

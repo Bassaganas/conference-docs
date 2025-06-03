@@ -1,7 +1,7 @@
 {
     "rewrites": [
         {
-            "source": "/testus-patronus/:match*",
+            "source": "/tp/:match*",
             "destination": "/:match*"
         }
     ]

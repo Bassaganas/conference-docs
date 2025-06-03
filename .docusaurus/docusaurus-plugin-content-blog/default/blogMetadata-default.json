@@ -1,5 +1,5 @@
 {
-  "blogBasePath": "/testus-patronus/blog",
+  "blogBasePath": "/tp/blog",
   "blogTitle": "Blog",
-  "authorsListPath": "/testus-patronus/blog/authors"
+  "authorsListPath": "/tp/blog/authors"
 }

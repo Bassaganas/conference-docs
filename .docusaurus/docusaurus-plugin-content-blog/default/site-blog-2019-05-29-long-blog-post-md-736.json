@@ -1,5 +1,5 @@
 {
-  "permalink": "/testus-patronus/blog/long-blog-post",
+  "permalink": "/tp/blog/long-blog-post",
   "source": "@site/blog/2019-05-29-long-blog-post.md",
   "title": "Long Blog Post",
   "description": "This is the summary of a very long blog post,",
@@ -8,13 +8,13 @@
     {
       "inline": false,
       "label": "Hello",
-      "permalink": "/testus-patronus/blog/tags/hello",
+      "permalink": "/tp/blog/tags/hello",
       "description": "Hello tag description"
     },
     {
       "inline": false,
       "label": "Docusaurus",
-      "permalink": "/testus-patronus/blog/tags/docusaurus",
+      "permalink": "/tp/blog/tags/docusaurus",
       "description": "Docusaurus tag description"
     }
   ],
@@ -26,7 +26,7 @@
       "title": "Ex-Meta Staff Engineer, Co-founder GreatFrontEnd",
       "url": "https://linkedin.com/in/yangshun",
       "page": {
-        "permalink": "/testus-patronus/blog/authors/yangshun"
+        "permalink": "/tp/blog/authors/yangshun"
       },
       "socials": {
         "x": "https://x.com/yangshunz",
@@ -50,10 +50,10 @@
   "unlisted": false,
   "prevItem": {
     "title": "MDX Blog Post",
-    "permalink": "/testus-patronus/blog/mdx-blog-post"
+    "permalink": "/tp/blog/mdx-blog-post"
   },
   "nextItem": {
     "title": "First Blog Post",
-    "permalink": "/testus-patronus/blog/first-blog-post"
+    "permalink": "/tp/blog/first-blog-post"
   }
 }

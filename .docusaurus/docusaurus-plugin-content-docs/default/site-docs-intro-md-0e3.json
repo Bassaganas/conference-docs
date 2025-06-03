@@ -5,7 +5,7 @@
   "source": "@site/docs/intro.md",
   "sourceDirName": ".",
   "slug": "/intro",
-  "permalink": "/testus-patronus/docs/intro",
+  "permalink": "/tp/docs/intro",
   "draft": false,
   "unlisted": false,
   "tags": [],
@@ -17,6 +17,6 @@
   "sidebar": "workshopSidebar",
   "next": {
     "title": "📚 About the Dataset",
-    "permalink": "/testus-patronus/docs/dataset"
+    "permalink": "/tp/docs/dataset"
   }
 }

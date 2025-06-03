@@ -1,48 +1,48 @@
 {
   "docusaurus-plugin-content-docs": {
     "default": {
-      "path": "/testus-patronus/docs",
+      "path": "/tp/docs",
       "versions": [
         {
           "name": "current",
           "label": "Next",
           "isLast": true,
-          "path": "/testus-patronus/docs",
+          "path": "/tp/docs",
           "mainDocId": "intro",
           "docs": [
             {
               "id": "dataset",
-              "path": "/testus-patronus/docs/dataset",
+              "path": "/tp/docs/dataset",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "exercise-1-llm-configuration",
-              "path": "/testus-patronus/docs/exercise-1-llm-configuration",
+              "path": "/tp/docs/exercise-1-llm-configuration",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "exercise-2-api-knowledge-ingestion",
-              "path": "/testus-patronus/docs/exercise-2-api-knowledge-ingestion",
+              "path": "/tp/docs/exercise-2-api-knowledge-ingestion",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "exercise-2-knowledge-ingestion",
-              "path": "/testus-patronus/docs/exercise-2-knowledge-ingestion",
+              "path": "/tp/docs/exercise-2-knowledge-ingestion",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "exercise-3-ai-chatbot-setup",
-              "path": "/testus-patronus/docs/exercise-3-ai-chatbot-setup",
+              "path": "/tp/docs/exercise-3-ai-chatbot-setup",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "exercise-4-advanced-prompting",
-              "path": "/testus-patronus/docs/exercise-4-advanced-prompting",
+              "path": "/tp/docs/exercise-4-advanced-prompting",
               "sidebar": "workshopSidebar"
             },
             {
               "id": "intro",
-              "path": "/testus-patronus/docs/intro",
+              "path": "/tp/docs/intro",
               "sidebar": "workshopSidebar"
             }
           ],
@@ -50,13 +50,13 @@
           "sidebars": {
             "tutorialSidebar": {
               "link": {
-                "path": "/testus-patronus/docs/intro",
+                "path": "/tp/docs/intro",
                 "label": "intro"
               }
             },
             "workshopSidebar": {
               "link": {
-                "path": "/testus-patronus/docs/intro",
+                "path": "/tp/docs/intro",
                 "label": "intro"
               }
             }
