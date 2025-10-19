@@ -2,114 +2,381 @@
 sidebar_position: 3
 ---
 
-# 🧙 1: Connect to Your Magical LLM
+# 🧙 Exercise 1: Connect to Your Magical LLM
+
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '12px', padding: '2em', marginBottom: '2em' }}>
+  <h2 style={{ margin: '0 0 1em 0', color: '#0c4a6e', fontSize: '1.5em' }}>🎯 Exercise Overview</h2>
+  <p style={{ fontSize: '1.1em', marginBottom: '1em', lineHeight: '1.6' }}>
+    Welcome to your first spell in the <b>Testus Patronus</b> journey! In this exercise, you'll connect your Dify instance to a powerful Azure-hosted Large Language Model (LLM), which will become the <i>core</i> of your AI assistant.
+  </p>
+  <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em', marginTop: '1em' }}>
+    <p style={{ margin: '0', fontSize: '1em', fontWeight: '600', color: '#7c3aed' }}>
+      ✨ <b>This is the foundation of your Retrieval-Augmented Generation (RAG) assistant. Without a working LLM, the magic won't flow.</b>
+    </p>
+  </div>
+</div>
 
 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
   <div>
-    Welcome to your first spell in the <b>Testus Patronus</b> journey!<br />
-    In this exercise, you'll connect your Dify instance to a powerful Azure-hosted Large Language Model (LLM), which will become the <i>core</i> of your AI assistant.
-    <blockquote style={{ marginTop: '1em', background: '#f3f0ff', borderLeft: '4px solid #7c3aed', padding: '0.7em 1em', borderRadius: '6px' }}>
-      ✨ <b>This is the foundation of your Retrieval-Augmented Generation (RAG) assistant. Without a working LLM, the magic won't flow.</b>
-    </blockquote>
+    <h3 style={{ color: '#0c4a6e', marginBottom: '1em' }}>🚀 What You'll Build</h3>
+    <ul style={{ fontSize: '1em', lineHeight: '1.6' }}>
+      <li><b>Connect</b> to Azure-hosted GPT models</li>
+      <li><b>Configure</b> both LLM and embedding models</li>
+      <li><b>Create</b> your first AI chatbot</li>
+      <li><b>Test</b> the complete workflow</li>
+    </ul>
   </div>
   <div style={{ textAlign: 'center' }}>
-    <img src={require('../static/img/generation.png').default} alt="Dify Instance Portal" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+    <img src={require('../static/img/generation.png').default} alt="AI Generation Process" style={{ maxWidth: '100%', borderRadius: '8px' }} />
   </div>
 </div>
 
 ---
 
-## 🎯 What You'll Do in This Exercise
+## 📋 Step-by-Step Checklist
 
-<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '12px', padding: '1.5em', marginBottom: '2em' }}>
+  <h3 style={{ margin: '0 0 1em 0', color: '#7c3aed', fontSize: '1.2em' }}>🎯 Exercise Checklist</h3>
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1em', fontSize: '1em' }}>
+    <div>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 1:</b> Launch Dify instance</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 2:</b> Set up admin account</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 3:</b> Explore Dify interface</label></li>
+      </ul>
+    </div>
+    <div>
   <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-    <li><label><input type="checkbox" /> <b>Launch</b> your personal Dify instance</label></li>
-    <li><label><input type="checkbox" /> <b>Configure</b> a connection to Azure-hosted LLMs (GPT-3.5 Turbo & Embeddings)</label></li>
-    <li><label><input type="checkbox" /> <b>Set up</b> your admin account</label></li>
-    <li><label><input type="checkbox" /> <b>Explore</b> Dify's main sections</label></li>
-    <li><label><input type="checkbox" /> <b>Create</b> your first chatbot using Dify's visual workflow editor</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 4:</b> Configure LLM models</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 5:</b> Create first chatbot</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 6:</b> Test your assistant</label></li>
   </ul>
+    </div>
+  </div>
+  <div style={{ background: '#e0f2fe', border: '1px solid #38bdf8', borderRadius: '6px', padding: '0.8em', marginTop: '1em', fontSize: '0.9em' }}>
+    <b>⏱️ Estimated Time:</b> 15-20 minutes | <b>🎯 Goal:</b> Working AI chatbot with Azure LLM
+  </div>
 </div>
 
 ---
 
 ## 🛠️ Step 1: Launch Your Dify Instance
 
-<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Click the magic URL to summon your resources:</b><br />
-  👉 <a href="https://5xygt5eujjlo2p7umj2arir2du0ztioi.lambda-url.eu-west-3.on.aws/" target="_blank" rel="noopener noreferrer"><b>Launch your Dify instance</b></a>
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '12px', padding: '1.5em', marginBottom: '2em' }}>
+  <h3 style={{ margin: '0 0 1em 0', color: '#ca8a04', fontSize: '1.2em' }}>🚀 Launch Your Instance</h3>
+  <p style={{ margin: '0 0 1em 0', fontSize: '1em' }}>Click the magic URL to summon your resources:</p>
+  <div style={{ textAlign: 'center', margin: '1em 0' }}>
+    <a href="https://5xygt5eujjlo2p7umj2arir2du0ztioi.lambda-url.eu-west-3.on.aws/" target="_blank" rel="noopener noreferrer" style={{ 
+      display: 'inline-block', 
+      background: '#facc15', 
+      color: '#000', 
+      padding: '0.8em 1.5em', 
+      borderRadius: '8px', 
+      textDecoration: 'none', 
+      fontWeight: 'bold',
+      fontSize: '1.1em',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    }}>🚀 Launch Your Dify Instance</a>
+  </div>
 </div>
 
-You'll be redirected to a personalized portal like this:
+### 📋 What You'll See
 
-<img src={require('../static/img/ex1/dify-instance-credentials.png').default} alt="Dify Instance Portal" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Your personalized Dify instance portal with credentials</i></div>
+You'll be redirected to a personalized portal with your credentials:
 
-This page includes:
-<ul>
-  <li>Your <b>Dify instance URL</b></li>
-  <li>Azure <b>LLM credentials</b> (for both GPT-3.5 and Embeddings)</li>
-  <li>A reminder that the instance is <b>ephemeral</b> — <i>save your work before the session ends!</i></li>
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img src={require('../static/img/ex1/dify-instance-credentials.png').default} alt="Dify Instance Portal" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+    const img = e.target;
+    if (img.style.position === 'fixed') {
+      img.style.position = 'static';
+      img.style.top = 'auto';
+      img.style.left = 'auto';
+      img.style.transform = 'none';
+      img.style.zIndex = 'auto';
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = 'none';
+      document.body.style.overflow = 'auto';
+    } else {
+      img.style.position = 'fixed';
+      img.style.top = '50%';
+      img.style.left = '50%';
+      img.style.transform = 'translate(-50%, -50%)';
+      img.style.zIndex = '9999';
+      img.style.maxWidth = '90vw';
+      img.style.maxHeight = '90vh';
+      img.style.objectFit = 'contain';
+      document.body.style.overflow = 'hidden';
+    }
+  }} />
+  <div style={{ fontSize: '0.95em', color: '#666', marginTop: '0.5em' }}><i>Your personalized Dify instance portal with credentials (click to expand)</i></div>
+</div>
+
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>📋 This Page Contains:</h4>
+  <ul style={{ margin: '0', fontSize: '0.95em' }}>
+    <li><b>Dify Instance URL</b> - Your personal Dify dashboard</li>
+    <li><b>Azure LLM Credentials</b> - For both GPT-3.5 and Embeddings</li>
+    <li><b>Session Reminder</b> - Instance is ephemeral (save your work!)</li>
 </ul>
+</div>
 
-<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-  🧠 <b>Tip:</b> Keep this tab open during the session for easy copy/paste access.
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em 1.2em', margin: '1em 0' }}>
+  <p style={{ margin: '0', fontSize: '1em' }}>
+    🧠 <b>Pro Tip:</b> Keep this tab open during the session for easy copy/paste access to your credentials.
+  </p>
 </div>
 
 ---
 
 ## 🛡️ Step 2: Dify Admin Account Setup
 
-On your first visit, you'll need to create an admin account:
-
-<img src={require('../static/img/ex1/dify-admin-setup.png').default} alt="Dify Admin Setup" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Create your admin account to access Dify</i></div>
-
-<ul>
-  <li>You can enter <i>any email address</i> (it doesn't need to be real), but you <b>must remember</b> it.</li>
-  <li>Choose a username and password you'll recall easily.</li>
-</ul>
-
-<div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-  ⚠️ <b>Important:</b> If you forget your email or password, you may lose access to the session.
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>📋 Setup Process Overview</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>You'll need to create an admin account using the provided credentials. Follow these 3 steps:</p>
 </div>
+
+### 🔑 Step 2.1: Copy Your Admin Credentials
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex1/dify-admin-credentials.png').default} 
+    alt="Copy Admin Credentials" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>📋 Step 1: Copy your admin credentials (click to expand)</i></div>
+</div>
+
+### 🌐 Step 2.2: Navigate to Your Dify Instance
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <b>Next:</b> Use the Dify instance URL from your credentials to navigate to your personalized Dify dashboard.
+</div>
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex1/dify_instance_navigate.png').default} 
+    alt="Dify Instance Navigate" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>🌐 Step 2: Navigate to your Dify Instance (click to expand)</i></div>
+</div>
+
+### 👤 Step 2.3: Create Your Admin Account
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex1/dify-admin-setup.png').default} 
+    alt="Dify Admin Setup" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>👤 Step 3: Create your admin account (click to expand)</i></div>
+</div>
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  🧠 <b>Pro Tip:</b> Use the provided credentials for your admin account - it's easier to remember and you'll have them handy for the session.
+  <br /><b>💡 Keep this tab open during the session for easy copy/paste access.</b>
+</div>
+
+
+
 
 ---
 
 ## 🧪 Step 3: Log in to Dify
 
-<ol>
-  <li>
-    Log in using the credentials you just created:
-    <img src={require('../static/img/ex1/dify-login-form.png').default} alt="Dify Login Form" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Log in to your Dify instance</i></div>
-  </li>
-  <li>
-    You'll land on the Dify dashboard.
-  </li>
-</ol>
+Once the Admin Account is created, you will be logged in directly to the Dify dashboard.
 
 ### 🗂️ Explore Dify's Main Sections
 
-<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5em', alignItems: 'start', margin: '1em 0' }}>
+<div style={{ textAlign: 'center', margin: '2em 0' }}>
+  <img 
+    src={require('../static/img/ex1/dify-landing-page.png').default} 
+    alt="Dify Landing Page" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.95em', color: '#666', marginTop: '0.5em' }}><i>Screenshot: Dify's main dashboard (click to expand)</i></div>
+</div>
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#7c3aed' }}>🎯 Main Sections Overview</h4>
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1em', fontSize: '0.9em' }}>
   <div>
-    <img src={require('../static/img/ex1/dify-landing-page.png').default} alt="Dify Landing Page" style={{ maxWidth: '100%', borderRadius: '8px', marginBottom: '1em' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Dify's main dashboard</i></div>
-    <img src={require('../static/img/ex1/dify-account-menu.png').default} alt="Dify Account Menu" style={{ maxWidth: '100%', borderRadius: '8px' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Account menu and settings</i></div>
+      <p><b>🎨 Studio:</b> Design and manage your chatbots using visual blocks and workflows.</p>
+      <p><b>📚 Knowledge:</b> Upload documents your assistant can reference—perfect for product specs, requirements, and test cases.</p>
   </div>
   <div>
-    <ul>
-      <li><b>🎨 Studio:</b> Design and manage your chatbots using visual blocks and workflows.</li>
-      <li><b>📚 Knowledge:</b> Upload documents your assistant can reference—perfect for product specs, requirements, and test cases.</li>
-      <li><b>🔧 Tools:</b> Access extra plugins, service integrations, and advanced settings.</li>
-      <li><b>⚙️ Settings:</b> Manage model providers, keys, and other configuration options.</li>
-    </ul>
+      <p><b>🔧 Tools:</b> Access extra plugins, service integrations, and advanced settings.</p>
+      <p><b>⚙️ Settings:</b> Manage model providers, keys, and other configuration options.</p>
+    </div>
   </div>
 </div>
 
-<img src={require('../static/img/ex1/dify-settings.png').default} alt="Dify Settings" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Dify settings page where you'll configure your LLM</i></div>
+### 🎯 Next: Navigate to Settings
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <b>Follow these steps to configure your LLM:</b>
+  <ol style={{ margin: '0.5em 0', paddingLeft: '1.5em' }}>
+    <li><b>Click on your user icon</b> (top-right corner with your profile picture)</li>
+    <li><b>Select "Settings"</b> from the dropdown menu</li>
+    <li><b>Navigate to "Model Provider"</b> tab</li>
+  </ol>
+</div>
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex1/dify-account-menu.png').default} 
+    alt="Dify Account Menu" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.95em', color: '#666', marginTop: '0.5em' }}><i>Step 1: Click on your user icon → Settings (click to expand)</i></div>
+</div>
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex1/dify-settings.png').default} 
+    alt="Dify Settings" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.95em', color: '#666', marginTop: '0.5em' }}><i>Step 2: Dify Settings page - navigate to "Model Provider" tab (click to expand)</i></div>
+</div>
 
 ---
 
@@ -122,6 +389,9 @@ Now let's wire your Dify to use Azure-hosted GPT models.
 <ol>
   <li>
     Navigate to <b>Settings → Model Provider</b>
+    <div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+      <b>Important:</b> Select the <b>Azure OpenAI Service</b> provider.
+    </div>
     <img src={require('../static/img/ex1/dify-settings-model-provider.png').default} alt="Dify Settings Model Provider" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
     <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Model provider settings page</i></div>
   </li>
@@ -133,27 +403,121 @@ Now let's wire your Dify to use Azure-hosted GPT models.
 </ol>
 
 ### 2. Add a GPT-3.5 LLM
-
 Use the credentials provided earlier to configure the model:
 
-<table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2em' }}>
+
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🔧 Configuration Steps</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>Add models to your Azure OpenAI Service and configure using the provided credentials.</p>
+</div>
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2em', alignItems: 'start', margin: '1em 0' }}>
+  <div>
+    <h4 style={{ margin: '0 0 1em 0', color: '#7c3aed' }}>📸 Add Model Interface</h4>
+    <div style={{ textAlign: 'center' }}>
+      <img 
+        src={require('../static/img/ex1/dify-add-llm-model.png').default} 
+        alt="Add Model" 
+        style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+        onClick={(e) => {
+          const img = e.target;
+          if (img.style.position === 'fixed') {
+            img.style.position = 'static';
+            img.style.top = 'auto';
+            img.style.left = 'auto';
+            img.style.transform = 'none';
+            img.style.zIndex = 'auto';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = 'none';
+            document.body.style.overflow = 'auto';
+          } else {
+            img.style.position = 'fixed';
+            img.style.top = '50%';
+            img.style.left = '50%';
+            img.style.transform = 'translate(-50%, -50%)';
+            img.style.zIndex = '9999';
+            img.style.maxWidth = '90vw';
+            img.style.maxHeight = '90vh';
+            img.style.objectFit = 'contain';
+            document.body.style.overflow = 'hidden';
+          }
+        }}
+      />
+      <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Add models to your Azure OpenAI Service (click to expand)</i></div>
+    </div>
+  </div>
+  
+  <div>
+    <h4 style={{ margin: '0 0 1em 0', color: '#7c3aed' }}>📋 Configuration Values</h4>
+    <p style={{ fontSize: '0.9em', marginBottom: '1em', color: '#666' }}>Use the credentials provided earlier to configure the model:</p>
+    
+    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9em' }}>
   <thead>
     <tr style={{ background: '#f3f0ff' }}>
-      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Field</th>
-      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Value</th>
+          <th style={{ padding: '0.5em', border: '1px solid #e5e7eb', textAlign: 'left' }}>Field</th>
+          <th style={{ padding: '0.5em', border: '1px solid #e5e7eb', textAlign: 'left' }}>Value</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}>Provider</td><td style={{ border: '1px solid #e5e7eb' }}>Azure OpenAI</td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}>Model Name</td><td style={{ border: '1px solid #e5e7eb' }}><code>gpt-35-turbo-16k</code></td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}>Endpoint</td><td style={{ border: '1px solid #e5e7eb' }}><i>(paste endpoint URL)</i></td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}>API Key</td><td style={{ border: '1px solid #e5e7eb' }}><i>(paste your key)</i></td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}>API Version</td><td style={{ border: '1px solid #e5e7eb' }}><code>2024-12-01-preview</code></td></tr>
+        <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}>Provider</td><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}>Azure OpenAI</td></tr>
+        <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}>Model Name</td><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}><code>gpt-35-turbo-16k</code></td></tr>
+        <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}>Endpoint</td><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}><i>(paste endpoint URL)</i></td></tr>
+        <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}>API Key</td><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}><i>(paste your key)</i></td></tr>
+        <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}>API Version</td><td style={{ border: '1px solid #e5e7eb', padding: '0.5em' }}><code>2024-12-01-preview</code></td></tr>
   </tbody>
 </table>
+  </div>
+</div>
 
 ### 3. Add Embedding Model
 
+
+
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🔧 Configuration Steps</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>Add models to your Azure OpenAI Service and configure using the provided credentials.</p>
+</div>
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2em', alignItems: 'start', margin: '1em 0' }}>
+  <div>
+    <h4 style={{ margin: '0 0 1em 0', color: '#7c3aed' }}>📸 Add Model Interface</h4>
+    <div style={{ textAlign: 'center' }}>
+      <img 
+        src={require('../static/img/ex1/dify-add-embedding-model.png').default} 
+        alt="Add Model" 
+        style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+        onClick={(e) => {
+          const img = e.target;
+          if (img.style.position === 'fixed') {
+            img.style.position = 'static';
+            img.style.top = 'auto';
+            img.style.left = 'auto';
+            img.style.transform = 'none';
+            img.style.zIndex = 'auto';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = 'none';
+            document.body.style.overflow = 'auto';
+          } else {
+            img.style.position = 'fixed';
+            img.style.top = '50%';
+            img.style.left = '50%';
+            img.style.transform = 'translate(-50%, -50%)';
+            img.style.zIndex = '9999';
+            img.style.maxWidth = '90vw';
+            img.style.maxHeight = '90vh';
+            img.style.objectFit = 'contain';
+            document.body.style.overflow = 'hidden';
+          }
+        }}
+      />
+      <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Add models to your Azure OpenAI Service (click to expand)</i></div>
+    </div>
+  </div>
+  
+  <div>
+    <h4 style={{ margin: '0 0 1em 0', color: '#7c3aed' }}>📋 Configuration Values</h4>
+    <p style={{ fontSize: '0.9em', marginBottom: '1em', color: '#666' }}>Use the credentials provided earlier to configure the model:</p>
+
 <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2em' }}>
   <thead>
     <tr style={{ background: '#f3f0ff' }}>
@@ -162,13 +526,48 @@ Use the credentials provided earlier to configure the model:
     </tr>
   </thead>
   <tbody>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}>Model Name</td><td style={{ border: '1px solid #e5e7eb' }}><code>text-embedding-ada-002</code></td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}>API Version</td><td style={{ border: '1px solid #e5e7eb' }}><code>2023-05-15</code></td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>Model Name</td><td style={{ border: '1px solid #e5e7eb' }}><code>text-embedding-3-large</code></td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>API Version</td><td style={{ border: '1px solid #e5e7eb' }}><code>2024-12-01-preview</code></td></tr>
+        <tr><td style={{ border: '1px solid #e5e7eb' }}>Endpoint</td><td style={{ border: '1px solid #e5e7eb' }}><i>(paste endpoint URL)</i></td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb' }}>API Key</td><td style={{ border: '1px solid #e5e7eb' }}><i>(paste your key)</i></td></tr>
   </tbody>
 </table>
+  </div>
+</div>
 
-<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-  ✅ <b>You're now LLM-connected and ready to build!</b>
+
+
+<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '12px', padding: '1.5em', margin: '2em 0' }}>
+  <div style={{ textAlign: 'center', marginBottom: '1em' }}>
+    <h3 style={{ margin: '0 0 0.5em 0', color: '#166534', fontSize: '1.3em' }}>🎉 Success! Your LLM is Connected</h3>
+    <p style={{ margin: '0', fontSize: '1em', color: '#166534' }}>You should now see both models configured in your Dify instance</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <img src={require('../static/img/ex1/dify-models-configured.png').default} alt="LLM Connected" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }} />
+    <div style={{ fontSize: '0.9em', color: '#166534', marginTop: '0.5em' }}><i>Your configured models (click to expand)</i></div>
+  </div>
 </div>
 
 ---
@@ -195,56 +594,229 @@ Use the credentials provided earlier to configure the model:
 
 ### 2. Setup Query Input
 
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🔧 Input Configuration Steps</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>Configure the input field that will receive user questions for your chatbot.</p>
+</div>
+
 <ol>
   <li>
-    Click on the <b>start</b> block
+    <b>Click on the start block</b> and then click the <b>+</b> button to add an <i>Input Field</i>
+    <div style={{ textAlign: 'center', margin: '1em 0' }}>
+      <img 
+        src={require('../static/img/ex1/dify-workflow-start.png').default} 
+        alt="Start Block" 
+        style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+        onClick={(e) => {
+          const img = e.target;
+          if (img.style.position === 'fixed') {
+            img.style.position = 'static';
+            img.style.top = 'auto';
+            img.style.left = 'auto';
+            img.style.transform = 'none';
+            img.style.zIndex = 'auto';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = 'none';
+            document.body.style.overflow = 'auto';
+          } else {
+            img.style.position = 'fixed';
+            img.style.top = '50%';
+            img.style.left = '50%';
+            img.style.transform = 'translate(-50%, -50%)';
+            img.style.zIndex = '9999';
+            img.style.maxWidth = '90vw';
+            img.style.maxHeight = '90vh';
+            img.style.objectFit = 'contain';
+            document.body.style.overflow = 'hidden';
+          }
+        }}
+      />
+      <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Step 1: Click on the start block to add input field (click to expand)</i></div>
+    </div>
   </li>
   <li>
-    Click <b>+</b> to create an <i>Input Field</i> named <code>query</code>
-  </li>
-  <li>
-    Set a suitable max length, e.g., <code>200</code>
-    <img src={require('../static/img/ex1/dify-chatboot-add-input.png').default} alt="Add Input" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Adding input field to your chatbot</i></div>
-    <img src={require('../static/img/ex1/dify-chatboot-start-config.png').default} alt="Start Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Configuring the start block</i></div>
+    <b>Configure the input field:</b>
+    <ul>
+      <li>Name it <code>query</code></li>
+      <li>Set max length to <code>200</code></li>
+      <li>Click <b>Save</b></li>
+    </ul>
+    <div style={{ textAlign: 'center', margin: '1em 0' }}>
+      <img src={require('../static/img/ex1/dify-chatboot-add-input.png').default} alt="Add Input" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+        const img = e.target;
+        if (img.style.position === 'fixed') {
+          img.style.position = 'static';
+          img.style.top = 'auto';
+          img.style.left = 'auto';
+          img.style.transform = 'none';
+          img.style.zIndex = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = 'none';
+          document.body.style.overflow = 'auto';
+        } else {
+          img.style.position = 'fixed';
+          img.style.top = '50%';
+          img.style.left = '50%';
+          img.style.transform = 'translate(-50%, -50%)';
+          img.style.zIndex = '9999';
+          img.style.maxWidth = '90vw';
+          img.style.maxHeight = '90vh';
+          img.style.objectFit = 'contain';
+          document.body.style.overflow = 'hidden';
+        }
+      }} />
+      <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Step 2: Configure input field settings (click to expand)</i></div>
+    </div>
+    <div style={{ textAlign: 'center', margin: '1em 0' }}>
+      <img src={require('../static/img/ex1/dify-chatboot-start-config.png').default} alt="Start Config" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+        const img = e.target;
+        if (img.style.position === 'fixed') {
+          img.style.position = 'static';
+          img.style.top = 'auto';
+          img.style.left = 'auto';
+          img.style.transform = 'none';
+          img.style.zIndex = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = 'none';
+          document.body.style.overflow = 'auto';
+        } else {
+          img.style.position = 'fixed';
+          img.style.top = '50%';
+          img.style.left = '50%';
+          img.style.transform = 'translate(-50%, -50%)';
+          img.style.zIndex = '9999';
+          img.style.maxWidth = '90vw';
+          img.style.maxHeight = '90vh';
+          img.style.objectFit = 'contain';
+          document.body.style.overflow = 'hidden';
+        }
+      }} />
+      <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Step 3: Final start block configuration (click to expand)</i></div>
+    </div>
   </li>
 </ol>
 
 ### 3. Add LLM Block
 
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🧠 LLM Configuration Steps</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>Add and configure the LLM block that will process user queries and generate responses.</p>
+</div>
+
 <ol>
   <li>
-    Click <b>+</b> and select the <b>LLM</b> block
-    <img src={require('../static/img/ex1/dify-chatboot-blocks.png').default} alt="Blocks" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Available blocks for your chatbot</i></div>
-  </li>
-  <li>
-    Reference your model
-  </li>
-  <li>
-    Add a System prompt like:
-    <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-      <i>"Answer in a clean, professional tone. Be concise but precise."</i>
+    <b>Add the LLM block:</b> Click <b>+</b> and select the <b>LLM</b> block from the available options
+    <div style={{ textAlign: 'center', margin: '1em 0' }}>
+      <img src={require('../static/img/ex1/dify-chatboot-blocks.png').default} alt="Blocks" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+        const img = e.target;
+        if (img.style.position === 'fixed') {
+          img.style.position = 'static';
+          img.style.top = 'auto';
+          img.style.left = 'auto';
+          img.style.transform = 'none';
+          img.style.zIndex = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = 'none';
+          document.body.style.overflow = 'auto';
+        } else {
+          img.style.position = 'fixed';
+          img.style.top = '50%';
+          img.style.left = '50%';
+          img.style.transform = 'translate(-50%, -50%)';
+          img.style.zIndex = '9999';
+          img.style.maxWidth = '90vw';
+          img.style.maxHeight = '90vh';
+          img.style.objectFit = 'contain';
+          document.body.style.overflow = 'hidden';
+        }
+      }} />
+      <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Step 1: Select LLM block from available options (click to expand)</i></div>
     </div>
   </li>
   <li>
-    Bind the prompt to <code>query</code> and <code>context</code> using the <b>{'{'}x{'}'}</b> selector
-    <img src={require('../static/img/ex1/dify-chatboot-LLM-config.png').default} alt="LLM Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Configuring the LLM block</i></div>
+    <b>Configure the LLM:</b>
+    <ul>
+      <li>Select your configured Azure GPT model</li>
+      <li>Add a system prompt to guide the AI's behavior</li>
+    </ul>
+  </li>
+  <li>
+    <b>Add a System Prompt:</b> This helps the AI understand how to respond
+    <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em', margin: '1em 0' }}>
+      <h5 style={{ margin: '0 0 0.5em 0', color: '#7c3aed' }}>💡 Example System Prompt:</h5>
+      <p style={{ margin: '0', fontStyle: 'italic', fontSize: '0.95em' }}>"Answer in a clean, professional tone. Be concise but precise."</p>
+    </div>
+  </li>
+  <li>
+    <b>Bind variables:</b> Connect the prompt to <code>query</code> using the <b>{'{'}x{'}'}</b> selector
+    <div style={{ textAlign: 'center', margin: '1em 0' }}>
+      <img src={require('../static/img/ex1/dify-chatboot-LLM-config.png').default} alt="LLM Config" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+        const img = e.target;
+        if (img.style.position === 'fixed') {
+          img.style.position = 'static';
+          img.style.top = 'auto';
+          img.style.left = 'auto';
+          img.style.transform = 'none';
+          img.style.zIndex = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = 'none';
+          document.body.style.overflow = 'auto';
+        } else {
+          img.style.position = 'fixed';
+          img.style.top = '50%';
+          img.style.left = '50%';
+          img.style.transform = 'translate(-50%, -50%)';
+          img.style.zIndex = '9999';
+          img.style.maxWidth = '90vw';
+          img.style.maxHeight = '90vh';
+          img.style.objectFit = 'contain';
+          document.body.style.overflow = 'hidden';
+        }
+      }} />
+      <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Step 2: Configure LLM settings and bind variables (click to expand)</i></div>
+    </div>
   </li>
 </ol>
 
 ### 4. Add End Block
 
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🏁 Final Configuration</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>Complete your workflow by adding an end block to output the LLM response.</p>
+</div>
+
 <ol>
   <li>
-    Add an <b>End</b> block
+    <b>Add an End block:</b> Click <b>+</b> and select the <b>End</b> block
   </li>
   <li>
-    Create an output variable (e.g., <code>text</code>) linked to the LLM response
-    <img src={require('../static/img/ex1/dify-chatboot-end-config.png').default} alt="End Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Configuring the end block</i></div>
+    <b>Configure the output:</b> Create an output variable (e.g., <code>text</code>) linked to the LLM response
+    <div style={{ textAlign: 'center', margin: '1em 0' }}>
+      <img src={require('../static/img/ex1/dify-chatboot-end-config.png').default} alt="End Config" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+        const img = e.target;
+        if (img.style.position === 'fixed') {
+          img.style.position = 'static';
+          img.style.top = 'auto';
+          img.style.left = 'auto';
+          img.style.transform = 'none';
+          img.style.zIndex = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = 'none';
+          document.body.style.overflow = 'auto';
+        } else {
+          img.style.position = 'fixed';
+          img.style.top = '50%';
+          img.style.left = '50%';
+          img.style.transform = 'translate(-50%, -50%)';
+          img.style.zIndex = '9999';
+          img.style.maxWidth = '90vw';
+          img.style.maxHeight = '90vh';
+          img.style.objectFit = 'contain';
+          document.body.style.overflow = 'hidden';
+        }
+      }} />
+      <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Configure the end block to output LLM response (click to expand)</i></div>
+    </div>
   </li>
 </ol>
 
@@ -252,60 +824,154 @@ Use the credentials provided earlier to configure the model:
 
 ## 🧪 Run and Debug
 
-Click <b>Run</b>, input a question, and hit <b>Start Run</b>:
-
-<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-  <i>"What is the difference between unit and integration testing?"</i>
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🧪 Testing Your Chatbot</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>Test your chatbot to ensure everything is working correctly and see how it processes queries.</p>
 </div>
 
-🎉 You should get a response from your magical assistant!
+### 🚀 Step 1: Run Your Chatbot
 
-<img src={require('../static/img/ex1/dify-chatboot-run-input.png').default} alt="Run Input" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Testing your chatbot with a sample question</i></div>
+<ol>
+  <li>
+    <b>Click the "Run" button</b> in the top-right corner of your workflow
+  </li>
+  <li>
+    <b>Input a test question</b> and click <b>"Start Run"</b>
+  </li>
+</ol>
 
-Check the <b>Tracing</b> tab for a breakdown of what your chatbot did:
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em', margin: '1em 0' }}>
+  <h5 style={{ margin: '0 0 0.5em 0', color: '#ca8a04' }}>💡 Try This Test Question:</h5>
+  <p style={{ margin: '0', fontStyle: 'italic', fontSize: '1em' }}>"What is the difference between unit and integration testing?"</p>
+</div>
 
-<img src={require('../static/img/ex1/dify-chatboot-run-tab.png').default} alt="Tracing" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-<div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Tracing the chatbot's response generation</i></div>
+### 🎉 Expected Results
+
+You should get a response from your magical assistant! The LLM will process your question and provide an answer.
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img src={require('../static/img/ex1/dify-chatboot-run-input.png').default} alt="Run Input" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+    const img = e.target;
+    if (img.style.position === 'fixed') {
+      img.style.position = 'static';
+      img.style.top = 'auto';
+      img.style.left = 'auto';
+      img.style.transform = 'none';
+      img.style.zIndex = 'auto';
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = 'none';
+      document.body.style.overflow = 'auto';
+    } else {
+      img.style.position = 'fixed';
+      img.style.top = '50%';
+      img.style.left = '50%';
+      img.style.transform = 'translate(-50%, -50%)';
+      img.style.zIndex = '9999';
+      img.style.maxWidth = '90vw';
+      img.style.maxHeight = '90vh';
+      img.style.objectFit = 'contain';
+      document.body.style.overflow = 'hidden';
+    }
+  }} />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Testing your chatbot with a sample question (click to expand)</i></div>
+</div>
+
+### 🔍 Step 2: Debug and Trace
+
+Check the <b>Tracing</b> tab for a detailed breakdown of what your chatbot did:
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img src={require('../static/img/ex1/dify-chatboot-run-tab.png').default} alt="Tracing" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+    const img = e.target;
+    if (img.style.position === 'fixed') {
+      img.style.position = 'static';
+      img.style.top = 'auto';
+      img.style.left = 'auto';
+      img.style.transform = 'none';
+      img.style.zIndex = 'auto';
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = 'none';
+      document.body.style.overflow = 'auto';
+    } else {
+      img.style.position = 'fixed';
+      img.style.top = '50%';
+      img.style.left = '50%';
+      img.style.transform = 'translate(-50%, -50%)';
+      img.style.zIndex = '9999';
+      img.style.maxWidth = '90vw';
+      img.style.maxHeight = '90vh';
+      img.style.objectFit = 'contain';
+      document.body.style.overflow = 'hidden';
+    }
+  }} />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Trace the chatbot's response generation process (click to expand)</i></div>
+</div>
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em 1.2em', margin: '1em 0' }}>
+  <p style={{ margin: '0', fontSize: '1em' }}>
+    🧠 <b>Pro Tip:</b> The tracing tab shows you exactly how your chatbot processed the input, including token usage and response generation steps.
+  </p>
+</div>
 
 ---
 
-## 🎯 What's Next?
+## 🎯 Exercise Complete! What's Next?
 
-<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Great job! You've set up your LLM and created your first chatbot. In the next exercise, you'll:</b>
-  <ul>
-    <li>Learn about chunking strategies for document ingestion</li>
-    <li>Upload Jira issues and technical documentation</li>
-    <li>Compare different knowledge base approaches</li>
-    <li>Prepare your chatbot for RAG capabilities</li>
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '12px', padding: '2em', marginBottom: '2em' }}>
+  <div style={{ textAlign: 'center', marginBottom: '1.5em' }}>
+    <h3 style={{ margin: '0 0 0.5em 0', color: '#7c3aed', fontSize: '1.4em' }}>🎉 Congratulations!</h3>
+    <p style={{ margin: '0', fontSize: '1.1em', color: '#7c3aed' }}>You've successfully connected your LLM and created your first AI chatbot!</p>
+  </div>
+  
+  <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em', marginBottom: '1.5em' }}>
+    <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>✅ What You've Accomplished:</h4>
+    <ul style={{ margin: '0', fontSize: '0.95em' }}>
+      <li>✅ Connected to Azure-hosted GPT models</li>
+      <li>✅ Configured both LLM and embedding models</li>
+      <li>✅ Created your first AI chatbot</li>
+      <li>✅ Tested the complete workflow</li>
+    </ul>
+  </div>
+
+  <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em', marginBottom: '1.5em' }}>
+    <h4 style={{ margin: '0 0 0.5em 0', color: '#ca8a04' }}>🚀 Ready for the Next Challenge?</h4>
+    <p style={{ margin: '0 0 1em 0', fontSize: '0.95em' }}>In Exercise 2, you'll learn about:</p>
+    <ul style={{ margin: '0', fontSize: '0.95em' }}>
+      <li>📚 Document chunking strategies for better RAG</li>
+      <li>🔧 Uploading Jira issues and technical documentation</li>
+      <li>⚖️ Comparing different knowledge base approaches</li>
+      <li>🧠 Preparing your chatbot for advanced RAG capabilities</li>
   </ul>
-  <div style={{ marginTop: '1em' }}>
-    <b>Ready to continue?</b> Head to <a href="./exercise-2-knowledge-ingestion">Exercise 2: Knowledge Ingestion</a> to start building your magical knowledge base! 📚
+  </div>
+
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1em', marginBottom: '1.5em' }}>
+    <div style={{ textAlign: 'center' }}>
+      <a href="./exercise-2-knowledge-ingestion" style={{
+        display: 'inline-block',
+        background: '#7c3aed',
+        color: '#fff',
+        padding: '1em 1.5em',
+        borderRadius: '8px',
+        textDecoration: 'none',
+        fontWeight: 'bold',
+        fontSize: '1em',
+        boxShadow: '0 4px 8px rgba(124, 58, 237, 0.3)',
+        width: '100%'
+      }}>📚 Continue to Exercise 2</a>
+    </div>
+    <div style={{ textAlign: 'center' }}>
+      <a href="/tp/dify-dsls/ex1_solved.yml" download style={{
+        display: 'inline-block',
+        background: '#22c55e',
+        color: '#fff',
+        padding: '1em 1.5em',
+        borderRadius: '8px',
+        textDecoration: 'none',
+        fontWeight: 'bold',
+        fontSize: '1em',
+        boxShadow: '0 4px 8px rgba(34, 197, 94, 0.3)',
+        width: '100%'
+      }}>⬇️ Download Solution</a>
+    </div>
   </div>
 </div>
-
----
-
-## 🧙 Exercise 1 Solution Download
-
-Want a reference configuration?
-
-<a
-  href="/tp/dify-dsls/ex1_solved.yml"
-  download
-  style={{
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '0.6em 1.2em',
-    color: '#fffce7',
-    background: '#7c3aed',
-    borderRadius: '6px',
-    fontWeight: 600,
-    textDecoration: 'none',
-    marginTop: '1em',
-  }}
->
-  ⬇️ Download solution
-</a>
