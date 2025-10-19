@@ -86,6 +86,11 @@ const config: Config = {
           position: 'left',
           label: 'Tutorial',
         },
+        {
+          href: 'https://testingfantasy.com/',
+          label: 'Testing Fantasy',
+          position: 'right',
+        },
 
         {
           href: 'https://github.com/Bassaganas',
