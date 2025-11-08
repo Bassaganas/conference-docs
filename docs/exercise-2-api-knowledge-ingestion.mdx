@@ -2,41 +2,86 @@
 sidebar_position: 5
 ---
 
-# ⚙️ 2.1. Optional: Ingest Using the API
+# ⚙️ Exercise 2.1: Ingest Knowledge Using the API
+
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '12px', padding: '2em', marginBottom: '2em' }}>
+  <h2 style={{ margin: '0 0 1em 0', color: '#0c4a6e', fontSize: '1.5em' }}>🎯 Exercise Overview</h2>
+  <p style={{ fontSize: '1.1em', marginBottom: '1em', lineHeight: '1.6' }}>
+    Go beyond manual upload! In this exercise, you'll use a <b>ready-to-use API</b> to automatically ingest Jira issues into your Dify knowledge base. This approach gives you <i>structured documents with rich metadata</i>—much more powerful than plain text files.
+  </p>
+  <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em', marginTop: '1em' }}>
+    <p style={{ margin: '0', fontSize: '1em', fontWeight: '600', color: '#7c3aed' }}>
+      ✨ <b>This is the foundation for automated knowledge ingestion. Perfect for teams that want to integrate Jira data into their AI assistants!</b>
+    </p>
+  </div>
+</div>
 
 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
   <div>
-    If you want to go beyond manual upload and see how teams can automate the ingestion of Jira issues or JSON exports into Dify, we've deployed a ready-to-use API for you!
-
-    > You'll use it to load Jira issue samples as structured documents with metadata. This is much cleaner than plain `.txt` files.
-
+    <h3 style={{ color: '#0c4a6e', marginBottom: '1em' }}>🚀 What You'll Build</h3>
+    <ul style={{ fontSize: '1em', lineHeight: '1.6' }}>
+      <li><b>Connect</b> to the deployed Jira ingestion API</li>
+      <li><b>Explore</b> available Jira projects using Swagger UI</li>
+      <li><b>Ingest</b> structured Jira issues into your Dify knowledge base</li>
+      <li><b>Compare</b> manual vs. API-based ingestion results</li>
+    </ul>
   </div>
   <div style={{ textAlign: 'center' }}>
-    <img src={require('../static/img/ex2/knowledge-base.png').default} alt="Retrieval" style={{ maxWidth: '100%', height: 'auto' }} />
+    <img src={require('../static/img/ex2/knowledge-base.png').default} alt="Knowledge Base" style={{ maxWidth: '100%', borderRadius: '8px' }} />
   </div>
 </div>
 
 ---
 
+## 📋 Step-by-Step Checklist
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '12px', padding: '1.5em', marginBottom: '2em' }}>
+  <h3 style={{ margin: '0 0 1em 0', color: '#7c3aed', fontSize: '1.2em' }}>🎯 Exercise Checklist</h3>
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1em', fontSize: '1em' }}>
+    <div>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 1:</b> Get Dify API credentials</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 2:</b> Explore available projects</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 3:</b> Ingest Jira issues via API</label></li>
+      </ul>
+    </div>
+    <div>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 4:</b> Verify ingestion in Dify</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 5:</b> Compare knowledge bases</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 6:</b> Test retrieval quality</label></li>
+      </ul>
+    </div>
+  </div>
+  <div style={{ background: '#e0f2fe', border: '1px solid #38bdf8', borderRadius: '6px', padding: '0.8em', marginTop: '1em', fontSize: '0.9em' }}>
+    <b>⏱️ Estimated Time:</b> 10-15 minutes | <b>🎯 Goal:</b> API-ingested knowledge base with structured metadata
+  </div>
+</div>
+
+---
+
+## 🚀 Why Use the API?
+
 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
   <div>
-    <h2>🚀 Why Use the API?</h2>
     <p>Manually uploading <code>.txt</code> files gives you a starting point, but <b>API ingestion</b> offers superpowers:</p>
-    <ul>
-      <li>🧠 Rich documents with metadata</li>
-      <li>🤖 Upload multiple files or issues at once</li>
-      <li>✅ Each document linked to an <code>issue_key</code></li>
-      <li>🧰 Perfect for pipelines or daily ingestion</li>
+    <ul style={{ fontSize: '1em', lineHeight: '1.6' }}>
+      <li>🧠 <b>Rich documents</b> with metadata (issue keys, project info, etc.)</li>
+      <li>🤖 <b>Bulk upload</b> multiple issues at once</li>
+      <li>✅ <b>Structured data</b> - each document linked to an <code>issue_key</code></li>
+      <li>🧰 <b>Automation ready</b> - perfect for pipelines or daily ingestion</li>
     </ul>
-    <p>Use this deployed API if you want to:</p>
-    <ul>
-      <li>Experiment with JSON ingestion instead of raw <code>.txt</code></li>
-      <li>See how metadata improves search (like <code>issue_key</code>)</li>
-      <li>Reuse this approach at work with real Jira projects</li>
-    </ul>
+    <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em', marginTop: '1em' }}>
+      <b>💡 Use this API if you want to:</b>
+      <ul style={{ margin: '0.5em 0 0 0', paddingLeft: '1.5em' }}>
+        <li>Experiment with JSON ingestion instead of raw <code>.txt</code></li>
+        <li>See how metadata improves search quality</li>
+        <li>Reuse this approach at work with real Jira projects</li>
+      </ul>
+    </div>
   </div>
   <div style={{ textAlign: 'center' }}>
-    <img src={require('../static/img/ex2/dataset-api-config.png').default} alt="API Config Screenshot" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', boxShadow: '0 2px 8px #ddd' }} />
+    <img src={require('../static/img/ex2/dataset-api-config.png').default} alt="API Config Screenshot" style={{ maxWidth: '100%', borderRadius: '8px', boxShadow: '0 2px 8px #ddd' }} />
     <div style={{ fontSize: '0.95em', color: '#444', marginTop: '0.5em' }}>
       <b>API Ingestion Example</b>
     </div>
@@ -45,155 +90,543 @@ sidebar_position: 5
 
 ---
 
-## 🛠️ Step-by-Step Setup (Deployed API)
+## 🛠️ Step 1: Get Your Dify Configuration
 
-We've deployed a ready-to-use API for you! You can access the full API documentation at:
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>📋 Configuration Steps</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>You'll need your Dify instance details to connect the API. Follow these steps:</p>
+</div>
 
-**🔗 [API Documentation](https://dify-jira.testingfantasy.com/docs)**
+### 1.1: Access Your Dify API Settings
 
-### 1. Get Your Dify Configuration
+<ol>
+  <li>
+    In your Dify instance, navigate to <b>Knowledge</b> section
+  </li>
+  <li>
+    Find and copy your <b>API Server</b> URL
+  </li>
+  <li>
+    Click the <b>API Key</b> button to create a new API key for your datasets
+  </li>
+</ol>
 
-First, you'll need your Dify instance details:
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex2/kb-api-access.png').default} 
+    alt="API Access" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Step 1: Access API settings in Knowledge section (click to expand)</i></div>
+</div>
 
-- In your Dify instance, go to <b>Knowledge</b> and copy your Dify <b>API Server</b> URL
-- Then click the <b>API Key</b> button and create an API key for your Dify datasets
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex2/kb-create-apikey.png').default} 
+    alt="Create API Key" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Step 2: Create API key for datasets (click to expand)</i></div>
+</div>
 
-   <img src={require('../static/img/ex2/kb-api-access.png').default} alt="API Access" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-   <img src={require('../static/img/ex2/kb-create-apikey.png').default} alt="Create API Key" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-### 2. Explore Available Projects
-
-Use the **GET /projects** endpoint to see what Jira projects are available for ingestion:
-
-```bash
-curl -X GET "https://testus-patronus.testingfantasy.com/projects"
-```
-
-This will return a list of available projects you can ingest into your Dify instance.
-
-### 3. Ingest Jira Issues
-
-Use the **POST /jira/ingestion** endpoint to ingest specific projects:
-
-```bash
-curl -X POST "https://testus-patronus.testingfantasy.com/jira/ingestion" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "dify_base_url": "http://your_dify_ip/v1",
-    "dify_api_key": "your_dify_api_key",
-    "project_key": "REST"
-  }'
-```
-
-Replace:
-- `your_dify_ip` with your Dify instance URL
-- `your_dify_api_key` with your Dify API key
-- `project_key` with the project you want to ingest (e.g., "REST", "QUIDDITCH")
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em 1.2em', margin: '1em 0' }}>
+  <p style={{ margin: '0', fontSize: '1em' }}>
+    🧠 <b>Pro Tip:</b> Keep your API Server URL and API key handy - you'll need them in the next steps!
+  </p>
+</div>
 
 ---
 
-## 📤 Data is Now Ingested!
+## 🔍 Step 2: Explore Available Projects
 
-After running the ingestion command, the API will:
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>📋 Exploration Steps</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>Before ingesting data, let's see what Jira projects are available using the interactive Swagger UI.</p>
+</div>
 
-1. **Fetch the Jira issues** from the specified project
-2. **Process and structure** the data with proper metadata
-3. **Upload to your Dify instance** automatically
-4. **Create a knowledge base** ready for use
+### 2.1: Open the API Documentation
 
-### 🧪 Example Response
+**🔗 [Open API Documentation](https://dify-jira.testingfantasy.com/docs)**
+
+The Swagger UI provides an interactive interface where you can:
+- 📖 Browse all available endpoints
+- 🧪 Test API calls directly in your browser
+- 👀 See request/response examples
+- 🔍 View available projects interactively
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex2/dify-jira-api-projects.png').default} 
+    alt="Swagger UI showing available projects" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 8px #ddd' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Swagger UI interface (click to expand)</i></div>
+</div>
+
+<div style={{ background: '#f0f9ff', border: '1px solid #0ea5e9', borderRadius: '8px', padding: '1em', marginTop: '1em' }}>
+  <b>💡 Tip:</b> The Swagger UI is especially helpful if you're new to APIs. You can click <b>"Try it out"</b> on any endpoint to test it without writing curl commands!
+</div>
+
+---
+
+## 📤 Step 3: Ingest Jira Issues
+
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🔧 Ingestion Steps</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>Use the <b>POST /jira/ingest</b> endpoint to ingest specific projects. Leave the <code>dataset_id</code> empty and fill in your Dify configuration.</p>
+</div>
+
+### 3.1: Using Command Line (curl)
+
+Run this command to ingest a project:
+
+```bash
+curl -X 'POST' \
+  'https://dify-jira.testingfantasy.com/jira/ingest?advanced_ingestion=false' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "request": {
+    "project": "REST_JiraEcosystem_issues"
+  },
+  "dify_config": {
+    "dify_base_url": "http://{your_dify_ip}/v1",
+    "dify_api_key": "{your_dify_api_key}",
+    "dataset_id": "" 
+  }
+}'
+```
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em', marginTop: '1em' }}>
+  <b>📝 Replace these values:</b>
+  <ul style={{ margin: '0.5em 0 0 0', paddingLeft: '1.5em' }}>
+    <li><code>{'{'}your_dify_ip{'}'}</code> → Your Dify instance URL (from Step 1)</li>
+    <li><code>{'{'}your_dify_api_key{'}'}</code> → Your Dify API key (from Step 1)</li>
+    <li><code>REST_JiraEcosystem_issues</code> → The project you want to ingest (use <code>/projects</code> endpoint to see all available projects)</li>
+  </ul>
+</div>
+
+### 3.2: Using Swagger UI (Recommended)
+
+You can also use the Swagger UI to test the endpoint interactively:
+
+1. Navigate to the <b>POST /jira/ingest</b> endpoint in Swagger UI
+2. Click <b>"Try it out"</b>
+3. Use this payload:
+
+```json
+{
+  "request": {
+    "project": "REST_JiraEcosystem_issues"
+  },
+  "dify_config": {
+    "dify_base_url": "http://{your_dify_ip}/v1",
+    "dify_api_key": "{your_dify_api_key}",
+    "dataset_id": "" 
+  }
+}
+```
+
+4. Click <b>"Execute"</b> to run the ingestion
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex2/dify-jira-api-ingest.png').default} 
+    alt="Swagger UI showing ingest endpoint" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 8px #ddd' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Swagger UI ingest endpoint (click to expand)</i></div>
+</div>
+
+---
+
+## ✅ Step 4: Verify Ingestion in Dify
+
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🔍 Verification Steps</h4>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>After running the ingestion command, verify that your data was successfully uploaded to Dify.</p>
+</div>
+
+### 4.1: Check the API Response
 
 The API will return a response showing the ingestion status:
 
 ```json
 {
-  "status": "success",
-  "message": "Successfully ingested 25 issues from project REST",
-  "knowledge_base_id": "kb_123456789",
-  "documents_created": 25
+  "success": true,
+  "dify_instance": "http://13.38.64.67/v1",
+  "issues_ingested": 23,
+  "project": "REST_JiraEcosystem_issues",
+  "message": "Successfully ingested 23 issues from REST_JiraEcosystem_issues.json"
 }
 ```
 
-### Verify in Dify
+### 4.2: Verify in Dify Knowledge Base
 
-Take a look at your Dify instance and you will see your ingested data has been created!
+Navigate to your Dify instance and check the <b>Knowledge</b> section. You should see your newly created knowledge base!
 
-<img src={require('../static/img/ex2/kb-created-api.png').default} alt="KB Created API" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-<img src={require('../static/img/ex2/dataset-api-config.png').default} alt="Dataset API Config" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex2/kb-created-api.png').default} 
+    alt="KB Created API" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Knowledge base created via API (click to expand)</i></div>
+</div>
 
-## 📚 Compare Manual, Basic, and Advanced Knowledge Bases
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img 
+    src={require('../static/img/ex2/dataset-api-config.png').default} 
+    alt="Dataset API Config" 
+    style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
+    onClick={(e) => {
+      const img = e.target;
+      if (img.style.position === 'fixed') {
+        img.style.position = 'static';
+        img.style.top = 'auto';
+        img.style.left = 'auto';
+        img.style.transform = 'none';
+        img.style.zIndex = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = 'none';
+        document.body.style.overflow = 'auto';
+      } else {
+        img.style.position = 'fixed';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        img.style.zIndex = '9999';
+        img.style.maxWidth = '90vw';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        document.body.style.overflow = 'hidden';
+      }
+    }}
+  />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Dataset configuration (click to expand)</i></div>
+</div>
 
-<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '10px', padding: '1.5em 2em', margin: '2em 0', fontSize: '1.08em', boxShadow: '0 2px 8px #facc1533' }}>
-  <b>In this exercise, you will work with <span style={{ color: '#b45309' }}>three knowledge bases</span> in Dify:</b>
-  <ul>
-    <li><b>Manual Ingestion</b>: Created in the previous exercise by uploading <code>.txt</code> files manually.</li>
-    <li><b>Basic API Ingestion</b>: Your first API-based knowledge base, created by ingesting the provided Jira issues and summaries as-is, without enhancements.</li>
-    <li><b>Advanced API Ingestion</b>: A second API-based knowledge base, but this time use <b>query seeding</b> (adding example queries to improve retrieval) and <b>aliases</b> (alternative names for issues, projects, or fields) to make your knowledge base smarter and more flexible.</li>
-  </ul>
-  <b>What's the difference?</b>
-  <ul>
-    <li><b>Manual</b>: Simple upload of raw text files, with limited structure and no metadata.</li>
-    <li><b>Basic API</b>: Straightforward import of structured data, useful for simple lookups and basic retrieval.</li>
-    <li><b>Advanced API</b>: Leverages query seeding and aliases, helping the AI understand more user intents, synonyms, and related queries. This results in better, more relevant answers—especially for ambiguous or varied user questions.</li>
-  </ul>
-  <div style={{ margin: '1.5em 0' }}>
-    <b>Try these queries on all three knowledge bases and compare the results:</b>
-    <ul style={{ fontSize: '1.05em' }}>
-      <li>👉 <code>What is this issue about: Jira Issue: REST-259?</code></li>
-      <li>👉 <code>Give a test plan for REST-266</code></li>
-      <li>👉 <code>Who is the assignee for REST-266?</code></li>
-      <li>👉 <code>Summarize the technical documentation for the REST module.</code></li>
-    </ul>
-    <span style={{ color: '#b45309', fontWeight: 500 }}>Notice how having better data and advanced techniques generates better results!</span>
-  </div>
-  <img src={require('../static/img/ex2/queries-compare.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-    <img src={require('../static/img/ex2/queries-compare-advanced.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-  <div style={{ marginTop: '1em' }}>
-    <b>Tip:</b> After uploading, go to <b>Retrieval testing</b> in Dify and try the queries above. Compare the answers you get from each knowledge base. <b>Structured data and advanced techniques enable smarter, more accurate answers!</b>
+<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '12px', padding: '1.5em', margin: '2em 0' }}>
+  <div style={{ textAlign: 'center', marginBottom: '1em' }}>
+    <h3 style={{ margin: '0 0 0.5em 0', color: '#166534', fontSize: '1.3em' }}>🎉 Success! Your Knowledge Base is Ready</h3>
+    <p style={{ margin: '0', fontSize: '1em', color: '#166534' }}>Your Jira issues have been successfully ingested with structured metadata!</p>
   </div>
 </div>
+
+---
+
+## 📚 Step 5: Compare Knowledge Base Approaches
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '12px', padding: '1.5em 2em', margin: '2em 0', fontSize: '1.08em', boxShadow: '0 2px 8px #facc1533' }}>
+  <h3 style={{ margin: '0 0 1em 0', color: '#b45309', fontSize: '1.2em' }}>🔬 Understanding the Differences</h3>
+  
+  <p style={{ marginBottom: '1em' }}>
+    <b>In this exercise, you will work with <span style={{ color: '#b45309' }}>three knowledge bases</span> in Dify:</b>
+  </p>
+  
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1em', marginBottom: '1.5em' }}>
+    <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '1em' }}>
+      <h4 style={{ margin: '0 0 0.5em 0', color: '#7c3aed' }}>📄 Manual Ingestion</h4>
+      <p style={{ margin: '0', fontSize: '0.9em' }}>Created by uploading <code>.txt</code> files manually. Simple but limited structure and no metadata.</p>
+    </div>
+    <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '1em' }}>
+      <h4 style={{ margin: '0 0 0.5em 0', color: '#0ea5e9' }}>🔧 Basic API Ingestion</h4>
+      <p style={{ margin: '0', fontSize: '0.9em' }}>API-based knowledge base with structured data. Useful for simple lookups and basic retrieval.</p>
+    </div>
+    <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '1em' }}>
+      <h4 style={{ margin: '0 0 0.5em 0', color: '#22c55e' }}>🚀 Advanced API Ingestion</h4>
+      <p style={{ margin: '0', fontSize: '0.9em' }}>Enhanced with query seeding and aliases. Better understanding of user intents and synonyms.</p>
+    </div>
+  </div>
+
+  <div style={{ background: '#f3f0ff', border: '1px solid #7c3aed', borderRadius: '8px', padding: '1em', marginBottom: '1em' }}>
+    <b>💡 Key Differences:</b>
+    <ul style={{ margin: '0.5em 0 0 0', paddingLeft: '1.5em' }}>
+      <li><b>Manual</b>: Raw text files, limited structure, no metadata</li>
+      <li><b>Basic API</b>: Structured data with metadata (issue keys, project info)</li>
+      <li><b>Advanced API</b>: Query seeding + aliases for better retrieval and understanding</li>
+    </ul>
+  </div>
+
+  <div style={{ margin: '1.5em 0' }}>
+    <b>🧪 Test These Queries on All Three Knowledge Bases:</b>
+    <div style={{ background: '#f0f9ff', border: '1px solid #0ea5e9', borderRadius: '8px', padding: '1em', marginTop: '0.5em' }}>
+      <ul style={{ margin: '0', fontSize: '1.05em', listStyle: 'none', padding: 0 }}>
+        <li style={{ marginBottom: '0.5em' }}>👉 <code>What is this issue about: Jira Issue: REST-259?</code></li>
+        <li style={{ marginBottom: '0.5em' }}>👉 <code>Give a test plan for REST-266</code></li>
+        <li style={{ marginBottom: '0.5em' }}>👉 <code>Who is the assignee for REST-266?</code></li>
+        <li style={{ marginBottom: '0.5em' }}>👉 <code>Summarize the technical documentation for the REST module.</code></li>
+      </ul>
+    </div>
+    <p style={{ margin: '1em 0 0 0', color: '#b45309', fontWeight: 500 }}>
+      Notice how having better data and advanced techniques generates better results!
+    </p>
+  </div>
+
+  <div style={{ textAlign: 'center', margin: '1em 0' }}>
+    <img 
+      src={require('../static/img/ex2/queries-compare.png').default} 
+      alt="Query Comparison" 
+      style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 8px #ddd' }} 
+      onClick={(e) => {
+        const img = e.target;
+        if (img.style.position === 'fixed') {
+          img.style.position = 'static';
+          img.style.top = 'auto';
+          img.style.left = 'auto';
+          img.style.transform = 'none';
+          img.style.zIndex = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = 'none';
+          document.body.style.overflow = 'auto';
+        } else {
+          img.style.position = 'fixed';
+          img.style.top = '50%';
+          img.style.left = '50%';
+          img.style.transform = 'translate(-50%, -50%)';
+          img.style.zIndex = '9999';
+          img.style.maxWidth = '90vw';
+          img.style.maxHeight = '90vh';
+          img.style.objectFit = 'contain';
+          document.body.style.overflow = 'hidden';
+        }
+      }}
+    />
+    <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Comparing query results (click to expand)</i></div>
+  </div>
+
+  <div style={{ textAlign: 'center', margin: '1em 0' }}>
+    <img 
+      src={require('../static/img/ex2/queries-compare-advanced.png').default} 
+      alt="Advanced Query Comparison" 
+      style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 8px #ddd' }} 
+      onClick={(e) => {
+        const img = e.target;
+        if (img.style.position === 'fixed') {
+          img.style.position = 'static';
+          img.style.top = 'auto';
+          img.style.left = 'auto';
+          img.style.transform = 'none';
+          img.style.zIndex = 'auto';
+          img.style.maxWidth = '100%';
+          img.style.maxHeight = 'none';
+          document.body.style.overflow = 'auto';
+        } else {
+          img.style.position = 'fixed';
+          img.style.top = '50%';
+          img.style.left = '50%';
+          img.style.transform = 'translate(-50%, -50%)';
+          img.style.zIndex = '9999';
+          img.style.maxWidth = '90vw';
+          img.style.maxHeight = '90vh';
+          img.style.objectFit = 'contain';
+          document.body.style.overflow = 'hidden';
+        }
+      }}
+    />
+    <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Advanced query comparison (click to expand)</i></div>
+  </div>
+
+  <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em', marginTop: '1em' }}>
+    <p style={{ margin: '0', fontSize: '1em' }}>
+      🧠 <b>Pro Tip:</b> After uploading, go to <b>Retrieval testing</b> in Dify and try the queries above. Compare the answers you get from each knowledge base. <b>Structured data and advanced techniques enable smarter, more accurate answers!</b>
+    </p>
+  </div>
+</div>
+
+---
+
+## 🔍 What Happens Behind the Scenes?
 
 <details style={{
   border: '2px solid #7c3aed',
   borderRadius: '8px',
   background: '#faf9ff',
-  padding: '0.5em 1em',
+  padding: '1em 1.5em',
   marginTop: '1em',
   marginBottom: '1em'
 }}>
-<summary><b>What Happens Behind the Scenes?</b></summary>
-<ul>
-  <li>Each issue is converted into a descriptive <b>document</b>: summary, description, project, type, etc.</li>
-  <li>Smart chunking ensures readable chunks with overlap for better search.</li>
-  <li>Metadata (like <code>issue_key</code>) is attached, improving traceability.</li>
-</ul>
+<summary style={{ cursor: 'pointer', fontWeight: 'bold', fontSize: '1.1em', color: '#7c3aed' }}>🔬 Technical Details</summary>
+<div style={{ marginTop: '1em' }}>
+  <p>When you ingest Jira issues via the API, here's what happens:</p>
+  <ul style={{ marginTop: '0.5em' }}>
+    <li>Each issue is converted into a descriptive <b>document</b> with summary, description, project, type, etc.</li>
+    <li>Smart chunking ensures readable chunks with overlap for better search coverage</li>
+    <li>Metadata (like <code>issue_key</code>) is attached to each chunk, improving traceability</li>
+    <li>Documents are vectorized and indexed in your Dify knowledge base</li>
+  </ul>
+</div>
 </details>
 
 ---
 
-
+## 🔧 Advanced: Deploy Your Own API (Optional)
 
 <details style={{
   border: '2px solid #7c3aed',
   borderRadius: '8px',
   background: '#faf9ff',
-  padding: '0.5em 1em',
+  padding: '1em 1.5em',
   marginTop: '2em',
   marginBottom: '2em'
 }}>
-<summary><b>🔧 Try It Yourself: Deploy Your Own API (Advanced)</b></summary>
-
-If you want to deploy your own version of the API or understand how it works under the hood, you can still use the Codespace approach:
-
-1. Visit <a href="https://github.com/bassagap/dify_jira" target="_blank" rel="noopener noreferrer">https://github.com/bassagap/dify_jira</a> and create a <b>Codespace</b> on the <b>main</b> branch
-2. Follow the original setup instructions to deploy your own instance
-3. This gives you full control over the API and allows customization
-
-<div style={{ marginTop: '1em', fontSize: '0.9em', color: '#666' }}>
-  <b>Note:</b> This is optional and only needed if you want to customize the API or understand the implementation details.
+<summary style={{ cursor: 'pointer', fontWeight: 'bold', fontSize: '1.1em', color: '#7c3aed' }}>🚀 Deploy Your Own API Instance</summary>
+<div style={{ marginTop: '1em' }}>
+  <p>If you want to deploy your own version of the API or understand how it works under the hood:</p>
+  <ol style={{ marginTop: '0.5em' }}>
+    <li>Visit <a href="https://github.com/bassagap/dify_jira" target="_blank" rel="noopener noreferrer">https://github.com/bassagap/dify_jira</a> and create a <b>Codespace</b> on the <b>main</b> branch</li>
+    <li>Follow the setup instructions to deploy your own instance</li>
+    <li>This gives you full control over the API and allows customization</li>
+  </ol>
+  <div style={{ background: '#fffbe8', border: '1px solid #facc15', borderRadius: '6px', padding: '0.8em', marginTop: '1em', fontSize: '0.9em' }}>
+    <b>Note:</b> This is optional and only needed if you want to customize the API or understand the implementation details.
+  </div>
 </div>
-
 </details>
 
-This deployed API is a great next step if you want to automate ingestion in your organization, connect to real Jira, or just test richer search results with Dify.
+---
 
+## 🎯 Exercise Complete! What's Next?
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '12px', padding: '2em', marginBottom: '2em' }}>
+  <div style={{ textAlign: 'center', marginBottom: '1.5em' }}>
+    <h3 style={{ margin: '0 0 0.5em 0', color: '#7c3aed', fontSize: '1.4em' }}>🎉 Congratulations!</h3>
+    <p style={{ margin: '0', fontSize: '1.1em', color: '#7c3aed' }}>You've successfully ingested Jira issues using the API!</p>
+  </div>
+  
+  <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em', marginBottom: '1.5em' }}>
+    <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>✅ What You've Accomplished:</h4>
+    <ul style={{ margin: '0', fontSize: '0.95em' }}>
+      <li>✅ Connected to the Jira ingestion API</li>
+      <li>✅ Explored available projects using Swagger UI</li>
+      <li>✅ Ingested structured Jira issues with metadata</li>
+      <li>✅ Compared different knowledge base approaches</li>
+    </ul>
+  </div>
+
+  <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em', marginBottom: '1.5em' }}>
+    <h4 style={{ margin: '0 0 0.5em 0', color: '#ca8a04' }}>🚀 Ready for the Next Challenge?</h4>
+    <p style={{ margin: '0 0 1em 0', fontSize: '0.95em' }}>This deployed API is a great next step if you want to:</p>
+    <ul style={{ margin: '0', fontSize: '0.95em' }}>
+      <li>🤖 Automate ingestion in your organization</li>
+      <li>🔗 Connect to real Jira projects</li>
+      <li>🧪 Test richer search results with structured metadata</li>
+      <li>📊 Compare manual vs. API-based knowledge bases</li>
+    </ul>
+  </div>
+</div>

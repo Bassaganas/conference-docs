@@ -106,7 +106,7 @@ This is where <b>ranking</b> comes in:
 
 <ol style={{ marginBottom: '2em' }}>
   <li>Go to the <b>Knowledge</b> tab in your Dify instance.<br /><img src={require('../static/img/ex2/knowledge-landing.png').default} alt="Knowledge Landing" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} /></li>
-  <li>Click <b>Create Knowledge Base</b>.</li>
+  <li>Click <b>Create Knowledge</b>.</li>
 </ol>
 
 <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
@@ -133,7 +133,9 @@ This is where <b>ranking</b> comes in:
 </div>
 
 <ol start="3" style={{ marginBottom: '2em' }}>
+  <li> Unzip the dataset and upload the files to the Knowledge Base.</li>
   <li>Upload <code>WEBHOOKS_JiraEcosystem_issues.txt</code> and <code>WEBHOOKS_JiraEcosystem_issues_SUMMARY.txt</code> manually.</li>
+  <li>Click on <b>Next</b>.</li>
   <li>
     Configure:
     <ul>
@@ -143,7 +145,7 @@ This is where <b>ranking</b> comes in:
     <img src={require('../static/img/ex2/knowledge-chunk-settings.png').default} alt="Knowledge Chunk Settings" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
   </li>
   <li>
-    Select <b>High Quality</b> index method and select the <b>ada</b> embeddings model.<br />
+    Select <b>High Quality</b> index method and select the <b>text-embedding-3-large</b> embeddings model.<br />
     <img src={require('../static/img/ex2/knowledge-retrieval-settings-high.png').default} alt="Knowledge Retrieval Settings High" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
   </li>
   <li>
