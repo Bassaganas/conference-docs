@@ -9,11 +9,9 @@ sidebar_position: 3
   <p style={{ fontSize: '1.1em', marginBottom: '1em', lineHeight: '1.6' }}>
     Welcome to your first spell in the <b>Testus Patronus</b> journey! In this exercise, you'll connect your Dify instance to a powerful Azure-hosted Large Language Model (LLM), which will become the <i>core</i> of your AI assistant.
   </p>
-  <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em', marginTop: '1em' }}>
-    <p style={{ margin: '0', fontSize: '1em', fontWeight: '600', color: '#7c3aed' }}>
+      <p style={{ margin: '0', fontSize: '1em', fontWeight: '600', color: '#7c3aed' }}>
       ✨ <b>This is the foundation of your Retrieval-Augmented Generation (RAG) assistant. Without a working LLM, the magic won't flow.</b>
     </p>
-  </div>
 </div>
 
 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
@@ -535,7 +533,27 @@ Use the credentials provided earlier to configure the model:
   </div>
 </div>
 
+### 4. Configure System Model Settings
 
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🔧 Configuration Steps</h4>
+
+  <li>
+    Click on the <b>System Model Settings</b> button
+  </li>
+  <li>
+    Select the <b>gpt-35-turbo-16k</b> model for reasoning and <b>text-embedding-3-large</b> for embedding
+  </li>
+  <li>
+    Click <b>Save</b>
+  </li>
+  We won't use Rerank Model nor Speech to text features in this exercise.
+</div>
+
+<div style={{ textAlign: 'center' }}>
+  <img src={require('../static/img/ex1/dify-system-model-settings.png').default} alt="System Model Settings" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} />
+</div>
+<div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>System model settings (click to expand)</i></div>
 
 <div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '12px', padding: '1.5em', margin: '2em 0' }}>
   <div style={{ textAlign: 'center', marginBottom: '1em' }}>
@@ -736,8 +754,8 @@ Use the credentials provided earlier to configure the model:
   <li>
     <b>Configure the LLM:</b>
     <ul>
-      <li>Select your configured Azure GPT model</li>
-      <li>Add a system prompt to guide the AI's behavior</li>
+      <li>In Context field add the query variable </li>
+      <li>In Prompt field add the system prompt, that should include the query variable and the context variable</li>
     </ul>
   </li>
   <li>

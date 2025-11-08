@@ -1,19 +1,14 @@
 app:
-  description: Classical chatbot to demonstrate connection to LLMs and start discovering
+  description: Classical Chatbot to demonstrate connection to LLMs and start discovering
     Dify
   icon: 👨‍🦳
-  icon_background: '#FBE8FF'
+  icon_background: '#E0F2FE'
   mode: workflow
   name: Exercise 1 - Classical Chatbot
   use_icon_as_answer_icon: false
 dependencies:
-- current_identifier: null
-  type: marketplace
-  value:
-    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.29@df36b2fc3ac7afccbd2f8bec6c7febe7f0c6a6afd52a0f41a038fa8475ab6828
-    version: null
 kind: app
-version: 0.4.0
+version: 0.3.0
 workflow:
   conversation_variables: []
   environment_variables: []
@@ -67,10 +62,10 @@ workflow:
         isInLoop: false
         sourceType: start
         targetType: llm
-      id: 1762615523713-source-1762615575101-target
-      source: '1762615523713'
+      id: 1748451069050-source-1748451164754-target
+      source: '1748451069050'
       sourceHandle: source
-      target: '1762615575101'
+      target: '1748451164754'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -79,47 +74,46 @@ workflow:
         isInLoop: false
         sourceType: llm
         targetType: end
-      id: 1762615575101-source-1762616007140-target
-      source: '1762615575101'
+      id: 1748451164754-source-1748451294265-target
+      source: '1748451164754'
       sourceHandle: source
-      target: '1762616007140'
+      target: '1748451294265'
       targetHandle: target
       type: custom
       zIndex: 0
     nodes:
     - data:
+        desc: ''
         selected: false
         title: Start
         type: start
         variables:
-        - default: ''
-          hint: ''
-          label: query
-          max_length: 200
+        - label: query
+          max_length: 48
           options: []
-          placeholder: ''
           required: true
           type: text-input
           variable: query
-      height: 88
-      id: '1762615523713'
+      height: 90
+      id: '1748451069050'
       position:
-        x: 80
-        y: 282
+        x: 191.60404580764805
+        y: 464.81805598967105
       positionAbsolute:
-        x: 80
-        y: 282
-      selected: true
+        x: 191.60404580764805
+        y: 464.81805598967105
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 244
     - data:
         context:
           enabled: true
           variable_selector:
-          - '1762615523713'
+          - '1748451069050'
           - query
+        desc: ''
         model:
           completion_params:
             temperature: 0.7
@@ -127,50 +121,54 @@ workflow:
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         prompt_template:
-        - role: system
-          text: Answer the {{#1762615523713.query#}}} in a clean, professional tone.
-            Be concise but precise.{{#context#}}
+        - id: 11aca439-3c4e-40a6-8083-48894003c6f3
+          role: system
+          text: 'Answer in a clean, professional tone. Be concise but precise:  {{#1748451069050.query#}}
+
+            {{#context#}}'
         selected: false
         title: LLM
         type: llm
+        variables: []
         vision:
           enabled: false
-      height: 88
-      id: '1762615575101'
+      height: 90
+      id: '1748451164754'
       position:
-        x: 382
-        y: 282
+        x: 495.60404580764805
+        y: 464.81805598967105
       positionAbsolute:
-        x: 382
-        y: 282
+        x: 495.60404580764805
+        y: 464.81805598967105
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 244
     - data:
+        desc: ''
         outputs:
         - value_selector:
-          - '1762615575101'
+          - '1748451164754'
           - text
-          value_type: string
           variable: text
         selected: false
         title: End
         type: end
-      height: 88
-      id: '1762616007140'
+      height: 90
+      id: '1748451294265'
       position:
-        x: 684
-        y: 282
+        x: 799.604045807648
+        y: 464.81805598967105
       positionAbsolute:
-        x: 684
-        y: 282
+        x: 799.604045807648
+        y: 464.81805598967105
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 242
+      width: 244
     viewport:
-      x: -252
-      y: 145.5
-      zoom: 1
-  rag_pipeline_variables: []
+      x: 46.94732204451043
+      y: 14.158868505158779
+      zoom: 0.5009827952937026
