@@ -49,7 +49,7 @@ sidebar_position: 5
 
 We've deployed a ready-to-use API for you! You can access the full API documentation at:
 
-**🔗 [API Documentation](https://zzp77ty4ejy2jwdjlw3mdprpti0aukfd.lambda-url.eu-west-3.on.aws/docs)**
+**🔗 [API Documentation](https://dify-jira.testingfantasy.com/docs)**
 
 ### 1. Get Your Dify Configuration
 
@@ -66,7 +66,7 @@ First, you'll need your Dify instance details:
 Use the **GET /projects** endpoint to see what Jira projects are available for ingestion:
 
 ```bash
-curl -X GET "https://zzp77ty4ejy2jwdjlw3mdprpti0aukfd.lambda-url.eu-west-3.on.aws/projects"
+curl -X GET "https://testus-patronus.testingfantasy.com/projects"
 ```
 
 This will return a list of available projects you can ingest into your Dify instance.
@@ -76,7 +76,7 @@ This will return a list of available projects you can ingest into your Dify inst
 Use the **POST /jira/ingestion** endpoint to ingest specific projects:
 
 ```bash
-curl -X POST "https://zzp77ty4ejy2jwdjlw3mdprpti0aukfd.lambda-url.eu-west-3.on.aws/jira/ingestion" \
+curl -X POST "https://testus-patronus.testingfantasy.com/jira/ingestion" \
   -H "Content-Type: application/json" \
   -d '{
     "dify_base_url": "http://your_dify_ip/v1",
