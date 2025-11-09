@@ -6,8 +6,13 @@ app:
   name: 'Exercise 4: Building an advanced RAG'
   use_icon_as_answer_icon: false
 dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.29@df36b2fc3ac7afccbd2f8bec6c7febe7f0c6a6afd52a0f41a038fa8475ab6828
+    version: null
 kind: app
-version: 0.3.0
+version: 0.4.0
 workflow:
   conversation_variables: []
   environment_variables: []
@@ -207,17 +212,6 @@ workflow:
       type: custom
       zIndex: 1002
     - data:
-        isInLoop: false
-        sourceType: iteration
-        targetType: llm
-      id: 1748783526414-source-1748783029512-target
-      source: '1748783526414'
-      sourceHandle: source
-      target: '1748783029512'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInIteration: false
         isInLoop: false
         sourceType: question-classifier
@@ -315,18 +309,6 @@ workflow:
     - data:
         isInIteration: false
         isInLoop: false
-        sourceType: iteration
-        targetType: llm
-      id: 17487852863990-source-1748785557565-target
-      source: '17487852863990'
-      sourceHandle: source
-      target: '1748785557565'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
         sourceType: llm
         targetType: answer
       id: 1748785557565-source-1748785836978-target
@@ -372,6 +354,54 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 1748783526414-source-1762727584347-target
+      source: '1748783526414'
+      sourceHandle: source
+      target: '1762727584347'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1762727584347-source-1748783029512-target
+      source: '1762727584347'
+      sourceHandle: source
+      target: '1748783029512'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 17487852863990-source-1762728060345-target
+      source: '17487852863990'
+      sourceHandle: source
+      target: '1762728060345'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1762728060345-source-1748785557565-target
+      source: '1762728060345'
+      sourceHandle: source
+      target: '1748785557565'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         desc: ''
@@ -379,7 +409,7 @@ workflow:
         title: Start
         type: start
         variables: []
-      height: 54
+      height: 52
       id: '1748687003240'
       position:
         x: -1083.666487928184
@@ -391,7 +421,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         context:
           enabled: true
@@ -452,7 +482,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 90
+      height: 88
       id: llm
       position:
         x: 456.2543663027028
@@ -464,7 +494,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         answer: '{{#llm.text#}}'
         desc: ''
@@ -472,7 +502,7 @@ workflow:
         title: Answer Specific Issue Queries
         type: answer
         variables: []
-      height: 105
+      height: 103
       id: answer
       position:
         x: 792.566799557453
@@ -484,15 +514,15 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         dataset_ids:
-        - D0GbUOG+JtZlHlg4fWiHVkbc+a0HHu+xcqg66vgcXiRUZRyauQblVaYqjrse2eQh
+        - PLRUwivTnI1o3vT/yiIszzY+v4nSvXZSV4jaf5eUbvRHniUAt6tg+foAJ1ANk3A0
         desc: ''
         metadata_filtering_conditions:
           conditions:
           - comparison_operator: is
-            id: b4b5b794-62a8-4152-aa44-ef618b1e3be1
+            id: 2578ad33-20b7-4b07-b5dd-ec8a990e05e1
             name: issue_key
             value: '{{#1748719005808.issue_key#}}'
           logical_operator: and
@@ -504,7 +534,7 @@ workflow:
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         multiple_retrieval_config:
-          reranking_enable: true
+          reranking_enable: false
           reranking_mode: weighted_score
           reranking_model:
             model: ''
@@ -513,11 +543,12 @@ workflow:
           top_k: 10
           weights:
             keyword_setting:
-              keyword_weight: 0.3
+              keyword_weight: 0
             vector_setting:
-              embedding_model_name: text-embedding-ada-002
+              embedding_model_name: text-embedding-3-large
               embedding_provider_name: langgenius/azure_openai/azure_openai
-              vector_weight: 0.7
+              vector_weight: 1
+            weight_type: customized
         query_variable_selector:
         - '1748687003240'
         - sys.query
@@ -525,7 +556,7 @@ workflow:
         selected: false
         title: KR - Single Issue
         type: knowledge-retrieval
-      height: 92
+      height: 90
       id: '1748687775954'
       position:
         x: 89.0778811944802
@@ -537,7 +568,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         desc: ''
         instruction: "You are an intelligent assistant specialized in understanding\
@@ -576,7 +607,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 90
+      height: 88
       id: '1748719005808'
       position:
         x: -284.44013680327953
@@ -588,7 +619,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         classes:
         - id: '1'
@@ -645,7 +676,7 @@ workflow:
         type: question-classifier
         vision:
           enabled: false
-      height: 324
+      height: 322
       id: '1748756681684'
       position:
         x: -694.8206093064899
@@ -653,26 +684,27 @@ workflow:
       positionAbsolute:
         x: -694.8206093064899
         y: 288.65445462792803
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         dataset_ids:
-        - D0GbUOG+JtZlHlg4fWiHVkbc+a0HHu+xcqg66vgcXiRUZRyauQblVaYqjrse2eQh
+        - PLRUwivTnI1o3vT/yiIszzY+v4nSvXZSV4jaf5eUbvRHniUAt6tg+foAJ1ANk3A0
         desc: ''
         multiple_retrieval_config:
-          reranking_enable: true
+          reranking_enable: false
           reranking_mode: weighted_score
           top_k: 4
           weights:
             keyword_setting:
-              keyword_weight: 0.3
+              keyword_weight: 0
             vector_setting:
-              embedding_model_name: text-embedding-ada-002
+              embedding_model_name: text-embedding-3-large
               embedding_provider_name: langgenius/azure_openai/azure_openai
-              vector_weight: 0.7
+              vector_weight: 1
+            weight_type: customized
         query_variable_selector:
         - '1748687003240'
         - sys.query
@@ -680,7 +712,7 @@ workflow:
         selected: false
         title: KR General Knowledge
         type: knowledge-retrieval
-      height: 92
+      height: 90
       id: '1748767429892'
       position:
         x: -284.44013680327953
@@ -692,7 +724,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         context:
           enabled: false
@@ -807,7 +839,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 90
+      height: 88
       id: '1748767447593'
       position:
         x: 89.0778811944802
@@ -819,15 +851,15 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
-        answer: ''
+        answer: '{{#1748767447593.text#}}'
         desc: ''
         selected: false
         title: Answer 2
         type: answer
         variables: []
-      height: 86
+      height: 103
       id: '1748767451380'
       position:
         x: 456.2543663027028
@@ -839,7 +871,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         desc: ''
         instruction: "You are an intelligent assistant specialized in understanding\
@@ -889,7 +921,7 @@ workflow:
             - sys
             - files
           enabled: false
-      height: 90
+      height: 88
       id: '1748767570289'
       position:
         x: -284.44013680327953
@@ -901,13 +933,13 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         context:
           enabled: true
           variable_selector:
-          - '1748783526414'
-          - output
+          - '1762727584347'
+          - flat_context
         desc: ''
         model:
           completion_params:
@@ -915,8 +947,11 @@ workflow:
           mode: chat
           name: gpt-4o
           provider: langgenius/azure_openai/azure_openai
+        prompt_config:
+          jinja2_variables: []
         prompt_template:
-        - id: 41d8a4b2-979b-4166-a924-d9b9e7b724da
+        - edition_type: basic
+          id: 41d8a4b2-979b-4166-a924-d9b9e7b724da
           role: system
           text: "You are a software testing assistant helping engineers understand\
             \ Jira issues, project documentation, and related work.\n\nOnly answer\
@@ -941,32 +976,32 @@ workflow:
             \ context does NOT clearly mention the Jira issue referenced in the user's\
             \ question (e.g. REST-XXX, issue XXX, XXX, Jira Issue XXX), then respond\
             \ with:\n\n> I’m sorry, I can’t find details about that specific issue\
-            \ in the project documentation.\n\n\nContext:\n{{#context#}}\n\nUser question:\n\
-            {{#sys.query#}}\n\nReminder: If the Jira issue mentioned above is not\
-            \ present in the context chunks, do not guess or fabricate the answer.\n\
-            Examples:\n\nQ: What does REST-433 fix?\nContext includes \"Jira Issue:\
-            \ REST-433\"\n✅ Answer with issue details.\n\nQ: What does REST-433 fix?\n\
-            Context does NOT include REST-433\n❌ Do not guess. Respond with: \"I’m\
-            \ sorry, I can’t find details about that specific issue...\"\n\n"
+            \ in the project documentation.\n\n\nContext:\n\n\nUser question:\n{{#sys.query#}}\n\
+            \nReminder: If the Jira issue mentioned above is not present in the context\
+            \ chunks, do not guess or fabricate the answer.\nExamples:\n\nQ: What\
+            \ does REST-433 fix?\nContext includes \"Jira Issue: REST-433\"\n✅ Answer\
+            \ with issue details.\n\nQ: What does REST-433 fix?\nContext does NOT\
+            \ include REST-433\n❌ Do not guess. Respond with: \"I’m sorry, I can’t\
+            \ find details about that specific issue...\"\n\n{{#context#}}"
         selected: false
         title: LLM 3
         type: llm
         variables: []
         vision:
           enabled: false
-      height: 90
+      height: 88
       id: '1748783029512'
       position:
-        x: 792.566799557453
+        x: 1092.5667995574531
         y: 211.5747334168887
       positionAbsolute:
-        x: 792.566799557453
+        x: 1092.5667995574531
         y: 211.5747334168887
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         answer: '{{#1748783029512.text#}}'
         desc: ''
@@ -974,24 +1009,25 @@ workflow:
         title: Answer 3
         type: answer
         variables: []
-      height: 105
+      height: 103
       id: '1748783041984'
       position:
-        x: 1136.1121280862612
+        x: 1436.1121280862612
         y: 211.5747334168887
       positionAbsolute:
-        x: 1136.1121280862612
+        x: 1436.1121280862612
         y: 211.5747334168887
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         desc: ''
         error_handle_mode: terminated
         height: 187
         is_parallel: true
+        iterator_input_type: array[string]
         iterator_selector:
         - '1748767570289'
         - issues_keys
@@ -1043,13 +1079,17 @@ workflow:
       zIndex: 1002
     - data:
         dataset_ids:
-        - 3t+kSryMgqByavo6GgEWMmcujHtkU1pRtQcl/sYwXWB4YphlEV2c1sE6cRpPUeoe
+        - PLRUwivTnI1o3vT/yiIszzY+v4nSvXZSV4jaf5eUbvRHniUAt6tg+foAJ1ANk3A0
         desc: ''
         isInIteration: true
         isInLoop: false
         iteration_id: '1748783526414'
         metadata_filtering_conditions:
-          conditions: []
+          conditions:
+          - comparison_operator: is
+            id: ef87d4dc-e2ed-43e1-b7dc-eea25d2e4db9
+            name: issue_key
+            value: '{{#1748783526414.item#}}'
           logical_operator: and
         metadata_filtering_mode: manual
         multiple_retrieval_config:
@@ -1062,11 +1102,12 @@ workflow:
           top_k: 10
           weights:
             keyword_setting:
-              keyword_weight: 0.3
+              keyword_weight: 0
             vector_setting:
-              embedding_model_name: text-embedding-ada-002
+              embedding_model_name: text-embedding-3-large
               embedding_provider_name: langgenius/azure_openai/azure_openai
-              vector_weight: 0.7
+              vector_weight: 1
+            weight_type: customized
         query_variable_selector:
         - '1748687003240'
         - sys.query
@@ -1074,7 +1115,7 @@ workflow:
         selected: false
         title: KR - Multiple Issues
         type: knowledge-retrieval
-      height: 92
+      height: 90
       id: '1748783571565'
       parentId: '1748783526414'
       position:
@@ -1087,11 +1128,11 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
       zIndex: 1002
     - data:
         dataset_ids:
-        - D0GbUOG+JtZlHlg4fWiHVkbc+a0HHu+xcqg66vgcXiRUZRyauQblVaYqjrse2eQh
+        - PLRUwivTnI1o3vT/yiIszzY+v4nSvXZSV4jaf5eUbvRHniUAt6tg+foAJ1ANk3A0
         desc: ''
         multiple_retrieval_config:
           reranking_enable: false
@@ -1103,11 +1144,12 @@ workflow:
           top_k: 10
           weights:
             keyword_setting:
-              keyword_weight: 0.3
+              keyword_weight: 0
             vector_setting:
-              embedding_model_name: text-embedding-ada-002
+              embedding_model_name: text-embedding-3-large
               embedding_provider_name: langgenius/azure_openai/azure_openai
-              vector_weight: 0.7
+              vector_weight: 1
+            weight_type: customized
         query_variable_selector:
         - sys
         - query
@@ -1115,7 +1157,7 @@ workflow:
         selected: false
         title: 'KR General Knowledge '
         type: knowledge-retrieval
-      height: 92
+      height: 90
       id: '1748784602400'
       position:
         x: -284.44013680327953
@@ -1127,7 +1169,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         answer: '{{#1748784677999.text#}}/'
         desc: ''
@@ -1135,7 +1177,7 @@ workflow:
         title: Answer 4
         type: answer
         variables: []
-      height: 105
+      height: 103
       id: '1748784661836'
       position:
         x: 456.2543663027028
@@ -1147,7 +1189,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         context:
           enabled: true
@@ -1226,7 +1268,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 90
+      height: 88
       id: '1748784677999'
       position:
         x: 89.0778811944802
@@ -1238,7 +1280,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         desc: ''
         instruction: "You are an intelligent assistant specialized in understanding\
@@ -1288,7 +1330,7 @@ workflow:
             - sys
             - files
           enabled: false
-      height: 90
+      height: 88
       id: '17487850509710'
       position:
         x: -284.44013680327953
@@ -1300,7 +1342,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         answer: '{{#1748786653855.text#}}'
         desc: ''
@@ -1308,7 +1350,7 @@ workflow:
         title: Answer 5
         type: answer
         variables: []
-      height: 105
+      height: 103
       id: '1748785149607'
       position:
         x: 89.0778811944802
@@ -1320,7 +1362,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         desc: ''
         error_handle_mode: terminated
@@ -1355,7 +1397,7 @@ workflow:
       zIndex: 1
     - data:
         dataset_ids:
-        - 3t+kSryMgqByavo6GgEWMmcujHtkU1pRtQcl/sYwXWB4YphlEV2c1sE6cRpPUeoe
+        - PLRUwivTnI1o3vT/yiIszzY+v4nSvXZSV4jaf5eUbvRHniUAt6tg+foAJ1ANk3A0
         desc: ''
         isInIteration: true
         isInLoop: false
@@ -1374,11 +1416,12 @@ workflow:
           top_k: 10
           weights:
             keyword_setting:
-              keyword_weight: 0.3
+              keyword_weight: 0
             vector_setting:
-              embedding_model_name: text-embedding-ada-002
+              embedding_model_name: text-embedding-3-large
               embedding_provider_name: langgenius/azure_openai/azure_openai
-              vector_weight: 0.7
+              vector_weight: 1
+            weight_type: customized
         query_variable_selector:
         - '1748687003240'
         - sys.query
@@ -1386,7 +1429,7 @@ workflow:
         selected: false
         title: Knowledge Retrieval 5
         type: knowledge-retrieval
-      height: 92
+      height: 90
       id: '1748785286399017487852864000'
       parentId: '17487852863990'
       position:
@@ -1395,10 +1438,11 @@ workflow:
       positionAbsolute:
         x: 669.6446491620802
         y: 808.564737158242
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
       zIndex: 1002
     - data:
         desc: ''
@@ -1444,12 +1488,13 @@ workflow:
             variable_selector:
             - '17487850509710'
             - issues_keys
+          id: f2be164b-f0ce-4db6-9a7b-69786c02a988
           logical_operator: and
         desc: ''
         selected: false
         title: IF/ELSE
         type: if-else
-      height: 174
+      height: 172
       id: '1748785479296'
       position:
         x: 89.0778811944802
@@ -1461,7 +1506,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         context:
           enabled: true
@@ -1518,7 +1563,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 90
+      height: 88
       id: '1748785532843'
       position:
         x: 456.2543663027028
@@ -1530,13 +1575,13 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         context:
           enabled: true
           variable_selector:
-          - '17487852863990'
-          - output
+          - '1762728060345'
+          - flat_context
         desc: ''
         model:
           completion_params:
@@ -1571,19 +1616,19 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 90
+      height: 88
       id: '1748785557565'
       position:
-        x: 1134.2543663027027
+        x: 1434.2543663027027
         y: 743.564737158242
       positionAbsolute:
-        x: 1134.2543663027027
+        x: 1434.2543663027027
         y: 743.564737158242
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         answer: '{{#1748785557565.text#}}'
         desc: ''
@@ -1591,18 +1636,18 @@ workflow:
         title: Answer 6
         type: answer
         variables: []
-      height: 105
+      height: 103
       id: '1748785836978'
       position:
-        x: 1438.2543663027027
+        x: 1738.2543663027027
         y: 743.564737158242
       positionAbsolute:
-        x: 1438.2543663027027
+        x: 1738.2543663027027
         y: 743.564737158242
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         answer: '{{#1748785532843.text#}}'
         desc: ''
@@ -1610,7 +1655,7 @@ workflow:
         title: Answer 7
         type: answer
         variables: []
-      height: 105
+      height: 103
       id: '1748786521492'
       position:
         x: 760.2543663027028
@@ -1621,7 +1666,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
     - data:
         context:
           enabled: true
@@ -1657,7 +1702,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 90
+      height: 88
       id: '1748786653855'
       position:
         x: -284.44013680327953
@@ -1669,8 +1714,75 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 244
+      width: 242
+    - data:
+        code: "def main(inputs: dict) -> dict:\n    # `inputs` ya es la lista anidada\
+          \ que quieres. \n    # No necesitas usar .get().\n    nested_list = inputs\n\
+          \    \n    # Esta es la línea mágica:\n    flat_list = [document for sublist\
+          \ in nested_list for document in sublist]\n    \n    return {\n        'flat_context':\
+          \ flat_list\n    }"
+        code_language: python3
+        outputs:
+          flat_context:
+            children: null
+            type: array[object]
+        selected: false
+        title: Code
+        type: code
+        variables:
+        - value_selector:
+          - '1748783526414'
+          - output
+          value_type: array[object]
+          variable: inputs
+      height: 52
+      id: '1762727584347'
+      position:
+        x: 792.566799557453
+        y: 211.5747334168887
+      positionAbsolute:
+        x: 792.566799557453
+        y: 211.5747334168887
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\ndef main(inputs: dict) -> dict:\n    # `inputs` ya es la lista anidada\
+          \ que quieres. \n    # No necesitas usar .get().\n    nested_list = inputs\n\
+          \    \n    # Esta es la línea mágica:\n    flat_list = [document for sublist\
+          \ in nested_list for document in sublist]\n    \n    return {\n        'flat_context':\
+          \ flat_list\n    }"
+        code_language: python3
+        outputs:
+          flat_context:
+            children: null
+            type: array[object]
+        selected: false
+        title: Code 2
+        type: code
+        variables:
+        - value_selector:
+          - '17487852863990'
+          - output
+          value_type: array[object]
+          variable: inputs
+      height: 52
+      id: '1762728060345'
+      position:
+        x: 1134.2543663027027
+        y: 743.564737158242
+      positionAbsolute:
+        x: 1134.2543663027027
+        y: 743.564737158242
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
     viewport:
-      x: 223.0038451274604
-      y: 280.24312569093024
-      zoom: 0.6390496816015229
+      x: 633.8594701196103
+      y: 329.6019403717205
+      zoom: 0.3468247355543864
+  rag_pipeline_variables: []

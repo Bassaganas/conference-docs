@@ -192,7 +192,50 @@ sidebar_position: 5
 
 ### 2.1: Open the API Documentation
 
-**🔗 [Open API Documentation](https://dify-jira.testingfantasy.com/docs)**
+<div style={{ 
+  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+  border: '2px solid #7c3aed', 
+  borderRadius: '12px', 
+  padding: '1.5em 2em', 
+  margin: '1.5em 0',
+  textAlign: 'center',
+  boxShadow: '0 4px 20px rgba(124, 58, 237, 0.3)'
+}}>
+  <h3 style={{ margin: '0 0 0.8em 0', color: '#fff', fontSize: '1.3em', fontWeight: '700' }}>
+    📚 Interactive API Documentation
+  </h3>
+  <p style={{ margin: '0 0 1.2em 0', color: '#f0f0f0', fontSize: '1.05em' }}>
+    Explore available Jira projects and test API endpoints directly in your browser
+  </p>
+  <a 
+    href="https://dify-jira.testingfantasy.com/docs" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    style={{
+      display: 'inline-block',
+      background: '#fff',
+      color: '#7c3aed',
+      padding: '0.8em 2em',
+      borderRadius: '8px',
+      textDecoration: 'none',
+      fontWeight: '700',
+      fontSize: '1.1em',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+      transition: 'all 0.3s ease',
+      border: '2px solid transparent'
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.transform = 'translateY(-2px)';
+      e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.3)';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.transform = 'translateY(0)';
+      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+    }}
+  >
+    🔗 Open Swagger UI →
+  </a>
+</div>
 
 The Swagger UI provides an interactive interface where you can:
 - 📖 Browse all available endpoints
