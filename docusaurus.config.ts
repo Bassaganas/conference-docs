@@ -91,7 +91,11 @@ const config: Config = {
           label: 'Testing Fantasy',
           position: 'right',
         },
-
+        {
+          href: 'https://testus-patronus.testingfantasy.com/',
+          label: '🚀 Get Your Environment',
+          position: 'right',
+        },
         {
           href: 'https://github.com/Bassaganas',
           label: 'GitHub',
