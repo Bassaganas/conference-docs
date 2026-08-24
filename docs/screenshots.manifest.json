@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "default_viewport": "1440x900",
+  "validation": ["npm run screenshots:check", "npm run typecheck", "npm run build"],
+  "services": {
+    "provisioning": {
+      "owner": "cloud-classroom-provisioning",
+      "capture_environment": "explicitly-approved-disposable-workshop",
+      "external_triggers": ["provisioning UI or credential format", "Dify instance URL pattern", "classroom bootstrap version"],
+      "shots": [
+        {
+          "id": "provisioning-assignment",
+          "state": "assigned synthetic student with Dify instance information visible",
+          "fixture": "disposable workshop identity",
+          "outputs": ["static/img/ex1/dify-instance-credentials.png"],
+          "target_docs": ["docs/intro.md", "docs/exercise-1-llm-configuration.mdx"],
+          "redactions": ["credentials", "cloud identifiers", "private origins"],
+          "captured_at": null,
+          "source_revision": null,
+          "service_version": null
+        }
+      ]
+    },
+    "dify": {
+      "owner": "cloud-classroom-provisioning",
+      "capture_environment": "local-or-explicitly-approved-disposable-workshop",
+      "external_triggers": ["Dify version or plugin update", "model provider setup", "knowledge pipeline UI", "chatflow editor", "retrieval settings"],
+      "shots": [
+        {
+          "id": "exercise-1-model-and-chatbot",
+          "state": "admin setup, model provider configuration, and runnable chatbot",
+          "fixture": "synthetic workshop tenant and model names",
+          "output_directories": ["static/img/ex1"],
+          "target_docs": ["docs/exercise-1-llm-configuration.mdx"],
+          "redactions": ["provider keys", "endpoints", "credentials", "tenant identifiers"],
+          "captured_at": null,
+          "source_revision": null,
+          "service_version": null
+        },
+        {
+          "id": "exercise-2-knowledge",
+          "state": "manual and API-created knowledge bases with deterministic Jira dataset",
+          "fixture": "static/dataset public and synthetic Jira files",
+          "output_directories": ["static/img/ex2"],
+          "target_docs": ["docs/02_dataset.mdx", "docs/exercise-2-knowledge-ingestion.mdx", "docs/exercise-2-api-knowledge-ingestion.mdx"],
+          "redactions": ["API keys", "private origins", "student identifiers"],
+          "captured_at": null,
+          "source_revision": null,
+          "service_version": null
+        },
+        {
+          "id": "exercise-3-chatflow",
+          "state": "grounded chatbot from creation through publication",
+          "fixture": "static/dify-dsls/ex3_solved.yml and deterministic retrieval questions",
+          "output_directories": ["static/img/ex3"],
+          "target_docs": ["docs/exercise-3-ai-chatbot-setup.mdx"],
+          "redactions": ["API keys", "private origins", "student identifiers"],
+          "captured_at": null,
+          "source_revision": null,
+          "service_version": null
+        },
+        {
+          "id": "exercise-4-advanced-flow",
+          "state": "advanced retrieval and workflow blocks",
+          "fixture": "static/dify-dsls/ex4_sample.yml",
+          "output_directories": ["static/img/ex4"],
+          "target_docs": ["docs/exercise-4-advanced-prompting.mdx"],
+          "redactions": ["API keys", "private origins", "student identifiers"],
+          "captured_at": null,
+          "source_revision": null,
+          "service_version": null
+        }
+      ]
+    },
+    "jira-api": {
+      "owner": "cloud-classroom-provisioning",
+      "capture_environment": "local-mock-or-explicitly-approved-read-only-service",
+      "external_triggers": ["OpenAPI schema", "ingestion request or response", "public service URL", "project dataset names"],
+      "shots": [
+        {
+          "id": "exercise-2-api-ingestion",
+          "state": "Swagger project listing and successful deterministic ingestion",
+          "fixture": "REST_JiraEcosystem_issues",
+          "outputs": ["static/img/ex2/dify-jira-api-projects.png", "static/img/ex2/dify-jira-api-ingest.png", "static/img/ex2/jira-api-ingestion-endpoint.png"],
+          "target_docs": ["docs/exercise-2-api-knowledge-ingestion.mdx"],
+          "redactions": ["Dify API keys", "private instance URLs", "request identifiers"],
+          "captured_at": null,
+          "source_revision": null,
+          "service_version": null
+        }
+      ]
+    },
+    "sut": {
+      "owner": "lotr_sut",
+      "capture_environment": "local-compose-or-explicitly-approved-disposable-workshop",
+      "external_triggers": ["LOTR SUT routes or visible UI", "authentication flow"],
+      "shots": []
+    }
+  }
+}
