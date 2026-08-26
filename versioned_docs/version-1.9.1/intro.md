@@ -19,7 +19,7 @@ sidebar_position: 1
   </div>
 </div>
 
-> **Workshop release baseline:** The August 2026 workshop is frozen on Dify `1.16.1`. The header release menu also keeps the dated March 2026 (`1.13.3`) and September 2025 (`1.9.1`) choices available for compatibility and reference scenarios. There is no floating `latest` workshop choice.
+> **Workshop release baseline:** This documentation version targets the September 2025 Dify `1.9.1` legacy release at commit `cd47a47c3b4acc4d4457b73777722602c33bc950`. The exercise flow is preserved across releases. Release-matched UI screenshots are pending reviewed recapture; there is no floating `latest` documentation choice.
 
 ---
 

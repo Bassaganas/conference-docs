@@ -18,6 +18,10 @@ sidebar_position: 3
   <b>Release baseline:</b> This exercise targets the August 2026 workshop default, Dify <code>1.16.1</code>. The dated compatibility choices in the header may use slightly different labels or layouts, but the model-provider goal is the same.
 </div>
 
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>Verified 1.16.1 path:</b> install Azure OpenAI Service <code>0.0.69</code> from <b>Integrations</b>, configure <code>gpt-35-turbo-16k</code> and <code>text-embedding-3-large</code>, then select them under <b>System Model Settings</b>. The screenshots below were captured from a successful disposable-instance run with secrets hidden.
+</div>
+
 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
   <div>
     <h3 style={{ color: '#0c4a6e', marginBottom: '1em' }}>🚀 What You'll Build</h3>
@@ -394,12 +398,12 @@ Now let's wire your Dify to use Azure-hosted GPT models.
     <div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
       <b>Important:</b> Select the <b>Azure OpenAI Service</b> provider.
     </div>
-    <img src={require('../static/img/ex1/dify-settings-model-provider.png').default} alt="Dify Settings Model Provider" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <img src={require('../static/img/dify/1.16.1/ex1/dify-settings-model-provider.png').default} alt="Dify 1.16.1 model provider settings" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
     <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Model provider settings page</i></div>
   </li>
   <li>
     Install <b>Azure OpenAI Service</b>
-    <img src={require('../static/img/ex1/dify-install-azure-openai.png').default} alt="Install Azure OpenAI" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <img src={require('../static/img/dify/1.16.1/ex1/dify-install-azure-openai.png').default} alt="Install Azure OpenAI Service 0.0.69" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
     <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Installing Azure OpenAI service</i></div>
   </li>
 </ol>
@@ -418,7 +422,7 @@ Use the credentials provided earlier to configure the model:
     <h4 style={{ margin: '0 0 1em 0', color: '#7c3aed' }}>📸 Add Model Interface</h4>
     <div style={{ textAlign: 'center' }}>
       <img 
-        src={require('../static/img/ex1/dify-add-llm-model.png').default} 
+        src={require('../static/img/dify/1.16.1/ex1/dify-add-llm-model.png').default} 
         alt="Add Model" 
         style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
         onClick={(e) => {
@@ -485,7 +489,7 @@ Use the credentials provided earlier to configure the model:
     <h4 style={{ margin: '0 0 1em 0', color: '#7c3aed' }}>📸 Add Model Interface</h4>
     <div style={{ textAlign: 'center' }}>
       <img 
-        src={require('../static/img/ex1/dify-add-embedding-model.png').default} 
+        src={require('../static/img/dify/1.16.1/ex1/dify-add-embedding-model.png').default} 
         alt="Add Model" 
         style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
         onClick={(e) => {
@@ -555,7 +559,7 @@ Use the credentials provided earlier to configure the model:
 </div>
 
 <div style={{ textAlign: 'center' }}>
-  <img src={require('../static/img/ex1/dify-system-model-settings.png').default} alt="System Model Settings" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} />
+  <img src={require('../static/img/dify/1.16.1/ex1/dify-system-model-settings.png').default} alt="Dify 1.16.1 system model settings" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} />
 </div>
 <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>System model settings (click to expand)</i></div>
 
@@ -565,7 +569,7 @@ Use the credentials provided earlier to configure the model:
     <p style={{ margin: '0', fontSize: '1em', color: '#166534' }}>You should now see both models configured in your Dify instance</p>
   </div>
   <div style={{ textAlign: 'center' }}>
-    <img src={require('../static/img/ex1/dify-models-configured.png').default} alt="LLM Connected" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+    <img src={require('../static/img/dify/1.16.1/ex1/dify-models-configured.png').default} alt="Configured chat and embedding models" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
       const img = e.target;
       if (img.style.position === 'fixed') {
         img.style.position = 'static';
@@ -601,7 +605,7 @@ Use the credentials provided earlier to configure the model:
 <ol>
   <li>
     Go to <b>Studio → Chatbot → Create from Blank</b>:
-    <img src={require('../static/img/ex1/dify-chatboot-from-blank.png').default} alt="Blank Chatbot" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <img src={require('../static/img/dify/1.16.1/ex1/dify-chatbot-from-blank.png').default} alt="Create a workflow from blank" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
     <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Creating a new chatbot from scratch</i></div>
   </li>
   <li>
@@ -609,7 +613,7 @@ Use the credentials provided earlier to configure the model:
   </li>
   <li>
     Give your bot a name and description
-    <img src={require('../static/img/ex1/dify-chatboot-config.png').default} alt="Config Bot" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+    <img src={require('../static/img/dify/1.16.1/ex1/dify-chatbot-config.png').default} alt="Configure the workflow application" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
     <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Configuring your chatbot</i></div>
   </li>
 </ol>
@@ -626,7 +630,7 @@ Use the credentials provided earlier to configure the model:
     <b>Click on the start block</b> and then click the <b>+</b> button to add an <i>Input Field</i>
     <div style={{ textAlign: 'center', margin: '1em 0' }}>
       <img 
-        src={require('../static/img/ex1/dify-workflow-start.png').default} 
+        src={require('../static/img/dify/1.16.1/ex1/dify-workflow-start.png').default} 
         alt="Start Block" 
         style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
         onClick={(e) => {
@@ -872,7 +876,7 @@ Use the credentials provided earlier to configure the model:
 You should get a response from your magical assistant! The LLM will process your question and provide an answer.
 
 <div style={{ textAlign: 'center', margin: '1em 0' }}>
-  <img src={require('../static/img/ex1/dify-chatboot-run-input.png').default} alt="Run Input" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+  <img src={require('../static/img/dify/1.16.1/ex1/dify-chatbot-run-result.png').default} alt="Successful workflow answer comparing unit and integration testing" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
     const img = e.target;
     if (img.style.position === 'fixed') {
       img.style.position = 'static';
@@ -903,7 +907,7 @@ You should get a response from your magical assistant! The LLM will process your
 Check the <b>Tracing</b> tab for a detailed breakdown of what your chatbot did:
 
 <div style={{ textAlign: 'center', margin: '1em 0' }}>
-  <img src={require('../static/img/ex1/dify-chatboot-run-tab.png').default} alt="Tracing" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
+  <img src={require('../static/img/dify/1.16.1/ex1/dify-chatbot-run-trace-detail.png').default} alt="Successful run detail with elapsed time and token count" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
     const img = e.target;
     if (img.style.position === 'fixed') {
       img.style.position = 'static';
@@ -982,7 +986,7 @@ Check the <b>Tracing</b> tab for a detailed breakdown of what your chatbot did:
       }}>📚 Continue to Exercise 2</a>
     </div>
     <div style={{ textAlign: 'center' }}>
-      <a href="/dify-dsls/ex1_solved.yml" download style={{
+      <a href="/dify-dsls/ex1_solved-1.16.1.yml" download style={{
         display: 'inline-block',
         background: '#22c55e',
         color: '#fff',

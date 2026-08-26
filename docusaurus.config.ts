@@ -42,6 +42,19 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          lastVersion: '1.16.1',
+          onlyIncludeVersions: ['1.16.1', '1.13.3', '1.9.1'],
+          versions: {
+            '1.16.1': {
+              label: 'August 2026 - Dify 1.16.1',
+            },
+            '1.13.3': {
+              label: 'March 2026 - Dify 1.13.3',
+            },
+            '1.9.1': {
+              label: 'September 2025 - Dify 1.9.1',
+            },
+          },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
         },
@@ -85,6 +98,10 @@ const config: Config = {
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Tutorial',
+        },
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
         },
         {
           href: 'https://testingfantasy.com/',

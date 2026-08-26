@@ -42,6 +42,10 @@ import CodeBlock from '@theme/CodeBlock';
   <b>Release baseline:</b> The grounded Chatflow and Retriever flow documented here targets Dify <code>1.16.1</code>, the August 2026 workshop default. If you select a dated compatibility release, use its equivalent Knowledge and Studio controls.
 </div>
 
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>Verified configuration:</b> use <code>gpt-35-turbo-16k</code>, select the API-ingested <code>Jira_API_Basic_*</code> knowledge base, bind <b>Knowledge Retrieval.result</b> to the LLM context, and keep the explicit no-match instruction. After importing the solution DSL on another instance, reselect your own knowledge base if Dify cannot resolve the exported dataset reference.
+</div>
+
 ---
 
 ## 🛠️ Step 1: Start a New Chatflow
@@ -81,7 +85,7 @@ import CodeBlock from '@theme/CodeBlock';
     In your chatbot workflow, <b>insert a Retriever block</b> between the user query input (Start Block) and the LLM block.<br />
     <img src={require('../static/img/ex3/knowledge-retrieval.png').default} alt="Knowledge Retrieval" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
     <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Adding a Retriever block</i></div>
-    <img src={require('../static/img/ex3/chatflow-with-knowledge-retrieval.png').default} alt="Chatflow with Knowledge Retrieval" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <img src={require('../static/img/dify/1.16.1/ex3/chatflow-with-knowledge-retrieval.png').default} alt="Dify 1.16.1 Start to Knowledge Retrieval to LLM to Answer flow" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
     <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Chatflow with Retriever block</i></div>
   </li>
   <li>
@@ -111,7 +115,7 @@ import CodeBlock from '@theme/CodeBlock';
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
   <b>Oops! But does it really work already?</b>
 </div>
-<img src={require('../static/img/ex3/chatflow-failed-answer.png').default} alt="Failed Answer" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+<img src={require('../static/img/dify/1.16.1/ex3/chatflow-fallback.png').default} alt="Verified no-match fallback for an out-of-scope question" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
 <div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#b91c1c', fontSize: '1.1em' }}>
   <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>❌</span>
   <b>Failure:</b> If you haven't connected the Retriever correctly, your chatbot will <u>not</u> be able to answer questions using your knowledge base.<br />
@@ -134,7 +138,7 @@ import CodeBlock from '@theme/CodeBlock';
       <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>✅</span>
       <b>Success:</b> Your chatbot now uses the retrieved context and provides accurate, knowledge-based answers!
     </div>
-    <img src={require('../static/img/ex3/chatflow-answer-correct.png').default} alt="Correct Answer" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+    <img src={require('../static/img/dify/1.16.1/ex3/chatflow-answer.png').default} alt="Grounded REST-266 answer with testing implications and citation" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
     <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Correct answer with context</i></div>
   </li>
 </ol>
@@ -315,7 +319,7 @@ Just ask your question below and I'll see what's in the spellbook 📚
   <ol>
     <li>In the Dify Studio, open your Chatflow project.</li>
     <li>Look for the <b>Publish</b> or <b>Share</b> option (usually in the top-right corner).</li>
-    <img src={require('../static/img/ex3/chatflow-publish.png').default} alt="Publish Chatbot" style={{ maxWidth: '100%', height: 'auto' }} />
+    <img src={require('../static/img/dify/1.16.1/ex3/chatflow-with-knowledge-retrieval.png').default} alt="Dify 1.16.1 Chatflow editor with Preview and Publish controls" style={{ maxWidth: '100%', height: 'auto' }} />
     <li>Click on <b>Publish Update</b> and then <b>Run App</b>.</li>
     <img src={require('../static/img/ex3/chatflow-published.png').default} alt="Chatflow Published" style={{ maxWidth: '100%', height: 'auto' }} />
     <li>Share the link with your team or test it in a new browser window.</li>
@@ -333,7 +337,7 @@ Just ask your question below and I'll see what's in the spellbook 📚
 ## 🧩 Solution Download
 
 <a
-  href="/dify-dsls/ex3_solved.yml"
+  href="/dify-dsls/ex3_solved-1.16.1.yml"
   download
   style={{
     display: 'inline-flex',

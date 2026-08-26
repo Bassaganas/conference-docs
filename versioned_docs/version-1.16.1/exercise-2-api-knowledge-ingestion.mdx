@@ -111,13 +111,17 @@ sidebar_position: 5
     Find and copy your <b>API Server</b> URL
   </li>
   <li>
-    Click the <b>API Key</b> button to create a new API key for your datasets
+    Click the <b>API Key</b> button and create a dedicated, short-lived key for this ingestion
   </li>
 </ol>
 
+<div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '1em 1.2em', margin: '1em 0' }}>
+  <b>Credential safety:</b> Use this key only for the workshop ingestion, never include it in screenshots or saved command files, and revoke it after the verification steps below.
+</div>
+
 <div style={{ textAlign: 'center', margin: '1em 0' }}>
   <img 
-    src={require('../static/img/ex2/kb-api-access.png').default} 
+    src={require('../static/img/dify/1.16.1/ex2/kb-api-access.png').default} 
     alt="API Access" 
     style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
     onClick={(e) => {
@@ -149,7 +153,7 @@ sidebar_position: 5
 
 <div style={{ textAlign: 'center', margin: '1em 0' }}>
   <img 
-    src={require('../static/img/ex2/kb-create-apikey.png').default} 
+    src={require('../static/img/dify/1.16.1/ex2/kb-create-apikey.png').default} 
     alt="Create API Key" 
     style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
     onClick={(e) => {
@@ -188,6 +192,8 @@ sidebar_position: 5
 ---
 
 ## 🔍 Step 2: Explore Available Projects
+
+Before sending any Dify credentials, open the service <a href="https://dify-jira.testingfantasy.com/health" target="_blank" rel="noopener noreferrer"><code>/health</code></a> and <a href="https://dify-jira.testingfantasy.com/projects" target="_blank" rel="noopener noreferrer"><code>/projects</code></a> endpoints. Continue only when the service reports version <code>2.1.0</code> and lists <code>REST_JiraEcosystem_issues</code>.
 
 <div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
   <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>📋 Exploration Steps</h4>
@@ -394,19 +400,34 @@ The API will return a response showing the ingestion status:
 {
   "success": true,
   "dify_instance": "{your_dify_base_url}/v1",
-  "issues_ingested": 23,
-  "project": "REST_JiraEcosystem_issues",
-  "message": "Successfully ingested 23 issues from REST_JiraEcosystem_issues.json"
+  "files_processed": 1,
+  "files_failed": 0,
+  "results": [
+    {
+      "file": "REST_JiraEcosystem_issues",
+      "result": ["... Dify document and metadata responses ..."],
+      "issues_ingested": 23
+    }
+  ],
+  "errors": []
 }
 ```
+
+The exact Dify response objects inside <code>results[0].result</code> vary by server version. Treat the request as successful only when <code>success</code> is <code>true</code>, <code>files_processed</code> is <code>1</code>, <code>files_failed</code> is <code>0</code>, and <code>errors</code> is empty.
 
 ### 4.2: Verify in Dify Knowledge Base
 
 Navigate to your Dify instance and check the <b>Knowledge</b> section. You should see your newly created knowledge base!
 
+Confirm that:
+
+- the <code>Jira_API_Basic_*</code> knowledge base exists and all <b>23</b> documents finish indexing;
+- built-in metadata is enabled and the custom <code>issue_key</code> field is attached to issue documents; and
+- a retrieval test for <code>Give a test plan for REST-266</code> returns the expected issue.
+
 <div style={{ textAlign: 'center', margin: '1em 0' }}>
   <img 
-    src={require('../static/img/ex2/kb-created-api.png').default} 
+    src={require('../static/img/dify/1.16.1/ex2/api-ingested-documents.png').default} 
     alt="KB Created API" 
     style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
     onClick={(e) => {
@@ -438,7 +459,7 @@ Navigate to your Dify instance and check the <b>Knowledge</b> section. You shoul
 
 <div style={{ textAlign: 'center', margin: '1em 0' }}>
   <img 
-    src={require('../static/img/ex2/dataset-api-config.png').default} 
+    src={require('../static/img/dify/1.16.1/ex2/api-ingested-metadata.png').default} 
     alt="Dataset API Config" 
     style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} 
     onClick={(e) => {
@@ -474,6 +495,8 @@ Navigate to your Dify instance and check the <b>Knowledge</b> section. You shoul
     <p style={{ margin: '0', fontSize: '1em', color: '#166534' }}>Your Jira issues have been successfully ingested with structured metadata!</p>
   </div>
 </div>
+
+After the knowledge-base and retrieval checks pass, return to Dify's Knowledge API settings and revoke the short-lived key. Do not retain the key in workshop notes, terminal history, screenshots, or source control. The verified 1.16.1 run returned <code>success: true</code>, processed one file with no failures, created 23 issue documents, and revoked the key immediately after verification.
 
 ---
 
