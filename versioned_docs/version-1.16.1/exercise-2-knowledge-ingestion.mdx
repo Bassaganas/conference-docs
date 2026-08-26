@@ -2,6 +2,8 @@
 sidebar_position: 4
 ---
 
+import ChangeTag from '@site/src/components/ChangeTag';
+
 # 📄 2: Build Your Knowledge Base
 
 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
@@ -87,7 +89,7 @@ For example, if two chunks overlap by 100 tokens, the second chunk repeats the l
 
 ---
 
-## 🎯 Ranking and top-k Retrieval
+## 🎯 Ranking and top-k Retrieval <ChangeTag kind="changed" />
 
 Once you have all your documents chunked and embedded, you'll want to find the most relevant ones to a query.
 
@@ -101,6 +103,10 @@ This is where <b>ranking</b> comes in:
 <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
   <b>Getting the <code>top K</code> right can dramatically improve performance!</b>
 </div>
+
+Top K alone is not a quality target. In Dify 1.16.1, also test the retrieval mode,
+score threshold, returned source, and behavior for an unrelated query. Exercise 2.1
+uses the same Jira fixture to turn these controls into a repeatable benchmark.
 
 ---
 
@@ -160,7 +166,7 @@ This is where <b>ranking</b> comes in:
 </ol>
 
 <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em 1.2em', margin: '1em 0' }}>
-  <b>Verify retrieval, not just indexing:</b> open <b>Retrieval Testing</b> and query <code>REST-266 Default Jackson configuration unknown properties</code>. A useful result contains the issue key, summary, and description in the same retrieved context.
+  <b>Verify retrieval, not just indexing:</b> open <b>Retrieval Testing</b> and query <code>REST-266 Default Jackson configuration unknown properties</code>. A useful result contains the issue key, summary, and description in the same retrieved context. This is a smoke check; the measured positive and no-match acceptance suite follows in Exercise 2.1.
 </div>
 
 <img src={require('../static/img/dify/1.16.1/ex2/knowledge-retrieval-rest-266.png').default} alt="REST-266 retrieval with key, summary, description, and score" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />

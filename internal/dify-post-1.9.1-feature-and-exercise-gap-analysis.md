@@ -33,6 +33,29 @@ The recommended backlog is:
 | P2 | Add optional automation, multimodal retrieval, human approval, external observability, and operator tooling | Extensions or advanced exercise |
 | P3 | Defer Agent beta, MCP publishing, collaboration-only UI, database choices, and broad infrastructure changes | Separate workshop or operator guide |
 
+## Live 1.16.1 modernization decision
+
+The August 2026 workshop run tested the recommendations against Dify `1.16.1` and the
+deployed Jira ingestion contract rather than adopting features from release notes alone.
+
+| Capability | Decision | Live evidence |
+| --- | --- | --- |
+| Summary Index | Adopt | Summaries generated for all 23 Jira documents; REST-266 preserved requirements, compatibility risk, acceptance criteria, and test implications |
+| Hybrid Search and score threshold | Adopt | Keyword/semantic weights `0.7`/`0.3` plus threshold `0.05` kept REST-266 in the top three for the fixed positive queries and returned zero chunks for the unrelated query |
+| Exact-key metadata filter | Keep mandatory | Semantic retrieval still missed exact REST-265 and test-plan formulations; `issue_key` is the deterministic boundary |
+| Citations and Knowledge trace | Adopt | A risk query produced a grounded REST-266 answer, visible citations, retrieved content, and node latency |
+| App versions | Adopt | The accepted Exercise 3 Chatflow was published and its snapshot/restore interface verified |
+| Iteration error handling and batch status | Adopt | Both Exercise 4 Iterations persist `remove-abnormal-output`; complete, partial, and zero-result runs preserve grounded successes while identifying missing keys |
+| Schedule/webhook trigger | Defer | The ingestion API creates a random dataset per run, does not update by stable identity, and does not poll terminal indexing |
+| Human Input | Defer | No approval boundary exists in the read-only answer flow; queue, timeout, and resume behavior would add unrelated complexity |
+| Multimodal Knowledge | Defer | The current Jira fixture has no answer-critical images |
+| Agent application | Separate | Agent tools introduce a different architecture and threat model without improving deterministic Jira retrieval |
+
+The benchmark also exposed a Summary Index safety boundary: generated test implications
+must be reviewed as model-generated retrieval hints, not treated as new source
+requirements. These decisions are reflected only in the `1.16.1` exercise pages; the
+immutable `1.9.1` baseline remains unchanged.
+
 ## Scope and evidence rules
 
 ### Interpretation of "since 2025"

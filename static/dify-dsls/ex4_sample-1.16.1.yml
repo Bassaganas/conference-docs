@@ -1001,7 +1001,10 @@ workflow:
             \ does REST-433 fix?\nContext includes \"Jira Issue: REST-433\"\n✅ Answer\
             \ with issue details.\n\nQ: What does REST-433 fix?\nContext does NOT\
             \ include REST-433\n❌ Do not guess. Respond with: \"I’m sorry, I can’t\
-            \ find details about that specific issue...\"\n\n{{#context#}}"
+            \ find details about that specific issue...\"\n\n{{#context#}}\n\nBatch\
+            \ completion status: {{#1762727584347.batch_status#}}\nIf this status\
+            \ is partial or empty, state it clearly before presenting any successful\
+            \ results."
         selected: false
         title: LLM 3
         type: llm
@@ -1045,7 +1048,7 @@ workflow:
       zIndex: 0
     - data:
         desc: ''
-        error_handle_mode: terminated
+        error_handle_mode: remove-abnormal-output
         height: 187
         is_parallel: true
         iterator_input_type: array[string]
@@ -1391,7 +1394,7 @@ workflow:
       zIndex: 0
     - data:
         desc: ''
-        error_handle_mode: terminated
+        error_handle_mode: remove-abnormal-output
         height: 187
         is_parallel: true
         iterator_selector:
@@ -1641,7 +1644,10 @@ workflow:
             \ [Further expected outcome, if any] \n\nPlease ensure the Gherkin steps\
             \ are clear, concise, and directly relate to the Jira issue.\nProvide\
             \ the test cases in a visual way easy to identify, leave clear which is\
-            \ each scenario (with colours and inside a \"box\" as it was code)\n\n"
+            \ each scenario (with colours and inside a \"box\" as it was code)\n\n\
+            \n\nBatch completion status: {{#1762728060345.batch_status#}}\nIf this\
+            \ status is partial or empty, state it clearly before presenting any successful\
+            \ results."
         selected: false
         title: LLM 6
         type: llm
@@ -1752,13 +1758,28 @@ workflow:
       width: 242
       zIndex: 0
     - data:
-        code: "def main(inputs: list) -> dict:\n    flat_context = []\n    for item\
-          \ in inputs:\n        if isinstance(item, list):\n            flat_context.extend(value\
-          \ for value in item if isinstance(value, dict))\n        elif isinstance(item,\
-          \ dict):\n            flat_context.append(item)\n    return {\"flat_context\"\
-          : flat_context}\n"
+        code: "import re\n\n\ndef main(inputs: list, expected_keys: list) -> dict:\n\
+          \    flat_context = []\n    for item in inputs:\n        if isinstance(item,\
+          \ list):\n            flat_context.extend(value for value in item if isinstance(value,\
+          \ dict))\n        elif isinstance(item, dict):\n            flat_context.append(item)\n\
+          \n    expected = [str(key).upper() for key in expected_keys if key]\n  \
+          \  retrieved_keys = set(re.findall(\n        r\"(?<![A-Z0-9-])[A-Z][A-Z0-9]+-\\\
+          d+(?![A-Z0-9-])\",\n        str(flat_context).upper(),\n    ))\n    completed\
+          \ = [key for key in expected if key in retrieved_keys]\n    missing = [key\
+          \ for key in expected if key not in retrieved_keys]\n\n    if not expected:\n\
+          \        batch_status = \"No Jira issue keys were requested.\"\n    elif\
+          \ not completed:\n        batch_status = \"No requested Jira issues were\
+          \ retrieved: \" + \", \".join(expected) + \".\"\n    elif missing:\n   \
+          \     batch_status = \"Partial result: retrieved \" + str(len(completed))\
+          \ + \" of \" + str(len(expected)) + \" requested issues. Missing: \" + \"\
+          , \".join(missing) + \".\"\n    else:\n        batch_status = \"Complete\
+          \ result: retrieved all \" + str(len(expected)) + \" requested issues.\"\
+          \n\n    return {\"flat_context\": flat_context, \"batch_status\": batch_status}\n"
         code_language: python3
         outputs:
+          batch_status:
+            children: null
+            type: string
           flat_context:
             children: null
             type: array[object]
@@ -1771,6 +1792,11 @@ workflow:
           - output
           value_type: array[object]
           variable: inputs
+        - value_selector:
+          - '1748767570289'
+          - issue_keys
+          value_type: array[string]
+          variable: expected_keys
       height: 52
       id: '1762727584347'
       position:
@@ -1786,13 +1812,28 @@ workflow:
       width: 242
       zIndex: 0
     - data:
-        code: "def main(inputs: list) -> dict:\n    flat_context = []\n    for item\
-          \ in inputs:\n        if isinstance(item, list):\n            flat_context.extend(value\
-          \ for value in item if isinstance(value, dict))\n        elif isinstance(item,\
-          \ dict):\n            flat_context.append(item)\n    return {\"flat_context\"\
-          : flat_context}\n"
+        code: "import re\n\n\ndef main(inputs: list, expected_keys: list) -> dict:\n\
+          \    flat_context = []\n    for item in inputs:\n        if isinstance(item,\
+          \ list):\n            flat_context.extend(value for value in item if isinstance(value,\
+          \ dict))\n        elif isinstance(item, dict):\n            flat_context.append(item)\n\
+          \n    expected = [str(key).upper() for key in expected_keys if key]\n  \
+          \  retrieved_keys = set(re.findall(\n        r\"(?<![A-Z0-9-])[A-Z][A-Z0-9]+-\\\
+          d+(?![A-Z0-9-])\",\n        str(flat_context).upper(),\n    ))\n    completed\
+          \ = [key for key in expected if key in retrieved_keys]\n    missing = [key\
+          \ for key in expected if key not in retrieved_keys]\n\n    if not expected:\n\
+          \        batch_status = \"No Jira issue keys were requested.\"\n    elif\
+          \ not completed:\n        batch_status = \"No requested Jira issues were\
+          \ retrieved: \" + \", \".join(expected) + \".\"\n    elif missing:\n   \
+          \     batch_status = \"Partial result: retrieved \" + str(len(completed))\
+          \ + \" of \" + str(len(expected)) + \" requested issues. Missing: \" + \"\
+          , \".join(missing) + \".\"\n    else:\n        batch_status = \"Complete\
+          \ result: retrieved all \" + str(len(expected)) + \" requested issues.\"\
+          \n\n    return {\"flat_context\": flat_context, \"batch_status\": batch_status}\n"
         code_language: python3
         outputs:
+          batch_status:
+            children: null
+            type: string
           flat_context:
             children: null
             type: array[object]
@@ -1805,6 +1846,11 @@ workflow:
           - output
           value_type: array[object]
           variable: inputs
+        - value_selector:
+          - '17487850509710'
+          - issue_keys
+          value_type: array[string]
+          variable: expected_keys
       height: 52
       id: '1762728060345'
       position:

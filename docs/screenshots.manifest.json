@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "source_revision_semantics": "Immutable upstream service Git revision used by the captured runtime",
   "default_viewport": "1440x900",
   "validation": ["npm run screenshots:check", "npm run typecheck", "npm run build"],
   "documentation_versions": {
@@ -73,37 +74,37 @@
         },
         {
           "id": "exercise-2-knowledge",
-          "state": "manual and API-created knowledge bases with deterministic Jira dataset",
+          "state": "manual and API-created Jira knowledge with Summary Index, hybrid retrieval benchmark, and no-match threshold",
           "fixture": "static/dataset public and synthetic Jira files",
           "output_directories": ["static/img/dify/1.16.1/ex2"],
           "target_docs": ["versioned_docs/version-1.16.1/02_dataset.mdx", "versioned_docs/version-1.16.1/exercise-2-knowledge-ingestion.mdx", "versioned_docs/version-1.16.1/exercise-2-api-knowledge-ingestion.mdx"],
           "redactions": ["API keys", "private origins", "student identifiers"],
           "status": "reviewed",
-          "captured_at": "2026-08-26T00:00:00Z",
+          "captured_at": "2026-08-26T13:13:00Z",
           "source_revision": "6f8ed69ee15f9a2e7189ca066275e973d091d1e9",
           "service_version": "1.16.1"
         },
         {
           "id": "exercise-3-chatflow",
-          "state": "grounded chatbot from creation through publication",
+          "state": "grounded chatbot with citations, Knowledge Retrieval trace, no-match behavior, and published version history",
           "fixture": "static/dify-dsls/ex3_solved-1.16.1.yml and deterministic retrieval questions",
           "output_directories": ["static/img/dify/1.16.1/ex3"],
           "target_docs": ["versioned_docs/version-1.16.1/exercise-3-ai-chatbot-setup.mdx"],
           "redactions": ["API keys", "private origins", "student identifiers"],
           "status": "reviewed",
-          "captured_at": "2026-08-26T00:00:00Z",
+          "captured_at": "2026-08-26T13:17:00Z",
           "source_revision": "6f8ed69ee15f9a2e7189ca066275e973d091d1e9",
           "service_version": "1.16.1"
         },
         {
           "id": "exercise-4-advanced-flow",
-          "state": "advanced retrieval and workflow blocks",
+          "state": "advanced retrieval with Iteration abnormal-output handling plus verified complete and partial multi-issue results",
           "fixture": "static/dify-dsls/ex4_sample-1.16.1.yml",
           "output_directories": ["static/img/dify/1.16.1/ex4"],
           "target_docs": ["versioned_docs/version-1.16.1/exercise-4-advanced-prompting.mdx"],
           "redactions": ["API keys", "private origins", "student identifiers"],
           "status": "reviewed",
-          "captured_at": "2026-08-26T00:00:00Z",
+          "captured_at": "2026-08-26T13:32:00Z",
           "source_revision": "6f8ed69ee15f9a2e7189ca066275e973d091d1e9",
           "service_version": "1.16.1"
         }
