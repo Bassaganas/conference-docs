@@ -16,9 +16,10 @@ Use `docs/screenshots.manifest.json` as the capture queue. Screenshots are docum
 3. Confirm the declared environment is available. Prefer local or disposable workshop state; ask before navigating live services.
 4. Reproduce each group's fixture and state at `1440x900`. Capture `390x844` only when the workflow is supported on mobile.
 5. Replace every declared output for the selected group. Keep raw and annotated derivatives separate where annotations are needed.
-6. Redact API keys, model/provider credentials, student credentials, private origins, cloud identifiers, personal data, and browser/terminal history.
-7. Update `captured_at`, `source_revision`, and `service_version` in the manifest.
-8. Run `npm run check` and inspect every image at rendered documentation width.
+6. For exercise additions/increments, keep screenshot `target_docs` scoped to `versioned_docs/version-1.16.1/**` unless the user explicitly asks for older compatibility docs updates.
+7. Redact API keys, model/provider credentials, student credentials, private origins, cloud identifiers, personal data, and browser/terminal history.
+8. Update `captured_at`, `source_revision`, and `service_version` in the manifest.
+9. Run `npm run check` and inspect every image at rendered documentation width.
 
 ## Service Boundaries
 

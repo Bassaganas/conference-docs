@@ -61,13 +61,37 @@
       "shots": [
         {
           "id": "exercise-1-model-and-chatbot",
-          "state": "admin setup, model provider configuration, and runnable chatbot",
-          "fixture": "synthetic workshop tenant and model names",
+          "state": "admin setup entrypoint, model provider configuration, optional local-model branch, and runnable chatbot",
+          "fixture": "synthetic workshop tenant, model names, and Dify install route captured from a disposable instance",
+          "outputs": [
+            "static/img/dify/1.16.1/ex1/dify-install-entry-1.16.1.png",
+            "static/img/dify/1.16.1/ex1/dify-install-entry-1.16.1-viewport.png",
+            "static/img/dify/1.16.1/ex1/dify-install-entry-1.16.1-mobile.png"
+          ],
           "output_directories": ["static/img/dify/1.16.1/ex1"],
           "target_docs": ["versioned_docs/version-1.16.1/exercise-1-llm-configuration.mdx"],
           "redactions": ["provider keys", "endpoints", "credentials", "tenant identifiers"],
           "status": "reviewed",
-          "captured_at": "2026-08-26T00:00:00Z",
+          "captured_at": "2026-09-07T00:00:00Z",
+          "source_revision": "6f8ed69ee15f9a2e7189ca066275e973d091d1e9",
+          "service_version": "1.16.1"
+        },
+        {
+          "id": "exercise-1b-local-model",
+          "state": "Ollama provider installed, local model registered, workflow switched to the local model, and comparison run completed",
+          "fixture": "disposable Dify 1.16.1 workspace with qwen2.5:1.5b served by an authenticated temporary endpoint",
+          "outputs": [
+            "static/img/dify/1.16.1/ex1/local-model/local-ollama-tunnel-setup.png",
+            "static/img/dify/1.16.1/ex1/local-model/ollama-provider-installed.png",
+            "static/img/dify/1.16.1/ex1/local-model/add-ollama-model.png",
+            "static/img/dify/1.16.1/ex1/local-model/local-model-configured.png",
+            "static/img/dify/1.16.1/ex1/local-model/local-model-run-trace.png"
+          ],
+          "output_directories": ["static/img/dify/1.16.1/ex1/local-model"],
+          "target_docs": ["versioned_docs/version-1.16.1/exercise-1-llm-configuration.mdx"],
+          "redactions": ["provider keys", "bearer tokens", "temporary endpoints", "credentials", "tenant identifiers", "local filesystem paths"],
+          "status": "reviewed",
+          "captured_at": "2026-09-07T15:45:00Z",
           "source_revision": "6f8ed69ee15f9a2e7189ca066275e973d091d1e9",
           "service_version": "1.16.1"
         },
