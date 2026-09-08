@@ -89,11 +89,40 @@
             "static/img/dify/1.16.1/ex1/local-model/local-model-run-trace.png"
           ],
           "output_directories": ["static/img/dify/1.16.1/ex1/local-model"],
-          "target_docs": ["versioned_docs/version-1.16.1/exercise-1-llm-configuration.mdx"],
+          "target_docs": [
+            "docs/exercise-1-llm-configuration.mdx",
+            "versioned_docs/version-1.16.1/exercise-1-llm-configuration.mdx"
+          ],
           "redactions": ["provider keys", "bearer tokens", "temporary endpoints", "credentials", "tenant identifiers", "local filesystem paths"],
           "status": "reviewed",
           "captured_at": "2026-09-07T15:45:00Z",
           "source_revision": "6f8ed69ee15f9a2e7189ca066275e973d091d1e9",
+          "service_version": "1.16.1"
+        },
+        {
+          "id": "exercise-1b-classroom-local-model",
+          "state": "assignment page showing the Classroom Local Model credential card, and the Dify Ollama provider configured against the shared classroom endpoint",
+          "fixture": "disposable Testus Patronus session with local_llm_enabled and one claimed learner seat; shared Ollama host serving the pinned manifest model",
+          "outputs": [
+            "static/img/dify/1.16.1/ex1/local-model/classroom-local-llm-credentials.png",
+            "static/img/dify/1.16.1/ex1/local-model/classroom-ollama-model-configured.png"
+          ],
+          "output_directories": ["static/img/dify/1.16.1/ex1/local-model"],
+          "target_docs": [
+            "docs/exercise-1-llm-configuration.mdx",
+            "versioned_docs/version-1.16.1/exercise-1-llm-configuration.mdx"
+          ],
+          "redactions": [
+            "learner seat tokens",
+            "classroom endpoint hostnames",
+            "session identifiers",
+            "provider keys",
+            "student identifiers"
+          ],
+          "alt_text": "Assignment page Classroom Local Model card, and the Dify Ollama provider pointed at the shared classroom endpoint",
+          "status": "planned",
+          "captured_at": null,
+          "source_revision": null,
           "service_version": "1.16.1"
         },
         {

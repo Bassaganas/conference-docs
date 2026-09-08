@@ -653,95 +653,182 @@ Use the credentials provided earlier to configure the model:
 
 ---
 
-## 🧪 Optional Exercise 1B: Connect a Local or Self-Hosted Model
+---
 
-If you want to avoid managed-cloud model dependencies, run this optional branch now. Keep your original Azure setup so you can compare behavior and costs later. This branch is optional and is deliberately placed after the Azure run, so you always have a known-good baseline.
+## 🧪 Exercise 1B: Connect a Local Model
+
+You have just run a workflow against Azure OpenAI. This exercise runs the *same* workflow against a model that is not a managed cloud API, so you can compare quality, latency and cost with everything else held constant.
+
+Keep your Azure setup. It stays your known-good baseline, and every later exercise still works against it.
 
 ### 🎯 Objective
 
-Connect Dify 1.16.1 to a model served by Ollama or another self-hosted runtime, then compare the same workflow against Azure OpenAI.
+Configure Dify's official Ollama provider against a model your classroom runs, then run your Exercise 1 workflow on it and compare.
 
-### 1. Confirm Instance Entry Point
+### 🏗️ Where the model actually runs
 
-If your assigned Dify environment opens directly on the install flow, complete admin setup first:
-
-<div style={{ textAlign: 'center', margin: '1em 0' }}>
-  <img src={require('../static/img/dify/1.16.1/ex1/dify-install-entry-1.16.1-viewport.png').default} alt="Dify install page for admin account setup" style={{ maxWidth: '100%', borderRadius: '8px' }} />
-  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Dify 1.16.1 install page captured from the workshop instance</i></div>
+<div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1.2em', marginBottom: '1.5em' }}>
+  <p style={{ margin: '0 0 0.8em 0' }}>Your classroom runs <b>one shared Ollama service for the whole session</b>, on its own machine. It is not installed on your Dify instance, and it is not on your laptop.</p>
+  <p style={{ margin: 0 }}>That machine downloads the model once for the entire room rather than once per person, which is why this works on conference Wi-Fi at all. You reach it over HTTPS with a token that belongs to your seat.</p>
 </div>
 
-<div style={{ textAlign: 'center', margin: '1em 0' }}>
-  <img src={require('../static/img/dify/1.16.1/ex1/dify-install-entry-1.16.1-mobile.png').default} alt="Dify install page mobile view" style={{ maxWidth: '390px', width: '100%', borderRadius: '8px' }} />
-  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Mobile view reference for the same install route</i></div>
+```
+   Your Dify instance ─┐
+                       ├─► HTTPS + your token ─► auth proxy ─► Ollama ─► model
+   Another learner's ──┘                                      (private port)
+```
+
+You get an endpoint, a model name and a token. You do not get shell access to that machine, and you do not need it.
+
+### Two paths
+
+| | Path A — Classroom model | Path B — Your own laptop |
+|---|---|---|
+| **Who runs it** | Your instructor | You |
+| **Setup time** | ~2 minutes | ~20 minutes |
+| **Needs a good network** | No | Yes, for the model download |
+| **Use when** | You are in the workshop | You are self-studying later, or the classroom model is unavailable |
+
+**Path A is the classroom path.** Use it unless your instructor says otherwise.
+
+---
+
+## 🅰️ Path A: The classroom shared model
+
+### 1. Find your model credentials
+
+Go back to the assignment page where you got your Dify URL and your Azure credentials. Below the Azure cards there is a **Classroom Local Model** card containing four things:
+
+| Field | What it is | Example shape |
+|---|---|---|
+| **Base URL** | The authenticated HTTPS endpoint | `https://llm-<session>.<classroom domain>` |
+| **Model Name** | The exact model tag to type into Dify | `llama3.2:3b` |
+| **API Key** | Your personal seat token | a long hex string |
+| **Valid Until** | When your token expires | a timestamp |
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.2em', marginBottom: '1.5em' }}>
+  <b>⚠️ Your token is yours.</b> It identifies your seat. Do not paste it into a shared document, a screenshot or a chat channel. If you think it leaked, tell your instructor and they will revoke it — your Dify provider will start failing immediately, which is the point.
 </div>
 
-### 2. Prepare Your Local/Self-Hosted Endpoint
+{/* SCREENSHOT SLOT: assignment page Classroom Local Model card.
+    Capture per docs/screenshots.manifest.json id "exercise-1b-classroom-local-model",
+    then add the image block here. Not referenced yet so the build cannot break on a
+    missing file. */}
 
-Use one of these patterns:
+If you do not see that card, your session is running without a shared model. Use Path B, or stay on Azure — nothing later in the workshop depends on this exercise.
+
+### 2. Install the Ollama provider
+
+1. Open **Integrations → Model Provider**.
+2. Install the official **Ollama** provider from the provider cards.
+3. Confirm it is installed before registering a model:
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img src={require('../static/img/dify/1.16.1/ex1/local-model/ollama-provider-installed.png').default} alt="Installed Ollama provider in Dify" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>The official Ollama provider, installed</i></div>
+</div>
+
+### 3. Add the classroom model
+
+Select **Add Model** and fill in the form from your credential card:
+
+| Dify field | What to enter |
+|---|---|
+| **Model Type** | `LLM` |
+| **Model Name** | the **Model Name** from your card, exactly — e.g. `llama3.2:3b` |
+| **Base URL** | the **Base URL** from your card, with no trailing path |
+| **Authorization Name** | `Bearer` |
+| **API Key** | your seat token |
+| **Model context size** | `8192` |
+| **Upper bound for max tokens** | `1024` |
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img src={require('../static/img/dify/1.16.1/ex1/local-model/add-ollama-model.png').default} alt="Adding an Ollama model in Dify" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>The Ollama model registration form. The screenshot shows a self-managed endpoint; yours will be the classroom URL from your card.</i></div>
+</div>
+
+Save. The model should appear under the Ollama provider:
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img src={require('../static/img/dify/1.16.1/ex1/local-model/local-model-configured.png').default} alt="Configured local model under the Ollama provider" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>The registered model is now available as a chat model</i></div>
+</div>
+
+<details>
+  <summary><b>Optional: check the endpoint yourself before configuring Dify</b></summary>
+
+Two commands tell you whether the problem is your token or your Dify form. Replace the placeholders with your own values:
+
+```bash
+# Without a token: must return 401.
+curl -s -o /dev/null -w '%{http_code}\n' https://YOUR-BASE-URL/api/tags
+
+# With your token: must return 200 and list the model.
+curl -s -H "Authorization: Bearer YOUR-TOKEN" https://YOUR-BASE-URL/api/tags
+```
+
+`401` on the second command means the token is wrong, expired or revoked. A connection error means the endpoint is wrong or the service is down — ask your instructor rather than retrying harder.
+</details>
+
+### 4. Run the same workflow
+
+Open your Exercise 1 workflow, select the **LLM node**, and switch its model from Azure OpenAI to the Ollama model. Change nothing else — same prompt, same inputs.
+
+<div style={{ textAlign: 'center', margin: '1em 0' }}>
+  <img src={require('../static/img/dify/1.16.1/ex1/local-model/local-model-run-trace.png').default} alt="Successful local model workflow trace in Dify" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>The Exercise 1 workflow after switching the LLM node to the local model</i></div>
+</div>
+
+### 5. Compare against Azure
+
+Switch the node back to Azure, run the same prompt again, and record both:
+
+| | Classroom model | Azure OpenAI |
+|---|---|---|
+| Time to first token | | |
+| Total response time | | |
+| Did it follow the format you asked for? | | |
+| Did it invent anything? | | |
+| Who can see your prompt | your classroom only | Azure |
+| Marginal cost per request | none — the host is already paid for | per token |
+
+The comparison is only meaningful if the prompt and the retrieval context are identical. Change one thing at a time.
+
+<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.2em', marginBottom: '1.5em' }}>
+  <b>What you should expect.</b> A 3-billion-parameter model on a shared CPU is <i>noticeably slower</i> and <i>less reliable at following instructions</i> than a hosted frontier model. That is the lesson, not a fault: you are seeing what "local and private" actually costs in latency and quality, so you can decide when that trade is worth making.
+</div>
+
+---
+
+## 🅱️ Path B: Your own self-hosted model (optional)
+
+Use this when you are studying on your own, or when the classroom model is unavailable and you would rather not use Azure.
 
 <ul>
   <li><b>Ollama on the same host or network as Dify</b>: install Ollama, run <code>ollama pull qwen2.5:1.5b</code>, and use the Ollama provider's native endpoint.</li>
-  <li><b>Ollama on your laptop with remote Dify</b>: do not enter <code>localhost</code>. Dify resolves that name inside its own container or server. Use an authenticated HTTPS gateway or a private network route that Dify can reach.</li>
-  <li><b>LM Studio</b>: start its local server mode and use its documented OpenAI-compatible endpoint only when Dify can reach that endpoint.</li>
+  <li><b>Ollama on your laptop with remote Dify</b>: do not enter <code>localhost</code>. Dify resolves that name inside its own container, not on your machine. Use an authenticated HTTPS gateway or a private network route Dify can reach.</li>
+  <li><b>LM Studio</b>: start its local server mode and use its documented OpenAI-compatible endpoint, only when Dify can reach it.</li>
   <li><b>Self-hosted vLLM/TGI</b>: expose a private, authenticated endpoint reachable from the Dify runtime network.</li>
 </ul>
 
-Never expose Ollama's unauthenticated port directly to the internet. Put authentication and TLS in front of a remote endpoint, and use the smallest model and context window that meet the exercise goal.
+**Never expose Ollama's unauthenticated port to the internet.** It has no authentication of its own, and its API can pull and delete models. Put TLS and authentication in front of it, and use the smallest model and context window that meet the goal.
 
-For the workshop capture, the local setup used:
+The reference setup used for these screenshots was:
 
 1. `ollama serve`
 2. `ollama pull qwen2.5:1.5b`
-3. A loopback-only proxy on `127.0.0.1:8787` that forwards to Ollama and rejects requests without a bearer token
+3. A loopback-only proxy on `127.0.0.1:8787` forwarding to Ollama, rejecting requests without a bearer token
 4. `cloudflared tunnel --url http://127.0.0.1:8787`
-5. Two quick checks:
-   - unauthenticated `GET /api/tags` returns `401`
-   - authenticated `GET /api/tags` returns `200`
+5. Two checks: unauthenticated `GET /api/tags` returns `401`, authenticated returns `200`
 
 <div style={{ textAlign: 'center', margin: '1em 0' }}>
   <img src={require('../static/img/dify/1.16.1/ex1/local-model/local-ollama-tunnel-setup.png').default} alt="Local Ollama exposed through an authenticated temporary HTTPS tunnel" style={{ maxWidth: '100%', borderRadius: '8px' }} />
-  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Local Ollama plus authenticated temporary HTTPS tunnel used for the remote Dify instance</i></div>
+  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Local Ollama plus an authenticated temporary HTTPS tunnel</i></div>
 </div>
 
-### 3. Register Ollama in Dify 1.16.1
+Then register it in Dify exactly as in Path A step 3, using your own base URL, your own token and your own model tag.
 
-1. Open <b>Integrations → Model Provider</b>.
-2. Install the official <b>Ollama</b> provider from the provider cards.
-3. Confirm the provider is installed before you register any model:
-
-<div style={{ textAlign: 'center', margin: '1em 0' }}>
-  <img src={require('../static/img/dify/1.16.1/ex1/local-model/ollama-provider-installed.png').default} alt="Installed Ollama provider in Dify 1.16.1" style={{ maxWidth: '100%', borderRadius: '8px' }} />
-  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Official Ollama provider installed in Dify 1.16.1</i></div>
-</div>
-
-4. Select <b>Add Model</b>.
-5. Enter the exact model tag returned by <code>ollama list</code>, for example <code>qwen2.5:1.5b</code>.
-6. Choose <b>LLM</b> as the model type.
-7. Enter the reachable base URL for Ollama:
-   - `http://localhost:11434` only when Dify and Ollama share the same network namespace
-   - otherwise the temporary HTTPS tunnel root or a private host reachable from Dify
-8. If your form shows <b>Authorization Name</b>, use <code>Bearer</code> so Dify sends the token in the `Authorization` header.
-9. Paste the gateway token in <b>API Key</b> only when your proxy requires authentication.
-10. Set a supported context size. For `qwen2.5:1.5b`, this exercise used `32768`.
-11. Save the model.
-
-<div style={{ textAlign: 'center', margin: '1em 0' }}>
-  <img src={require('../static/img/dify/1.16.1/ex1/local-model/add-ollama-model.png').default} alt="Adding a local Ollama model in Dify" style={{ maxWidth: '100%', borderRadius: '8px' }} />
-  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Ollama model registration form in Dify 1.16.1</i></div>
-</div>
-
-12. Confirm the model appears under the Ollama provider:
-
-<div style={{ textAlign: 'center', margin: '1em 0' }}>
-  <img src={require('../static/img/dify/1.16.1/ex1/local-model/local-model-configured.png').default} alt="Configured qwen local model under the Ollama provider" style={{ maxWidth: '100%', borderRadius: '8px' }} />
-  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>The registered local model is available as a chat model under the Ollama provider</i></div>
-</div>
-
-For LM Studio, vLLM, or TGI, install the matching Dify provider when one exists. Otherwise use the provider's documented OpenAI-compatible base URL and model identifier, and validate the endpoint before building the workflow.
-
-### 4. Tune Parameters for Testing Workloads
-
-Use this starter profile for software testing Q&amp;A:
+### Parameter starting points
 
 <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1em' }}>
   <thead>
@@ -754,39 +841,63 @@ Use this starter profile for software testing Q&amp;A:
   <tbody>
     <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Temperature</td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}><code>0.3</code></td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Increase only if answers are too rigid.</td></tr>
     <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Top P</td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}><code>0.9</code></td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Lower if output becomes noisy.</td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Max tokens</td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}><code>512-800</code></td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Lower to control cost and latency.</td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Timeout</td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}><code>20-30s</code></td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Raise only if model regularly times out.</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Max tokens</td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}><code>512-800</code></td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Lower to control latency on a shared host.</td></tr>
+    <tr><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Timeout</td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}><code>60-120s</code></td><td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>CPU inference is slow; a short timeout looks like a broken model.</td></tr>
   </tbody>
 </table>
 
-For a broader comparison of model quality, latency, price, and hardware efficiency, use [Artificial Analysis](https://artificialanalysis.ai/) as a discovery aid, not as the only decision source. Confirm the model card, license, context limit, supported features, and your own representative test prompts before choosing a model.
+For comparing model quality, latency and hardware efficiency, [Artificial Analysis](https://artificialanalysis.ai/) is a useful discovery aid — not a decision source. Confirm the model card, license, context limit and your own representative prompts before choosing.
 
-Record the model tag or deployment revision, provider, context size, parameter values, response latency, and answer quality. Benchmark the same prompt and retrieval context when comparing providers; otherwise the result is not comparable.
+---
 
-### 5. Run the Same Workflow Against the Local Model
+## 🚦 When the classroom model is busy or down
 
-Open your Exercise 1 workflow, select the LLM node, and switch it from Azure OpenAI to the Ollama-backed model. Then run the same prompt you used for your managed model comparison.
+The shared host serves the whole room, so you will occasionally meet its limits. These are expected and each has a specific meaning.
 
-<div style={{ textAlign: 'center', margin: '1em 0' }}>
-  <img src={require('../static/img/dify/1.16.1/ex1/local-model/local-model-run-trace.png').default} alt="Successful local model workflow trace in Dify" style={{ maxWidth: '100%', borderRadius: '8px' }} />
-  <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Successful trace of the Exercise 1 workflow after switching the LLM node to the local Ollama model</i></div>
+| What you see | What it means | What to do |
+|---|---|---|
+| `429` / "at capacity" | Too many people generating at once. Requests queue; past the queue limit they are refused. | Wait a few seconds and retry. Do not retry in a tight loop — it makes the queue worse for everyone. |
+| `401` | Your token is wrong, expired, or was revoked. | Re-copy it from the assignment page. If it still fails, ask your instructor. |
+| Very slow first response | The model was evicted from memory and is reloading, or the host is saturated. | Wait. The first request after an idle period legitimately takes much longer. |
+| `502` / `503` / connection refused | The service is down or restarting. | **Switch your LLM node back to Azure and carry on.** |
+
+<div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '1em 1.2em', marginBottom: '1.5em' }}>
+  <b>The classroom model is never a blocker.</b> Every exercise in this workshop works against Azure. If the local model misbehaves, switch the LLM node back and keep going — you can return to Exercise 1B later.
 </div>
+
+## 🧹 Cleanup and restoration
+
+**During the workshop** you do not need to clean anything up. Your token expires on its own and your instructor tears down the shared host when the session ends.
+
+**If you want your Dify back to the Azure-only state:**
+
+1. Open the **LLM node** in your workflow and switch the model back to your Azure deployment.
+2. Check **Settings → Model Provider → System Model Settings** still points at Azure for the system reasoning model.
+3. Optionally remove the Ollama model entry under the Ollama provider. Leaving it is harmless — it simply stops working once your token expires.
+
+**After the workshop** the endpoint stops resolving and your token is revoked. A saved Ollama provider entry pointing at it will fail; delete it, or repoint it at your own endpoint using Path B.
+
+**If you used Path B**, stop your tunnel and your local Ollama (`ollama stop`, or quit the app). A tunnel left running is an authenticated route into your laptop.
 
 ### ✅ Completion Check
 
-The exercise is successful when:
+This exercise is complete when:
 
-1. You can run one prompt from your chatbot using the local/self-hosted model.
-2. You can switch back to your Azure model and compare response quality and latency.
-3. You recorded the model tag, context size, parameter values, and which parameter change improved answer stability the most.
+1. You ran at least one prompt through your chatbot using the local model.
+2. You switched back to Azure and ran the same prompt.
+3. You can state one concrete difference in latency and one in answer quality.
+4. You know what you would do if the local model stopped responding mid-demo.
 
 ### 🧯 Troubleshooting
 
 <ul>
-  <li><b>Connection failed</b>: confirm the base URL is reachable from where Dify runs; <code>localhost</code> means the Dify runtime, not your laptop.</li>
-  <li><b>Model not listed</b>: verify exact model ID exposed by your local/self-hosted runtime.</li>
-  <li><b>Slow answers</b>: reduce max tokens and keep retrieval chunk count small during tuning.</li>
-  <li><b>Poor relevance</b>: keep embedding model quality high even when generation uses a smaller local model.</li>
+  <li><b>401 Unauthorized</b>: re-copy the token from your assignment page — a trailing space is the usual cause. If it still fails, the token was revoked; ask your instructor.</li>
+  <li><b>429 / "at capacity"</b>: the shared host is saturated. Wait and retry once; do not loop.</li>
+  <li><b>Connection failed</b>: confirm the base URL matches your card exactly, including <code>https://</code> and with no trailing path. On Path B, <code>localhost</code> means the Dify runtime, not your laptop.</li>
+  <li><b>Model not listed</b>: the model name must match the tag exactly, including the part after the colon.</li>
+  <li><b>Slow answers</b>: expected on a shared CPU host. Reduce max tokens and keep retrieval chunk count small while tuning.</li>
+  <li><b>Poor relevance</b>: keep your embedding model quality high even when generation uses a smaller local model. Retrieval quality and generation quality are separate problems.</li>
+  <li><b>Timeouts in Dify</b>: raise the node timeout to 60-120s. CPU inference is genuinely slow, and a short timeout is indistinguishable from a broken model.</li>
 </ul>
 
 ---
