@@ -7,7 +7,7 @@
 //
 // The URL is public by design (it is a form endpoint), so it is fine to commit it here.
 export const MAILERLITE_PROXY_URL =
-  'https://REPLACE-WITH-TERRAFORM-OUTPUT-mailerlite_proxy_url.lambda-url.eu-west-1.on.aws/';
+  'https://35l4w755w5u74ewufyv7w7bv3q0uyzja.lambda-url.eu-west-1.on.aws/';
 
 export type SubscribeFields = Partial<{
   company: string;
