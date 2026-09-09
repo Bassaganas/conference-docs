@@ -2,6 +2,8 @@
 sidebar_position: 5
 ---
 
+import ChangeTag from '@site/src/components/ChangeTag';
+
 # ⚙️ Exercise 2.1: Ingest Knowledge Using the API
 
 <div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '12px', padding: '2em', marginBottom: '2em' }}>
@@ -37,7 +39,7 @@ sidebar_position: 5
 
 ---
 
-## 📋 Step-by-Step Checklist
+## 📋 Step-by-Step Checklist <ChangeTag kind="changed" />
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '12px', padding: '1.5em', marginBottom: '2em' }}>
   <h3 style={{ margin: '0 0 1em 0', color: '#7c3aed', fontSize: '1.2em' }}>🎯 Exercise Checklist</h3>
@@ -52,13 +54,14 @@ sidebar_position: 5
     <div>
       <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 4:</b> Verify ingestion in Dify</label></li>
-        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 5:</b> Compare knowledge bases</label></li>
-        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 6:</b> Test retrieval quality</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 5:</b> Add Summary Index</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 6:</b> Benchmark retrieval</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 7:</b> Compare knowledge bases</label></li>
       </ul>
     </div>
   </div>
   <div style={{ background: '#e0f2fe', border: '1px solid #38bdf8', borderRadius: '6px', padding: '0.8em', marginTop: '1em', fontSize: '0.9em' }}>
-    <b>⏱️ Estimated Time:</b> 10-15 minutes | <b>🎯 Goal:</b> API-ingested knowledge base with structured metadata
+    <b>⏱️ Estimated Time:</b> 20-25 minutes | <b>🎯 Goal:</b> API-ingested knowledge base with structured metadata and measured retrieval
   </div>
 </div>
 
@@ -385,7 +388,7 @@ You can also use the Swagger UI to test the endpoint interactively:
 
 ---
 
-## ✅ Step 4: Verify Ingestion in Dify
+## ✅ Step 4: Verify Ingestion in Dify <ChangeTag kind="changed" />
 
 <div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
   <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🔍 Verification Steps</h4>
@@ -423,7 +426,13 @@ Confirm that:
 
 - the <code>Jira_API_Basic_*</code> knowledge base exists and all <b>23</b> documents finish indexing;
 - built-in metadata is enabled and the custom <code>issue_key</code> field is attached to issue documents; and
-- a retrieval test for <code>Give a test plan for REST-266</code> returns the expected issue.
+- the descriptive smoke query <code>REST-266 Default Jackson configuration unknown properties</code> returns REST-266 at rank 1.
+
+Do not accept the API response as proof that indexing finished. This API currently
+creates one dataset per run and submits the documents, but it does not poll every
+document to a terminal indexing state or make reruns idempotent. Verify all 23 document
+states in Dify and avoid repeating the ingestion call unless you intentionally want
+another dataset.
 
 <div style={{ textAlign: 'center', margin: '1em 0' }}>
   <img 
@@ -500,7 +509,63 @@ After the knowledge-base and retrieval checks pass, return to Dify's Knowledge A
 
 ---
 
-## 📚 Step 5: Compare Knowledge Base Approaches
+## 🧠 Step 5: Add Summary Index <ChangeTag kind="new" />
+
+Dify 1.12 introduced <b>Summary Index</b>. It generates a compact LLM summary for each
+chunk and embeds that summary as another retrieval surface. This can make requirements,
+risks, and test implications easier to find when the original Jira wording differs from
+the learner's question.
+
+1. Open the API-ingested knowledge base and go to <b>Settings</b>.
+2. Keep <b>High Quality</b> indexing and enable <b>Summary Auto-Gen</b>.
+3. Select <code>gpt-35-turbo-16k</code>.
+4. Instruct the model to preserve the Jira key, summary, status, requirements, risks,
+   acceptance criteria, test implications, and constraints without inventing facts.
+5. Save the settings. Summary Auto-Gen applies to newly indexed content; for the 23
+   existing documents, select all documents and choose <b>Generate summary</b>.
+
+<img src={require('../static/img/dify/1.16.1/ex2/summary-index-settings.png').default} alt="Summary Auto-Gen enabled with the workshop model and Jira-focused instructions" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+Inspect at least one generated summary before trusting it. For REST-266, confirm that
+the backward-compatibility constraint remains explicit. Generated test implications
+are useful retrieval hints, but they are model output, not new Jira requirements.
+
+---
+
+## 🎛️ Step 6: Tune and Benchmark Retrieval <ChangeTag kind="changed" />
+
+Configure <b>Hybrid Search</b> with weighted retrieval:
+
+- semantic weight: <code>0.3</code>;
+- keyword weight: <code>0.7</code>;
+- Top K: <code>10</code>; and
+- score threshold: <code>0.05</code>.
+
+<img src={require('../static/img/dify/1.16.1/ex2/hybrid-retrieval-settings.png').default} alt="Hybrid Search weighted toward keywords with a 0.05 score threshold" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+Run this fixed acceptance suite in <b>Retrieval Testing</b> before tuning further:
+
+| Query | Expected evidence |
+| --- | --- |
+| `REST-266 Default Jackson configuration unknown properties` | REST-266 at rank 1 |
+| `Which issue creates a backward-compatibility risk when unknown JSON properties are accepted?` | REST-266 at rank 1 |
+| `Which Jira work has important test implications for REST API compatibility?` | REST-266 in the top 3 |
+| `Why is the sky blue?` | No retrieved chunks |
+
+<img src={require('../static/img/dify/1.16.1/ex2/retrieval-benchmark-risk.png').default} alt="Risk-oriented benchmark retrieving REST-266 at rank 1" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<img src={require('../static/img/dify/1.16.1/ex2/retrieval-benchmark-no-match.png').default} alt="Unrelated benchmark query returning no chunks after the score threshold" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em', margin: '1em 0' }}>
+  <b>Hybrid search does not replace metadata filtering.</b> Conceptual Jira questions
+  benefit from summaries and semantic retrieval, while exact identifiers such as
+  <code>REST-265</code> should be extracted and applied as an
+  <code>issue_key</code> filter. Exercise 3 establishes the grounded baseline;
+  Exercise 4 adds the extractor and exact-key retrieval paths.
+</div>
+
+---
+
+## 📚 Step 7: Compare Knowledge Base Approaches <ChangeTag kind="changed" />
 
 <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '12px', padding: '1.5em 2em', margin: '2em 0', fontSize: '1.08em', boxShadow: '0 2px 8px #facc1533' }}>
   <h3 style={{ margin: '0 0 1em 0', color: '#b45309', fontSize: '1.2em' }}>🔬 Understanding the Differences</h3>
@@ -544,7 +609,7 @@ After the knowledge-base and retrieval checks pass, return to Dify's Knowledge A
       </ul>
     </div>
     <p style={{ margin: '1em 0 0 0', color: '#b45309', fontWeight: 500 }}>
-      Notice how having better data and advanced techniques generates better results!
+      Record rank, source, score, and no-match behavior rather than judging only how plausible a result looks.
     </p>
   </div>
 
@@ -645,6 +710,20 @@ After the knowledge-base and retrieval checks pass, return to Dify's Knowledge A
 
 ---
 
+## ⏱️ Why We Do Not Add a Trigger Yet <ChangeTag kind="new" />
+
+Dify 1.10 added schedule and webhook triggers for <b>Workflow</b> applications. They
+could eventually synchronize Jira automatically, but the deployed ingestion API
+creates a new random dataset on every run, does not update by stable source identity,
+and does not wait for indexing to finish. Scheduling that behavior would create silent
+duplicates faster.
+
+Adopt a trigger only after the ingestion owner adds idempotent create/update behavior,
+terminal indexing checks, bounded retries, and observable partial failures. Until then,
+the deliberate one-shot call in this exercise is safer and easier to audit.
+
+---
+
 ## 🔧 Advanced: Deploy Your Own API (Optional)
 
 <details style={{
@@ -671,7 +750,7 @@ After the knowledge-base and retrieval checks pass, return to Dify's Knowledge A
 
 ---
 
-## 🎯 Exercise Complete! What's Next?
+## 🎯 Exercise Complete! What's Next? <ChangeTag kind="changed" />
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '12px', padding: '2em', marginBottom: '2em' }}>
   <div style={{ textAlign: 'center', marginBottom: '1.5em' }}>
@@ -686,6 +765,8 @@ After the knowledge-base and retrieval checks pass, return to Dify's Knowledge A
       <li>✅ Explored available projects using Swagger UI</li>
       <li>✅ Ingested structured Jira issues with metadata</li>
       <li>✅ Compared different knowledge base approaches</li>
+      <li>✅ Generated and reviewed Summary Index content</li>
+      <li>✅ Passed a fixed positive and no-match retrieval benchmark</li>
     </ul>
   </div>
 

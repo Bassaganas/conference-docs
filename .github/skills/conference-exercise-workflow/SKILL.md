@@ -25,15 +25,17 @@ The verified service contract is canonical. MDX and screenshots explain that con
 
 ## 3. Update the Exercise
 
-- Keep one primary `docs/exercise-<number>-<slug>.mdx` page per outcome.
+- Keep one primary latest-version page under `versioned_docs/version-1.16.1/` per outcome.
+- Default rule: when adding or incrementing exercises, edit only `versioned_docs/version-1.16.1/**` unless the user explicitly asks for compatibility updates in older versions.
 - Include prerequisites, objective, numbered actions, expected result, troubleshooting, completion check, and next step.
 - Use current filenames and request shapes. Keep examples synthetic and executable.
-- Add the page to `sidebars.ts` in learning order.
+- Add the page to `versioned_sidebars/version-1.16.1-sidebars.json` in learning order. Update `sidebars.ts` only if the user explicitly requests unversioned docs changes.
 - Add or update public fixtures and DSLs in the same change.
 
 ## 4. Synchronize Screenshots
 
 - Update `docs/screenshots.manifest.json` before capture.
+- Ensure every new or changed shot `target_docs` entry points only to `versioned_docs/version-1.16.1/**` for latest-version exercise work.
 - Run `/screenshot-docs rerun dify`, `provisioning`, `jira-api`, `sut`, or `all`.
 - Reproduce the declared fixture/state and replace every output in the selected shot group.
 - Preserve raw captures separately from annotations; redact credentials, keys, identifiers, private origins, and personal data.

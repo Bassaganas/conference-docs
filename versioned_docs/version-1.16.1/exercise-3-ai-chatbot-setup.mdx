@@ -4,6 +4,7 @@ sidebar_position: 6
 ---
 
 import CodeBlock from '@theme/CodeBlock';
+import ChangeTag from '@site/src/components/ChangeTag';
 
 # 🤖 3: AI Chatbot Setup
 
@@ -24,7 +25,7 @@ import CodeBlock from '@theme/CodeBlock';
 </div>
 ---
 
-## 🧩 What You'll Do
+## 🧩 What You'll Do <ChangeTag kind="changed" />
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
   <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
@@ -34,7 +35,9 @@ import CodeBlock from '@theme/CodeBlock';
     <li><label><input type="checkbox" /> Test retrieval-augmented answers</label></li>
     <li><label><input type="checkbox" /> <b>Augment</b> your prompt to prevent hallucinations and improve results</label></li>
     <li><label><input type="checkbox" /> Try sample queries</label></li>
+    <li><label><input type="checkbox" /> Inspect citations and the Knowledge Retrieval trace</label></li>
     <li><label><input type="checkbox" /> Publish your Chatflow</label></li>
+    <li><label><input type="checkbox" /> Verify the published version and restore controls</label></li>
   </ul>
 </div>
 
@@ -78,7 +81,7 @@ import CodeBlock from '@theme/CodeBlock';
 
 ---
 
-## 🛠️ Step 2: Add a Retriever Block
+## 🛠️ Step 2: Add a Retriever Block <ChangeTag kind="changed" />
 
 <ol style={{ marginBottom: '2em' }}>
   <li>
@@ -102,7 +105,7 @@ import CodeBlock from '@theme/CodeBlock';
     </ul>
   </li>
   <li>
-    Configure <b>metadata filtering</b> to further refine your retrieval. You can choose <b>Disabled</b>, <b>Automatic</b>, or <b>Manual</b> filtering.<br />
+    Review the <b>metadata filtering</b> controls: <b>Disabled</b>, <b>Automatic</b>, and <b>Manual</b>. Keep filtering disabled in this basic flow because it has no Parameter Extractor. Exercise 4 adds the extractor and applies <code>issue_key equals extracted_key</code>; do not pretend semantic similarity enforces an exact identifier.<br />
     <img src={require('../static/img/ex3/retrieval-metadata.png').default} alt="Metadata Filtering" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
     <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Metadata filtering options</i></div>
   </li>
@@ -145,7 +148,7 @@ import CodeBlock from '@theme/CodeBlock';
 
 ---
 
-## 🛠️ Step 4: Test Your RAG Chatbot
+## 🛠️ Step 4: Test Your RAG Chatbot <ChangeTag kind="changed" />
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
   <b>Try asking questions that require knowledge from your uploaded documents, such as:</b>
@@ -157,6 +160,26 @@ import CodeBlock from '@theme/CodeBlock';
   <b>Notice:</b> If you used the API-ingested knowledge base, you'll see richer, more accurate answers thanks to structured data and metadata!
 </div>
 
+### Grounding acceptance and Knowledge trace <ChangeTag kind="new" />
+
+Run this risk-oriented query:
+
+> Which Jira issue creates a backward-compatibility risk around unknown JSON
+> properties, and what should we test?
+
+Pass only when the answer identifies REST-266, explains the compatibility risk, states
+test implications supported by the retrieved context, and displays source citations.
+
+<img src={require('../static/img/dify/1.16.1/ex3/grounded-risk-answer-citations.png').default} alt="Grounded REST-266 risk answer with visible source citations" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+
+Expand the <b>Knowledge Retrieval</b> node in the workflow process. Check its query
+input, selected chunks, source metadata, score, and latency. This source-to-answer
+lineage is stronger evidence than an answer that merely sounds correct.
+
+<img src={require('../static/img/dify/1.16.1/ex3/knowledge-retrieval-trace.png').default} alt="Expanded Knowledge Retrieval trace showing query, latency, and REST-266 content" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+
+Finally, ask <code>Why is the sky blue?</code>. The retriever should accept no chunks
+and the prompt must return the workshop's no-match response instead of model knowledge.
 
 ---
 
@@ -312,7 +335,7 @@ Just ask your question below and I'll see what's in the spellbook 📚
 
 ---
 
-## 🚀 Publishing Your Chatflow
+## 🚀 Publishing Your Chatflow <ChangeTag kind="changed" />
 
 <div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
   <b>Make your chatbot available to others!</b>
@@ -331,6 +354,20 @@ Just ask your question below and I'll see what's in the spellbook 📚
     <b>Tip:</b> Test your published chatbot with the sample queries above to ensure everything works as expected!
   </div>
 </div>
+
+### Preserve an accepted version <ChangeTag kind="new" />
+
+Publishing creates an auditable snapshot rather than making the current draft
+implicitly safe:
+
+1. Publish only after the fixed retrieval and grounding checks pass.
+2. Add a short version note describing the accepted benchmark.
+3. Open the version history and confirm that the published snapshot can be restored to
+   a draft.
+4. Keep the exported DSL as a portable artifact, but use the in-product version for a
+   fast rollback on this Dify instance.
+
+<img src={require('../static/img/dify/1.16.1/ex3/published-version-history.png').default} alt="Published Chatflow version history with restore controls" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
 
 ---
 

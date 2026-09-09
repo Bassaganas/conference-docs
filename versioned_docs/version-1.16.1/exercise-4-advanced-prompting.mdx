@@ -2,6 +2,8 @@
 sidebar_position: 8
 ---
 
+import ChangeTag from '@site/src/components/ChangeTag';
+
 # 🎓 Bonus Exercise – Advanced Techniques for Smarter RAGs
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
@@ -16,12 +18,13 @@ sidebar_position: 8
 <img src={require('../static/img/dify/1.16.1/ex4/advanced-flow-overview.png').default} alt="Complete Dify 1.16.1 advanced workflow and all classifier branches" style={{ maxWidth: '100%', borderRadius: '8px', marginBottom: '1em' }} />
 
 <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Important 1.16.1 migration details:</b>
+  <b>Workflow compatibility <ChangeTag kind="changed" />:</b>
   <ul>
     <li>Name the extractor output <code>issue_keys</code> everywhere; a singular/plural mismatch leaves the Iteration input empty.</li>
     <li>Inside Iteration, retrieve with the current <code>item</code>, not the original multi-issue query.</li>
     <li>Add <code>issue_key is &#123;&#123;iteration.item&#125;&#125;</code> to the test-generation retriever so each Gherkin scenario is grounded in the correct issue.</li>
     <li>Dify 1.16.1 may expose Iteration results as a flat object list. The supplied Code nodes accept both flat and legacy nested lists before combining answers.</li>
+    <li>Both Iterations remove abnormal outputs so one failed item does not discard every successful issue result.</li>
   </ul>
 </div>
 
@@ -125,7 +128,7 @@ Classifies user intent (e.g., test generation vs. documentation lookup). Each ca
 
   <img src={require('../static/img/ex4/question-classifier.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
 
-### 🔁 3. Iteration
+### 🔁 3. Iteration <ChangeTag kind="changed" />
 
 Use it to generate a loop over multiple issues. Great for:
 <ul>
@@ -134,6 +137,15 @@ Use it to generate a loop over multiple issues. Great for:
 </ul>
 
   <img src={require('../static/img/ex4/iterations.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+For both Iteration nodes, set the error response method to
+<b>Remove Abnormal Output</b>. Each loop currently returns one object, so the Iteration
+already emits a flat object list and <b>Flatten Output</b> stays off. Enable it only if
+you change the loop to return an array per issue. The final output can contain fewer
+items than the input array, so downstream Code nodes must omit failed items and produce
+a clear response when no valid item remains.
+
+<img src={require('../static/img/dify/1.16.1/ex4/iteration-error-strategy.png').default} alt="Iteration configured to flatten results and remove abnormal outputs" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
 
 ### ⚖️ 4. If/Else Routing
 
@@ -157,7 +169,7 @@ Use specialized prompts depending on user intent. For example:
 
 ---
 
-## 🧪 Bonus Challenges
+## 🧪 Bonus Challenges <ChangeTag kind="changed" />
 
 Let's revisit our question classifier. It identifies 6 types of queries. Try customizing each path using the above techniques:
 
@@ -169,6 +181,20 @@ The supplied 1.16.1 workflow was executed through the four acceptance paths belo
   <img src={require('../static/img/dify/1.16.1/ex4/chatflow-if-else.png').default} alt="Issue-filtered Gherkin scenarios for REST-266" style={{ width: '100%', borderRadius: '8px' }} />
   <img src={require('../static/img/dify/1.16.1/ex4/chatflow-classifier-fallback.png').default} alt="Unrelated-query classifier route with polite redirect" style={{ width: '100%', borderRadius: '8px' }} />
 </div>
+
+<img src={require('../static/img/dify/1.16.1/ex4/chatflow-iteration-resilient-answer.png').default} alt="Verified multi-issue answer for REST-266 and REST-265" style={{ width: '100%', borderRadius: '8px', margin: '1em 0' }} />
+<img src={require('../static/img/dify/1.16.1/ex4/chatflow-iteration-resilient-answer-trace.png').default} alt="Successful multi-issue workflow process through classifier, extractor, Iteration, combiner, and final answer" style={{ width: '100%', borderRadius: '8px', margin: '1em 0' }} />
+
+The two-item run should retain one independently grounded result per issue and citations
+for both sources. Because abnormal outputs are removed, also make the final combiner
+state when fewer issues completed than were requested; never silently claim full batch
+success.
+
+Try <code>Summarize REST-266 and REST-999</code>. The supplied combiner compares the
+extracted keys with the retrieved context, reports that REST-999 was not found, and
+still returns the grounded REST-266 result.
+
+<img src={require('../static/img/dify/1.16.1/ex4/chatflow-iteration-partial-answer.png').default} alt="Partial multi-issue answer reporting that REST-999 was not found while preserving REST-266" style={{ width: '100%', borderRadius: '8px', margin: '1em 0' }} />
 
 <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2em' }}>
   <thead>
@@ -189,7 +215,25 @@ The supplied 1.16.1 workflow was executed through the four acceptance paths belo
 
 ---
 
-## 🗂️ Download: Preconfigured Bonus Chatflow
+## 🔭 Modern Capabilities Evaluated <ChangeTag kind="new" />
+
+| Capability available after 1.9.1 | Workshop decision | Why |
+| --- | --- | --- |
+| Summary Index | Adopt in Exercise 2.1 | Improves conceptual risk/test retrieval and can be measured against the same Jira benchmark |
+| Knowledge tracing and app versions | Adopt in Exercise 3 | Makes grounding diagnosable and accepted drafts recoverable |
+| Iteration error strategy and batch status | Adopt here | Preserves successful issue results and reports partial or empty batches explicitly |
+| Schedule/webhook triggers | Defer | Current ingestion is not idempotent and does not observe terminal indexing |
+| Human Input | Defer | Read-only Q&A has no meaningful approval boundary; it would add queue and timeout complexity |
+| Multimodal knowledge | Defer | The Jira fixture contains no answer-critical images |
+| Agent application | Separate workshop | It changes the architecture and tool-execution threat model rather than improving this deterministic RAG goal |
+
+Newer is not automatically better. The core assistant remains a Chatflow because exact
+Jira filtering, measurable retrieval, citations, and predictable no-match behavior are
+the learning objective.
+
+---
+
+## 🗂️ Download: Preconfigured Bonus Chatflow <ChangeTag kind="changed" />
 
 <div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
   You can download a ready-made version of this bonus exercise, including a fully configured Dify chatflow with:
@@ -222,6 +266,16 @@ The supplied 1.16.1 workflow was executed through the four acceptance paths belo
 
 <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
   💡 Import this YAML file into Dify and start tweaking!
+</div>
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Required after import:</b> dataset IDs belong to the Dify workspace that
+  exported the sample. Open <b>KR - Single Issue</b>,
+  both <b>KR General Knowledge</b> nodes, <b>KR - Multiple Issues</b>, and
+  <b>Knowledge Retrieval 5</b>; reselect your own
+  <code>Jira_API_Basic_*</code> knowledge base in every node before running the
+  flow. Confirm the manual <code>issue_key</code> filters remain attached to the
+  exact-key retrieval nodes.
 </div>
 
 ---
