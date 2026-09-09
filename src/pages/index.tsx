@@ -135,7 +135,7 @@ function HomepageHeader() {
     setIsLoading(true);
     
     try {
-      const response = await subscribeViaProxy(
+      const result = await subscribeViaProxy(
         email,
         {
           source: 'testus-patronus-homepage',
@@ -143,15 +143,16 @@ function HomepageHeader() {
         },
         ["168614688429442382"]
       );
-      
-      if (response.ok) {
+
+      if (result.ok) {
         setIsSubmitted(true);
       } else {
-        const errorData = await response.json();
-        console.error('Error:', errorData);
+        console.error('Subscribe failed:', result.error);
+        alert('Could not save your email right now. Please try again in a minute.');
       }
     } catch (error) {
       console.error('Error:', error);
+      alert('Could not save your email right now. Please try again in a minute.');
     } finally {
       setIsLoading(false);
     }
@@ -297,7 +298,7 @@ function HomepageHeader() {
           submitBtn.disabled = true;
 
           try {
-            const response = await subscribeViaProxy(
+            const result = await subscribeViaProxy(
               email,
               {
                 source: 'testus-patronus-global',
@@ -306,7 +307,7 @@ function HomepageHeader() {
               ["168614688429442382"]
             );
 
-            if (response.ok) {
+            if (result.ok) {
               container.innerHTML = `
                 <div style="position: relative; text-align: center; padding: 0.3rem;">
                   <button
@@ -375,6 +376,7 @@ function HomepageHeader() {
                 });
               }
             } else {
+              console.error('Subscribe failed:', result.error);
               alert('Something went wrong. Please try again.');
               submitBtn.textContent = '⚡ Join the Order';
               submitBtn.disabled = false;
