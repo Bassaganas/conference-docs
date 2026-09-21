@@ -1,0 +1,9 @@
+provider_id: testus_governed
+display_name: Testus governed synthetic provider
+base_url: fixed-profile://testus-synthetic-gateway
+credential_fields:
+  - synthetic_api_key
+allowed_model_aliases:
+  - testus-synthetic-chat
+reject_unknown_aliases: true
+reject_learner_base_url: true

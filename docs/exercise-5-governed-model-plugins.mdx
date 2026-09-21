@@ -1,0 +1,169 @@
+---
+sidebar_position: 9
+---
+
+# Exercise 5 draft – Governed Dify model plugins
+
+> **Unpublished, docs-first draft.** This page is deliberately not in the
+> workshop navigation. The local synthetic gateway, remote-debug contract, and
+> acceptance evidence belong to a future platform package. Until that package
+> is accepted, the commands that would contact a gateway or attach a plugin
+> are **blocked/pending** and must not be run against a real service.
+
+## Outcome and prerequisites
+
+The intended outcome is that a Testus Patronus chatflow uses only the approved
+synthetic model alias through a company-controlled OpenAI-compatible gateway,
+while a disallowed alias or direct provider attempt fails explicitly. This
+draft explains and scaffolds that journey; it does not claim that the journey
+is runnable today.
+
+You need Python 3.12, the Dify Plugin CLI, a disposable Dify 1.16.1 workspace,
+and the <a href="/exercise-5-starter/README.md">Exercise 5 starter</a>. An owner or
+administrator must perform integration installation, credential entry, model
+provider management, and remote debugging. Use synthetic prompts only. Never
+use customer data, real API keys, or private company hostnames.
+
+## 1. Pick the right plugin type
+
+Dify has distinct extension points: **Model** plugins expose language,
+embedding, rerank, speech-to-text, or text-to-speech models; **Tool** plugins
+add callable tools; **Extension/Endpoint** plugins extend an existing
+integration surface; **Data Source** plugins supply knowledge sources;
+**Trigger** plugins start workflows; and **Agent Strategy** plugins provide
+agent-planning strategies. Read Dify's [plugin types
+reference](https://docs.dify.ai/en/develop-plugin/features-and-specs/plugin-types/remote-debug-a-plugin)
+alongside the current plugin documentation before choosing an extension.
+
+This use case is a **Model provider plugin**: the extension must advertise a
+chat model and translate Dify's model request into the approved gateway
+contract. A Tool plugin would be the wrong boundary and would not make model
+selection compliant.
+
+## 2. Inspect the approved gateway contract
+
+The future local fixture will use a loopback/internal synthetic destination,
+an instructor-provided synthetic credential, and the aliases shown below.
+These are teaching identifiers, not a live endpoint:
+
+| Contract item | Draft value |
+| --- | --- |
+| Gateway destination | `http://127.0.0.1:8787/v1` (future fixture only) |
+| Allowed alias | `testus-synthetic-chat` |
+| Rejected alias | `unapproved-direct-model` |
+| Prompt data | `synthetic prompt: explain a passing smoke test` |
+
+The future package must validate the destination and alias server-side. Do not
+replace the destination with a learner-controlled URL. A real LiteLLM or
+company gateway is an optional, instructor-controlled extension only; its
+origin and secret must be supplied out of band and never added to this page,
+starter, screenshots, or logs.
+
+## 3. Configure the official provider (planned path)
+
+Dify's [workspace plugins](https://docs.dify.ai/en/self-host/use-dify/workspace/plugins)
+and [model provider administration](https://docs.dify.ai/en/self-host/use-dify/workspace/model-providers)
+are owner/admin operations. Install the **pinned official
+`openai_api_compatible` provider** selected by the future platform acceptance
+record, not Marketplace “latest”. Its source is the official
+[langgenius/dify-official-plugins `openai_api_compatible`
+directory](https://github.com/langgenius/dify-official-plugins/tree/e1efdbe48291ce3a20cb1151dd52f8d5660f0461/plugins/models/openai_api_compatible);
+the revision is recorded in the starter metadata and remains subject to
+compatibility proof with Dify 1.16.1.
+
+In the accepted fixture, the administrator will configure the provider's
+base URL to the fixed synthetic gateway, enter a generated synthetic key,
+and register only `testus-synthetic-chat`. Dify's official
+[model-provider guide](https://docs.dify.ai/en/develop-plugin/dev-guides-and-walkthroughs/creating-new-model-provider)
+and [release-by-file guidance](https://docs.dify.ai/en/develop-plugin/publishing/marketplace-listing/release-by-file)
+describe the provider and package concepts. **This step is blocked/pending**
+the platform package; no real provider installation or credential entry is
+part of this draft.
+
+When accepted, select the alias in the existing Testus Patronus chatflow and
+send the synthetic prompt. The expected observation is a deterministic
+synthetic response and an audit-safe gateway record containing the alias, not
+the key or prompt contents.
+
+## 4. Scaffold a private provider
+
+The starter is intentionally incomplete: it teaches layout, schema,
+validation, and tests without shipping a solved plugin. From a disposable
+copy, the future lab will begin with the [Dify Plugin CLI
+guide](https://docs.dify.ai/en/develop-plugin/getting-started/cli):
+
+```text
+dify plugin init testus-governed-provider
+```
+
+Compare the generated layout with `exercise-5-starter/plugin.yaml`,
+`provider.yaml`, and `models.yaml`. Complete only the narrow provider schema
+and credential validator:
+
+* accept the fixed gateway profile, never an arbitrary learner-supplied base
+  URL;
+* accept `testus-synthetic-chat` and reject unknown aliases;
+* keep the key in Dify's credential mechanism and out of source, fixtures,
+  screenshots, and logs; and
+* return safe validation errors without echoing credentials or destinations.
+
+The starter tests are contract examples, not a completed implementation.
+They can validate the allowlist and redaction logic locally without calling a
+gateway.
+
+## 5. Debug and package (blocked)
+
+Dify documents [remote debugging](https://docs.dify.ai/en/develop-plugin/features-and-specs/plugin-types/remote-debug-a-plugin)
+and local packaging with `dify plugin package`. In the future package,
+remote-debug traffic must be loopback-only, temporary, authenticated where
+required, and disabled after the exercise. **Do not expose a debug port or
+disable signature verification in this draft.** The accepted run will attach
+the learner's incomplete provider, invoke the synthetic alias, inspect
+redacted logs, then package it:
+
+```text
+dify plugin package
+```
+
+Those gateway/debug/package execution steps are **blocked/pending** platform
+version acceptance. Local schema tests and inspection of the deterministic
+starter are the only currently permitted path.
+
+## 6. Negative checks, recovery, and cleanup
+
+The accepted journey must demonstrate that an unknown alias, invalid
+credential, unavailable gateway, forbidden destination, plugin validation
+failure, and direct unapproved provider attempt fail closed. Restore the
+original workspace model/default settings, remove the temporary provider and
+plugin, discard synthetic credentials, and verify that no debug process or
+temporary file remains. This draft cannot provide a runtime cleanup result
+because the runtime is deferred.
+
+## Production translation: defense in depth
+
+An OpenAI-compatible endpoint is an integration; **exclusive compliant-only
+model use is a governance and network-control problem**. A plugin alone cannot
+ensure it. Production review should require:
+
+* admin-only plugin installation and remote debugging, signed packages,
+  pinned updates, and rollback to the last accepted package;
+* a fixed or validated gateway destination, TLS/private DNS, egress
+  allowlisting, and gateway authentication;
+* centrally managed, rotated secrets (never learner-owned keys);
+* a gateway/model allowlist enforced at the gateway, not merely hidden in the
+  Dify UI;
+* audit logs that redact secrets and sensitive prompt data, plus budgets and
+  rate limits; and
+* an incident runbook that disables the plugin/provider, revokes credentials,
+  blocks egress, and restores the known-good configuration.
+
+## Authoritative references
+
+* [Dify Plugin CLI](https://docs.dify.ai/en/develop-plugin/getting-started/cli)
+* [Creating a model provider](https://docs.dify.ai/en/develop-plugin/dev-guides-and-walkthroughs/creating-new-model-provider)
+* [Remote debug a plugin](https://docs.dify.ai/en/develop-plugin/features-and-specs/plugin-types/remote-debug-a-plugin)
+* [Release by file](https://docs.dify.ai/en/develop-plugin/publishing/marketplace-listing/release-by-file)
+* [Plugin FAQ](https://docs.dify.ai/en/develop-plugin/publishing/faq/faq)
+* [Workspace plugins](https://docs.dify.ai/en/self-host/use-dify/workspace/plugins)
+* [Workspace model providers](https://docs.dify.ai/en/self-host/use-dify/workspace/model-providers)
+* [Official OpenAI API compatible provider source](https://github.com/langgenius/dify-official-plugins/tree/e1efdbe48291ce3a20cb1151dd52f8d5660f0461/plugins/models/openai_api_compatible)

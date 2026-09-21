@@ -1,0 +1,5 @@
+models:
+  - name: testus-synthetic-chat
+    type: llm
+    provider: testus_governed
+    source: synthetic-only

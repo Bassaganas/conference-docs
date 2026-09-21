@@ -160,6 +160,22 @@
           "captured_at": "2026-08-26T13:32:00Z",
           "source_revision": "6f8ed69ee15f9a2e7189ca066275e973d091d1e9",
           "service_version": "1.16.1"
+        },
+        {
+          "id": "exercise-5-governed-model-plugins-draft",
+          "state": "planned synthetic gateway/provider configuration, plugin scaffold, and negative compliance checks",
+          "fixture": "future local synthetic gateway contract; no live capture",
+          "output_directories": ["static/img/dify/1.16.1/ex5"],
+          "target_docs": [
+            "docs/exercise-5-governed-model-plugins.mdx",
+            "versioned_docs/version-1.16.1/exercise-5-governed-model-plugins.mdx"
+          ],
+          "redactions": ["credentials", "private origins", "customer data"],
+          "alt_text": "Planned placeholder: synthetic Dify model-provider configuration and rejected unapproved model attempt",
+          "status": "planned",
+          "captured_at": null,
+          "source_revision": null,
+          "service_version": "1.16.1"
         }
       ]
     },

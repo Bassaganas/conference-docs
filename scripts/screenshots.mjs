@@ -15,6 +15,13 @@ const expectedExerciseFiles = [
   'exercise-3-ai-chatbot-setup.mdx',
   'exercise-4-advanced-prompting.mdx',
 ];
+const draftExerciseFile = 'exercise-5-governed-model-plugins.mdx';
+const draftVersions = new Set(['current', '1.16.1']);
+const forbiddenDraftPatterns = [
+  /sk-[A-Za-z0-9]{20,}/,
+  /(?:api[_-]?key|token|secret)\s*[:=]\s*["'][^"']{8,}/i,
+  /https?:\/\/(?:[A-Za-z0-9-]+\.)*(?:corp|internal|private|company)\b/i,
+];
 
 function fail(message) {
   console.error(`ERROR: ${message}`);
@@ -73,6 +80,16 @@ function checkDocumentationVersions(manifest) {
         fail(`documentation version ${versionName} is missing exercise flow file: ${exerciseFile}`);
       }
     }
+    const draftPath = path.join(docsDirectory, draftExerciseFile);
+    if (draftVersions.has(versionName) !== fs.existsSync(draftPath)) {
+      fail(`documentation version ${versionName} has unexpected Exercise 5 draft presence`);
+    }
+    if (fs.existsSync(draftPath)) {
+      const draft = fs.readFileSync(draftPath, 'utf8');
+      for (const pattern of forbiddenDraftPatterns) {
+        if (pattern.test(draft)) fail(`${versionName} Exercise 5 draft contains a forbidden secret/private-origin pattern`);
+      }
+    }
   }
 }
 
@@ -93,8 +110,9 @@ function checkDocAssets(manifest) {
         }
       }
     }
-    if (docs.length !== expectedExerciseFiles.length) {
-      fail(`documentation version ${versionName} has ${docs.length} exercises; expected ${expectedExerciseFiles.length}`);
+    const expectedCount = expectedExerciseFiles.length + (draftVersions.has(versionName) ? 1 : 0);
+    if (docs.length !== expectedCount) {
+      fail(`documentation version ${versionName} has ${docs.length} exercises; expected ${expectedCount}`);
     }
   }
   return docsCount;

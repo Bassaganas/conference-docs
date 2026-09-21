@@ -1,0 +1,62 @@
+---
+sidebar_position: 9
+---
+
+# Exercise 5 draft – Governed Dify 1.16.1 model plugins
+
+> **Unpublished, docs-first draft.** Exercise 5 is not in the 1.16.1
+> sidebar. The synthetic gateway and remote-debug contract are deferred to a
+> future accepted platform package, so gateway/debug execution is
+> **blocked/pending** and is not represented as working today.
+
+This page follows the current Exercise 5 draft, with Dify **1.16.1** as its
+compatibility target. The current draft contains the complete explanation,
+starter links, security controls, negative checks, cleanup, and authoritative
+references.
+
+The observable target is a Testus Patronus chatflow response through only the
+approved synthetic alias `testus-synthetic-chat`; an unknown alias or direct
+unapproved provider must fail. The required path is local, synthetic, and
+credential-free. Use only the deterministic <a href="/exercise-5-starter/README.md">Exercise 5
+starter</a>, synthetic prompts, and an
+owner/admin-controlled future fixture. Never use real keys, private origins, or
+customer data.
+
+In Dify 1.16.1, distinguish Model, Tool, Extension/Endpoint, Data Source,
+Trigger, and Agent Strategy plugins; this use case is a Model provider because
+it exposes a chat model and translates requests to an approved
+OpenAI-compatible gateway. See Dify's [plugin
+types](https://docs.dify.ai/en/develop-plugin/features-and-specs/plugin-types/remote-debug-a-plugin)
+reference. The future admin path will install a pinned official
+`openai_api_compatible` provider, configure a fixed synthetic gateway, and
+allowlist the alias. Its source revision is
+`e1efdbe48291ce3a20cb1151dd52f8d5660f0461`, pending compatibility acceptance.
+Use the [model-provider guide](https://docs.dify.ai/en/develop-plugin/dev-guides-and-walkthroughs/creating-new-model-provider),
+[workspace plugins](https://docs.dify.ai/en/self-host/use-dify/workspace/plugins),
+and [workspace model providers](https://docs.dify.ai/en/self-host/use-dify/workspace/model-providers)
+for the owner/admin boundary. The pinned source is the official
+[OpenAI-API-compatible provider](https://github.com/langgenius/dify-official-plugins/tree/e1efdbe48291ce3a20cb1151dd52f8d5660f0461/plugins/models/openai_api_compatible).
+
+The future private-plugin path starts with `dify plugin init`, narrows the
+provider schema to the fixed gateway profile, rejects unknown aliases, uses
+centrally managed credentials, and packages with `dify plugin package`.
+Read the [CLI](https://docs.dify.ai/en/develop-plugin/getting-started/cli),
+[remote-debug](https://docs.dify.ai/en/develop-plugin/features-and-specs/plugin-types/remote-debug-a-plugin),
+[release-by-file](https://docs.dify.ai/en/develop-plugin/publishing/marketplace-listing/release-by-file),
+and [FAQ](https://docs.dify.ai/en/develop-plugin/publishing/faq/faq)
+guidance. Remote debug must be temporary and loopback-only. **All gateway,
+debug, and live Dify execution steps remain blocked/pending** the platform
+package.
+
+The accepted journey must reject an unknown alias, invalid credential,
+unavailable gateway, forbidden destination, validation failure, and direct
+unapproved provider. Then restore the original model/default settings, remove
+the temporary provider/debug process, and discard synthetic credentials. No
+runtime cleanup result is claimed by this draft.
+
+Production controls remain defense in depth: admin-only install/debug, signed
+and pinned packages, validated destinations, TLS/private DNS, egress
+allowlisting, gateway auth, centrally rotated secrets, model allowlists,
+auditing, budgets/rate limits, and rollback. A plugin alone cannot ensure
+compliant-only model use; gateway and network controls are required. A real
+LiteLLM/company gateway is optional and instructor-controlled.

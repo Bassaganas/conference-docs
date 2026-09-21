@@ -1,0 +1,5 @@
+plugin_id: testus_governed_provider
+version: 0.1.0-draft
+type: model
+runtime: python3.12
+status: scaffold-only

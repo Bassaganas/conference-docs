@@ -1,0 +1,7 @@
+{
+  "dify_version": "1.16.1",
+  "official_provider": "openai_api_compatible",
+  "source_revision": "e1efdbe48291ce3a20cb1151dd52f8d5660f0461",
+  "source_url": "https://github.com/langgenius/dify-official-plugins/tree/e1efdbe48291ce3a20cb1151dd52f8d5660f0461/plugins/models/openai_api_compatible",
+  "compatibility_status": "proposed; pending local platform acceptance"
+}
