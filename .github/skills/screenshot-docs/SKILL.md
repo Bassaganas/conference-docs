@@ -11,14 +11,16 @@ Use `docs/screenshots.manifest.json` as the capture queue. Screenshots are docum
 
 ## Procedure
 
-1. Run `npm run screenshots:check` to verify the manifest and every MDX asset reference.
-2. Run `npm run screenshots:plan -- <service>` to print the selected shot groups.
-3. Confirm the declared environment is available. Prefer local or disposable workshop state; ask before navigating live services.
-4. Reproduce each group's fixture and state at `1440x900`. Capture `390x844` only when the workflow is supported on mobile.
-5. Replace every declared output for the selected group. Keep raw and annotated derivatives separate where annotations are needed.
-6. Redact API keys, model/provider credentials, student credentials, private origins, cloud identifiers, personal data, and browser/terminal history.
-7. Update `captured_at`, `source_revision`, and `service_version` in the manifest.
-8. Run `npm run check` and inspect every image at rendered documentation width.
+1. Read `documentation_versions` in `docs/screenshots.manifest.json` and target only the entry with `strategy: current` unless a historical capture is explicitly approved.
+2. Run `npm run screenshots:check` to verify the manifest and every MDX asset reference.
+3. Run `npm run screenshots:plan -- <service>` to print the selected shot groups.
+4. Confirm the declared environment is available. Prefer local or disposable workshop state; ask before navigating live services.
+5. Reproduce each group's fixture and state at `1440x900`. Capture `390x844` only when the workflow is supported on mobile.
+6. Replace every declared output for the selected group. Keep raw and annotated derivatives separate where annotations are needed.
+7. Redact API keys, model/provider credentials, student credentials, private origins, cloud identifiers, personal data, tunnel hostnames, bearer tokens, and browser/terminal history.
+8. Update `captured_at`, `source_revision`, and `service_version` in the manifest. For local/self-hosted models also record the runtime/plugin version, exact model ID and digest, approved endpoint topology, and reviewed output list without recording the endpoint secret or live tunnel URL.
+9. If a temporary proxy or tunnel was used, stop it after capture, clear temporary credentials, and verify that the former public endpoint is unreachable. Keep that failed reachability check with the capture evidence.
+10. Run `npm run check` and inspect every image at rendered documentation width.
 
 ## Service Boundaries
 

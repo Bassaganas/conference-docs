@@ -72,6 +72,28 @@
           "service_version": "1.16.1"
         },
         {
+          "id": "exercise-1b-local-model",
+          "state": "official Ollama provider installed, authenticated model configured, existing chatbot run with local-model comparison trace",
+          "fixture": "synthetic workshop tenant, qwen2.5:1.5b model, and deterministic unit-versus-integration prompt",
+          "outputs": [
+            "static/img/dify/1.16.1/ex1/local-model/01-ollama-provider-discovery.png",
+            "static/img/dify/1.16.1/ex1/local-model/02-ollama-plugin-installed.png",
+            "static/img/dify/1.16.1/ex1/local-model/03-ollama-add-model.png",
+            "static/img/dify/1.16.1/ex1/local-model/04-ollama-model-configured.png",
+            "static/img/dify/1.16.1/ex1/local-model/05-ollama-workflow-model-and-parameters.png",
+            "static/img/dify/1.16.1/ex1/local-model/06-ollama-chatbot-response.png",
+            "static/img/dify/1.16.1/ex1/local-model/07-ollama-run-trace.png"
+          ],
+          "output_directories": ["static/img/dify/1.16.1/ex1/local-model"],
+          "target_docs": ["versioned_docs/version-1.16.1/exercise-1-llm-configuration.mdx"],
+          "redactions": ["provider keys", "bearer tokens", "tunnel hostnames", "Dify credentials", "private origins", "tenant identifiers", "browser history", "local and cloud identifiers"],
+          "capture_requirements": ["1440x900 viewport", "official Ollama provider", "exact model ID and digest recorded outside rendered screenshots", "authenticated endpoint reachable from Dify backend", "former temporary endpoint unreachable after teardown"],
+          "status": "planned",
+          "captured_at": null,
+          "source_revision": null,
+          "service_version": null
+        },
+        {
           "id": "exercise-2-knowledge",
           "state": "manual and API-created knowledge bases with deterministic Jira dataset",
           "fixture": "static/dataset public and synthetic Jira files",

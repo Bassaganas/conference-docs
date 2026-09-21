@@ -386,6 +386,68 @@ Once the Admin Account is created, you will be logged in directly to the Dify da
 
 ---
 
+## Choose a model for the task
+
+Before you install a provider, decide what the model must do and what constraints matter. A model that is excellent at open-ended writing may be a poor choice for retrieval, structured output, or high-volume test runs.
+
+### Match the model to the workload
+
+| Workload | Prioritize | Useful evidence |
+| --- | --- | --- |
+| Grounded question answering | Instruction following, groundedness, and concise answers | A small set of questions with known answers and an explicit no-answer case |
+| Embeddings | Retrieval relevance, multilingual coverage, and stable vector dimensions | Recall of known matching and non-matching documents |
+| Reranking | Ordering the most relevant passages near the top | Precision at the first few results on representative queries |
+| Structured extraction or JSON | Schema adherence, validation success, and predictable failure behavior | Repeated runs against records with missing and ambiguous fields |
+| Tool use | Function-call accuracy, argument validation, and safe refusal | Valid and invalid tool requests with a mocked tool |
+| Long-context analysis | Context capacity, retrieval of late-position facts, and latency | Questions that cite facts from the beginning, middle, and end of the input |
+| High-volume experimentation | Throughput, time to first token, rate limits, and cost | Repeated runs with the expected concurrency and output length |
+| Sensitive or private workloads | Data residency, retention, access controls, licensing, and auditability | Provider terms, deployment configuration, and a documented threat model |
+
+For this workshop, keep the roles separate: the **LLM** generates the answer, while an **embedding model** turns text into vectors for retrieval. Changing the LLM does not automatically improve embedding quality, and changing embeddings normally requires re-indexing the knowledge base.
+
+### Use evidence, not a leaderboard position
+
+1. Define the task, acceptable errors, latency target, budget, privacy boundary, and required capabilities.
+2. Shortlist models using provider documentation, model cards, licensing terms, and an external comparison such as [Artificial Analysis](https://artificialanalysis.ai/). It is useful for comparing dimensions such as intelligence, speed, output length, latency, cost, and openness, but it is a point-in-time signal rather than a procurement decision.
+3. Run the same small, representative evaluation against each candidate. Record correctness, groundedness, refusal behavior, latency, token use or cost, context limits, and operational constraints.
+4. Re-test after changing the provider, quantization, prompt, or model version. A local quantized model and a hosted model with the same family name are not necessarily equivalent.
+
+Do not copy a benchmark ranking into the workshop as a permanent truth. The model card, provider documentation, and your own deterministic prompts are the evidence for this workload.
+
+### Parameters and trade-offs
+
+Dify exposes a provider- and model-specific subset of these controls. Start with the provider defaults, change one control at a time, and record the change with the result.
+
+| Parameter | What it changes | Workshop guidance |
+| --- | --- | --- |
+| Temperature | Randomness in token selection | Start at `0.2` for repeatable software-testing answers; higher values increase variation |
+| Top P | Limits sampling to the most probable cumulative token mass | Leave at `1.0` while learning temperature; tune one of these controls, not both at once |
+| Max output tokens | Upper bound for the generated answer | Use `512` for the short comparison prompt; increase only when answers are truncated |
+| Context window | Maximum input plus output the model can process | Stay within the model's advertised limit; a larger window can increase memory and latency |
+| Stop sequences | Strings that stop generation | Leave unset unless the output format has a reliable delimiter |
+| Frequency or presence penalty | Reduces repetition or encourages new terms | Keep at the provider default for factual Q&A and change only with a measured repetition problem |
+| Seed, when supported | Helps reproduce sampling results | Record it for experiments, but do not treat it as a guarantee across providers or versions |
+| Reasoning effort, when supported | Trades response depth and latency | Use the lowest setting that meets the task; not every model exposes it |
+| Streaming | Sends tokens while generation is in progress | Enable it for interactive UX; it does not by itself improve answer quality |
+| Timeout and retry | Controls failure behavior around the provider call | Set bounded values appropriate to the model and avoid retries that duplicate side effects |
+
+Use this baseline for the first comparison: temperature `0.2`, top-p `1.0`, max output tokens `512`, no stop sequence, provider-default penalties, and streaming enabled when available. In the next section, you will reuse the same chatbot and prompt so that the model is the main variable.
+
+### Comparison worksheet
+
+Run this prompt once with the Azure model and record the result before changing providers:
+
+> What is the difference between unit testing and integration testing?
+
+| Run | Provider and model | Correctness (1-5) | Groundedness (1-5) | Time to first token / total latency | Tokens or cost | Constraints and failures |
+| --- | --- | --- | --- | --- | --- | --- |
+| Azure baseline |  |  |  |  |  |  |
+| Local or self-hosted comparison |  |  |  |  |  |  |
+
+The worksheet is more useful than choosing a model from a single leaderboard rank. Keep the Azure row as the known workshop baseline, then compare the local or self-hosted row in Exercise 1B.
+
+---
+
 ## 🔗 Step 4: Configure the Azure GPT LLM
 
 Now let's wire your Dify to use Azure-hosted GPT models.
@@ -938,6 +1000,107 @@ Check the <b>Tracing</b> tab for a detailed breakdown of what your chatbot did:
     🧠 <b>Pro Tip:</b> The tracing tab shows you exactly how your chatbot processed the input, including token usage and response generation steps.
   </p>
 </div>
+
+---
+
+## Optional Exercise 1B: Connect a Local or Self-Hosted Model
+
+This optional comparison has one observable outcome: register a reachable Ollama chat model in Dify, run the existing chatbot with the same prompt, and record how its answer and operational behavior compare with the Azure baseline.
+
+### Before you start
+
+- Complete Step 5 and **Run and Debug** first. Keep the working Azure chatbot as your baseline.
+- Install [Ollama](https://ollama.com/download) on a machine you control, or use an already self-hosted Ollama endpoint.
+- Use a model that your hardware can run. The workshop capture uses `qwen2.5:1.5b`; record the exact model tag if you choose another model.
+- Keep the Azure embedding model configured. This comparison changes generation only and does not require re-indexing a knowledge base.
+
+### Understand endpoint reachability
+
+The Dify backend makes the model request. `localhost` therefore means **the machine or container running that backend**, not automatically the learner's laptop.
+
+| Dify and Ollama topology | Ollama Base URL in the provider | When it works |
+| --- | --- | --- |
+| Dify runs directly on the same host as Ollama | `http://127.0.0.1:11434` | Both processes share the host network |
+| Dify runs in Docker on the same Mac as host-installed Ollama | `http://host.docker.internal:11434` | The container can resolve the Docker host and Ollama accepts that connection |
+| Dify and Ollama are separate containers on one private network | `http://ollama:11434` or the private service name | The service name resolves from the Dify container |
+| Classroom Dify is remote and Ollama is on your laptop | An authenticated HTTPS endpoint reachable from the Dify backend | A secure reverse proxy or private network path forwards to Ollama |
+
+Do not enter `http://localhost:11434` in a remote classroom Dify instance to reach your laptop. Do not expose Ollama port `11434` directly to the public Internet. The classroom assignment portal at `https://testus-patronus.testingfantasy.com/` provides Dify access and credentials; it is not a model-serving endpoint.
+
+### Start a local Ollama model
+
+After installing Ollama, start its local service and download a small chat model:
+
+```bash
+ollama serve
+ollama pull qwen2.5:1.5b
+ollama list
+```
+
+Run one local smoke test before connecting Dify:
+
+```bash
+ollama run qwen2.5:1.5b "What is the difference between unit testing and integration testing?"
+```
+
+For a remote Dify backend, put an authenticated HTTPS reverse proxy or private network boundary in front of Ollama. If you use a temporary tunnel for a workshop demonstration, authenticate it, share only the proxy endpoint, and remove it after the comparison. Never place a bearer token in a URL or commit tunnel configuration.
+
+### Install the official Ollama provider
+
+1. In Dify, open **Settings -> Model Provider** and search for **Ollama** under **Integrations**.
+2. Install the official Ollama provider plugin. Use the provider-specific form rather than an OpenAI-compatible provider when the endpoint is Ollama.
+3. Add a **Chat** model with values that match your runtime:
+
+| Dify field | Value for this exercise |
+| --- | --- |
+| Model type | `Chat` |
+| Model name | The exact Ollama tag, for example `qwen2.5:1.5b` |
+| Base URL | The reachable host root, for example `http://127.0.0.1:11434` or your authenticated HTTPS endpoint |
+| API key | Leave empty for a private local Ollama service; enter the proxy bearer token only when the endpoint requires it |
+| Context length | A value supported by the model and runtime; start conservatively if the provider does not report one |
+| Max tokens | No higher than the model/runtime limit; start at `512` for this comparison |
+| Vision and function calling | Enable only when the selected model and Ollama provider report support |
+
+The official provider expects the Ollama **host root** and appends its API paths. Do not add `/api` to the Base URL. Save the model and use the provider's connection test, if shown. A successful browser request to the endpoint is not enough; the request must be reachable from the Dify backend.
+
+### Run the comparison
+
+1. Open the chatbot you created in Step 5 and select its **LLM** block.
+2. Change only the selected chat model to your Ollama model. Leave the Azure embedding model and the rest of the workflow unchanged.
+3. Use the comparison baseline: temperature `0.2`, top-p `1.0`, max output tokens `512`, no stop sequence, provider-default penalties, and streaming when available.
+4. Run the exact prompt: **What is the difference between unit testing and integration testing?**
+5. Open the run details or trace. Record the answer's correctness and groundedness, time to first token, total latency, token usage if shown, and any timeout or capability limitation in the worksheet above.
+6. Compare the local row with the Azure row. A different answer is not automatically a failure; assess it against the task and its constraints.
+7. Restore `gpt-35-turbo-16k` in the LLM block and run it once to leave the chatbot ready for Exercises 2-4.
+
+### Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Connection refused or timeout | Test the Base URL from the Dify backend's network, not only from your laptop. Check that the proxy is running and authenticated. |
+| A 404 response from Ollama | Remove `/api` from the Base URL. The official provider adds the API path. |
+| Model not found | Copy the exact tag returned by `ollama list`, including its size suffix. |
+| Context or token limit error | Lower the context length or max tokens to values supported by the model and runtime. |
+| Slow response on CPU | Reduce prompt and output size, allow a longer bounded timeout, and record the latency rather than treating it as a provider failure. |
+| Tool or vision configuration fails | Disable the capability unless the selected model and provider explicitly support it. |
+| Retrieval quality did not change | That is expected: the exercise kept the Azure embedding model and changed only generation. |
+
+### Security and cleanup
+
+- Keep Ollama private or behind an authenticated HTTPS boundary. An unauthenticated public port can allow anyone to submit prompts and consume the host.
+- Treat the Dify API key field as a secret when it contains a proxy bearer token. Do not place credentials, tunnel URLs, or private hostnames in screenshots or source files.
+- Stop the temporary proxy and tunnel after the comparison, then verify that the former public endpoint no longer responds. Stop Ollama too when it was started only for this exercise.
+
+### Exercise 1B completion check
+
+You have completed the optional comparison when:
+
+- Dify successfully runs the existing chatbot through the Ollama model.
+- The Azure and local/self-hosted rows are recorded using the same prompt and parameter baseline.
+- The model endpoint topology and any capability or latency limitations are documented.
+- The chatbot is restored to the Azure model for the next exercises.
+
+This is a local/self-hosted learning path, not a promise that a shared model is installed at the classroom portal. A permanent shared inference service needs separate decisions about ownership, authentication, capacity, cost, licensing, and rollback.
 
 ---
 
