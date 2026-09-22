@@ -12,7 +12,7 @@ sidebar_position: 1
     </blockquote>
   </div>
   <div style={{ textAlign: 'center' }}>
-    <img src={require('../static/img/ex1/dify-instance-credentials.png').default} alt="Dify Instance Portal" style={{ maxWidth: '100%', borderRadius: '8px', boxShadow: '0 2px 8px #ddd' }} />
+    <img src={require('../static/img/dify/1.16.1/ex1/provisioning-portal.png').default} alt="Dify Instance Portal" style={{ maxWidth: '100%', borderRadius: '8px', boxShadow: '0 2px 8px #ddd' }} />
     <div style={{ fontSize: '0.95em', color: '#444', marginTop: '0.5em' }}>
       <b>Your AI Assistant Portal</b>
     </div>

@@ -128,8 +128,11 @@ workflow:
           provider: langgenius/azure_openai/azure_openai
         prompt_template:
         - role: system
-          text: Answer the {{#1762615523713.query#}}} in a clean, professional tone.
-            Be concise but precise.{{#context#}}
+          text: 'Answer in a clean, professional tone. Be concise but precise.
+
+            Context: {{#context#}}'
+        - role: user
+          text: '{{#1762615523713.query#}}'
         selected: false
         title: LLM
         type: llm

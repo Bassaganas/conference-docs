@@ -63,11 +63,7 @@
           "id": "exercise-1-model-and-chatbot",
           "state": "admin setup entrypoint, model provider configuration, optional local-model branch, and runnable chatbot",
           "fixture": "synthetic workshop tenant, model names, and Dify install route captured from a disposable instance",
-          "outputs": [
-            "static/img/dify/1.16.1/ex1/dify-install-entry-1.16.1.png",
-            "static/img/dify/1.16.1/ex1/dify-install-entry-1.16.1-viewport.png",
-            "static/img/dify/1.16.1/ex1/dify-install-entry-1.16.1-mobile.png"
-          ],
+          "outputs": [],
           "output_directories": ["static/img/dify/1.16.1/ex1"],
           "target_docs": ["versioned_docs/version-1.16.1/exercise-1-llm-configuration.mdx"],
           "redactions": ["provider keys", "endpoints", "credentials", "tenant identifiers"],

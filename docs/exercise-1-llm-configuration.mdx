@@ -713,6 +713,8 @@ curl -s -H "Authorization: Bearer YOUR-TOKEN" https://YOUR-BASE-URL/api/tags
 
 Open your Exercise 1 workflow, select the **LLM node**, and switch its model from Azure OpenAI to the Ollama model. Change nothing else — same prompt, same inputs.
 
+Before you run it, check that the node has a **USER** message holding `query`. If your question is only inside the **SYSTEM** prompt, the local model finishes instantly with an empty answer. See *Empty answer* under Troubleshooting below.
+
 <div style={{ textAlign: 'center', margin: '1em 0' }}>
   <img src={require('../static/img/dify/1.16.1/ex1/local-model/local-model-run-trace.png').default} alt="Successful local model workflow trace in Dify" style={{ maxWidth: '100%', borderRadius: '8px' }} />
   <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>The Exercise 1 workflow after switching the LLM node to the local model</i></div>
@@ -830,6 +832,7 @@ This exercise is complete when:
 ### 🧯 Troubleshooting
 
 <ul>
+  <li><b>Empty answer, but the run shows SUCCESS</b> (output <code>"text": ""</code>, about 1 completion token, well under a second): your LLM node only has a SYSTEM message. Local chat models such as Llama 3.2 answer a <b>USER</b> turn; with only a system message they end their turn straight away. Click <b>+ Add Message</b>, choose <b>USER</b>, insert <code>query</code> there, remove <code>query</code> from the system prompt, and run again. Azure hides this mistake, so the same prompt can work on Azure and fail locally.</li>
   <li><b>401 Unauthorized</b>: re-copy the token from your assignment page — a trailing space is the usual cause. If it still fails, the token was revoked; ask your instructor.</li>
   <li><b>429 / "at capacity"</b>: the shared host is saturated. Wait and retry once; do not loop.</li>
   <li><b>Connection failed</b>: confirm the base URL matches your card exactly, including <code>https://</code> and with no trailing path. On Path B, <code>localhost</code> means the Dify runtime, not your laptop.</li>
@@ -1006,18 +1009,19 @@ This exercise is complete when:
     <b>Configure the LLM:</b>
     <ul>
       <li>In Context field add the query variable </li>
-      <li>In Prompt field add the system prompt, that should include the query variable and the context variable</li>
+      <li>In the SYSTEM prompt, write how the AI should respond and insert the context variable</li>
+      <li>Click <b>+ Add Message</b> to add a <b>USER</b> message, and insert the query variable there</li>
     </ul>
   </li>
   <li>
-    <b>Add a System Prompt:</b> This helps the AI understand how to respond
+    <b>Add a System Prompt:</b> This helps the AI understand <i>how</i> to respond
     <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em', margin: '1em 0' }}>
       <h5 style={{ margin: '0 0 0.5em 0', color: '#7c3aed' }}>💡 Example System Prompt:</h5>
-      <p style={{ margin: '0', fontStyle: 'italic', fontSize: '0.95em' }}>"Answer in a clean, professional tone. Be concise but precise."</p>
+      <p style={{ margin: '0', fontStyle: 'italic', fontSize: '0.95em' }}>"Answer in a clean, professional tone. Be concise but precise. Context: <code>Context</code>"</p>
     </div>
   </li>
   <li>
-    <b>Bind variables:</b> Connect the prompt to <code>query</code> using the <b>{'{'}x{'}'}</b> selector
+    <b>Bind variables:</b> Use the <b>{'{'}x{'}'}</b> selector to put <code>query</code> in the <b>USER</b> message, not in the system prompt. Chat models expect the question in a USER turn: Azure GPT tolerates it in the system prompt, but local models such as Llama 3.2 (Exercise 1B) return an empty answer
     <div style={{ textAlign: 'center', margin: '1em 0' }}>
       <img src={require('../static/img/ex1/dify-chatboot-LLM-config.png').default} alt="LLM Config" style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer' }} onClick={(e) => {
         const img = e.target;
