@@ -1,0 +1,301 @@
+---
+title: "5: Test Your RAG End to End"
+sidebar_position: 9
+---
+
+import ChangeTag from '@site/src/components/ChangeTag';
+
+# 🧪 5: Test Your RAG End to End <ChangeTag kind="new" />
+
+<div style={{ marginBottom: '2em' }}>
+  Your chatbot works when you try it by hand. But does it <b>still</b> work after you change the prompt, the model or the retrieval settings? In this final exercise you become the tester: you run a small suite of <b>automated end-to-end tests</b> against your own Dify chatbot, break the chatbot on purpose, and watch the tests catch it.
+</div>
+
+---
+
+## 🧩 What You'll Do
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+    <li><label><input type="checkbox" /> Understand the two halves of a RAG you must test: <b>retrieval</b> and <b>generation</b></label></li>
+    <li><label><input type="checkbox" /> Create an <b>App API key</b> for your Exercise 3 chatbot</label></li>
+    <li><label><input type="checkbox" /> Open the test project in a <b>GitHub Codespace</b></label></li>
+    <li><label><input type="checkbox" /> Run <b>Level 1</b> (retrieval) and <b>Level 2</b> (chatbot) tests</label></li>
+    <li><label><input type="checkbox" /> Break your chatbot on purpose and see which tests fail</label></li>
+    <li><label><input type="checkbox" /> Investigate a <b>real finding</b> in the Exercise 3 chatbot</label></li>
+    <li><label><input type="checkbox" /> Bonus: grade answers with an <b>LLM-as-judge</b></label></li>
+  </ul>
+</div>
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <b>Prerequisites:</b>
+  <ul style={{ margin: '0.5em 0 0 0' }}>
+    <li>Exercise 2 or 2.1 done: a <code>Jira_API_*</code> knowledge base with all 23 REST issues indexed.</li>
+    <li>Exercise 3 done: your Chatflow answers with citations and is <b>published</b>.</li>
+    <li>A GitHub account (for Codespaces), or Node.js 22.22+ on your laptop.</li>
+  </ul>
+</div>
+
+---
+
+## 🧠 How Do You Test a RAG?
+
+A RAG answer can go wrong in two different places, so we test them separately:
+
+| Layer | The question a test asks | Example check |
+|---|---|---|
+| **Retrieval** | Did the search find the right chunk? | REST-266 is ranked 1st for a question about unknown JSON properties |
+| **Generation** | Is the answer correct and based **only** on what was found? | The answer mentions REST-266, cites it, and mentions no issue it didn't retrieve |
+| **Behaviour** | Does it say "I don't know" when it should? | "Why is the sky blue?" gets the polite fallback reply |
+| **Speed** | Is it fast enough? | The answer arrives in under 30 seconds |
+
+There are three kinds of checks, from cheapest to most powerful:
+
+1. **Deterministic** – "contains", regex, "the right document is cited", latency. Free and repeatable. This is where you start.
+2. **Semantic similarity** – "means the same as" an expected answer, using embeddings.
+3. **LLM-as-judge** – a second LLM grades the answer (for example: *is it faithful to the retrieved chunks?*). Powerful, but it costs tokens and can itself be wrong.
+
+All tests are driven by a **golden dataset**: a list of *question + fact the answer must contain + document that must be the source*.
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
+  💡 <b>Why write tests at all?</b> Dify gives you <b>Retrieval Testing</b> in the knowledge base, <b>Logs</b> with user feedback, and tracing integrations (Langfuse, LangSmith, Opik, Phoenix…). All of them are great for looking at one answer. None of them re-runs a set of questions after every change and tells you what broke. That is what an automated regression suite does.
+</div>
+
+Our tests are written in a Given / When / Then style, so they read like a specification:
+
+```gherkin
+Scenario: Grounded answer cites the right Jira issue
+  Given the chatbot is connected to the Jira knowledge base
+  When I ask "Which issue is about the default Jackson configuration erroring out on unknown properties?"
+  Then the answer mentions "REST-266"
+  And the answer cites the document for REST-266
+  And it only mentions Jira issues that it actually retrieved
+  And it answers within 30 seconds
+```
+
+---
+
+## 🛠️ Step 1: Collect Your Keys
+
+The tests talk to Dify through its API, using two different keys.
+
+<ol style={{ marginBottom: '2em' }}>
+  <li>
+    <b>App API key (for the chatbot).</b> In <b>Studio</b>, open your Exercise 3 Chatflow and make sure the latest version is <b>published</b>. In the left sidebar click <b>API Access</b>, then <b>API Key → Create new Secret key</b>. Copy it – it starts with <code>app-</code>.
+  </li>
+  <li>
+    <b>Knowledge API key (for retrieval).</b> Reuse the key from Exercise 2.1, or create one in <b>Knowledge → API → API Key</b>. It starts with <code>dataset-</code>.
+  </li>
+  <li>
+    <b>Knowledge base ID.</b> Open your <code>Jira_API_*</code> knowledge base and copy the ID from the browser URL: <code>…/datasets/<b>this-part</b>/documents</code>.
+  </li>
+  <li>
+    <b>API base URL.</b> Your Dify URL from the portal followed by <code>/v1</code>, for example <code>https://dify-i-0123456789.testingfantasy.com/v1</code>.
+  </li>
+</ol>
+
+<div style={{ background: '#fee2e2', border: '2px solid #ef4444', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
+  🔐 Keys are secrets. Never paste them into a commit, a chat or a screenshot.
+</div>
+
+---
+
+## 🛠️ Step 2: Open the Test Project
+
+<ol style={{ marginBottom: '2em' }}>
+  <li>
+    Open <a href="https://github.com/Bassaganas/dify-rag-tests" target="_blank" rel="noopener noreferrer">github.com/Bassaganas/dify-rag-tests</a> and click <b>Code → Codespaces → Create codespace on main</b>. Everything installs automatically (about 1–2 minutes).
+  </li>
+  <li>
+    In the Codespace, open the file <code>.env</code> (created for you) and paste your four values from Step 1:
+  </li>
+</ol>
+
+```bash
+DIFY_BASE_URL=https://dify-<your-instance>.testingfantasy.com/v1
+DIFY_APP_KEY=app-...
+DIFY_DATASET_KEY=dataset-...
+DIFY_DATASET_ID=...
+```
+
+<details>
+  <summary>No GitHub account? Run it on your laptop instead</summary>
+
+  Install Node.js 22.22 or newer, then:
+
+  ```bash
+  git clone https://github.com/Bassaganas/dify-rag-tests.git
+  cd dify-rag-tests
+  npm ci
+  cp .env.example .env   # then edit .env
+  ```
+</details>
+
+Take a minute to look at the project:
+
+| File | What it is |
+|---|---|
+| `golden/jira-rest.json` | The golden dataset – questions, expected facts, expected source documents |
+| `tests/1-retrieval.spec.ts` | Level 1 – calls `POST /v1/datasets/{id}/retrieve` |
+| `tests/2-chatbot.spec.ts` | Level 2 – calls `POST /v1/chat-messages` |
+| `promptfooconfig.yaml` | Level 3 (bonus) – LLM-as-judge |
+
+---
+
+## 🛠️ Step 3: Level 1 – Test Retrieval
+
+Retrieval tests search your knowledge base directly. **No LLM is involved**, so they are fast, free and give the same result every time. They use the same settings as the Exercise 2.1 benchmark (hybrid search, weights 0.3 / 0.7, Top K 10, threshold 0.05).
+
+```bash
+npm run test:retrieval
+```
+
+Expected result – 4 passed:
+
+```text
+✓ Level 1 – Knowledge retrieval › exact issue wording finds REST-266 first
+✓ Level 1 – Knowledge retrieval › natural question finds REST-266 first
+✓ Level 1 – Knowledge retrieval › vague question still finds REST-266 in the top 3
+✓ Level 1 – Knowledge retrieval › unrelated question returns no chunks
+```
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
+  💡 If a retrieval test fails, the chatbot cannot give a grounded answer either. Always look at retrieval first.
+</div>
+
+---
+
+## 🛠️ Step 4: Level 2 – Test the Chatbot End to End
+
+Now we ask your published chatbot real questions. LLM wording changes from run to run, so we **never compare exact text**. We check properties of the answer instead:
+
+| Scenario | What the test checks |
+|---|---|
+| Grounded answers (5 questions) | Mentions the right fact, cites the right document, mentions no issue it didn't retrieve, answers in under 30 s |
+| Out-of-scope question | "Why is the sky blue?" → polite fallback and **no** citations |
+| Unknown issue | "Summarize REST-999" → says it can't find it and invents nothing |
+| Error path | A wrong API key → `401` with a clear error body |
+
+```bash
+npm test          # runs Level 1 + Level 2
+npm run report    # opens the HTML report
+```
+
+Expected result – **12 passed**. Open the report (Codespaces offers to open port 9323) and click a test: every Given / When / Then step is listed, together with the chatbot's actual answer and its token usage.
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
+  <b>Add your own test – no code needed.</b> Open <code>golden/jira-rest.json</code>, copy one entry of the <code>grounded</code> list and change the question, the fact and the expected issue. For example: <i>"Which issue reports that the WADL is invalid?"</i> must mention <code>REST-404</code>. Run <code>npm run test:chatbot</code> again.
+</div>
+
+---
+
+## 🛠️ Step 5: Break It on Purpose
+
+A test is only useful if it fails when something breaks. Make **one** change at a time in your Chatflow, **publish**, and run `npm test`. Before you run, predict which tests will fail.
+
+| Sabotage | Where |
+|---|---|
+| Raise the score threshold to **0.9** | Knowledge Retrieval node → retrieval settings |
+| Remove the knowledge context from the prompt | LLM node → Context |
+| Replace the system prompt with *"Answer from your general knowledge."* | LLM node → System prompt |
+
+Which level failed – retrieval or chatbot? Did the failure message tell you **what** went wrong? When you're done, restore your last good version from the **version history** (Exercise 3) and publish again. All tests should be green again.
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
+  💡 Level 1 calls the knowledge base with its own fixed settings, so it only notices problems in the <b>data</b>, not in the app's retrieval node. Level 2 tests what your users actually get.
+</div>
+
+---
+
+## 🔎 Step 6: Investigate a Real Finding
+
+Exercise 3 uses this acceptance question:
+
+> *Which issue creates a backward-compatibility risk when unknown JSON properties are accepted?*
+
+The expected answer is **REST-266**. Add it to the `grounded` list in `golden/jira-rest.json`:
+
+```json
+{
+  "name": "exercise 3 acceptance question",
+  "query": "Which issue creates a backward-compatibility risk when unknown JSON properties are accepted?",
+  "mustMention": ["REST-266"],
+  "expectedIssue": "REST-266"
+}
+```
+
+Run it several times:
+
+```bash
+npx playwright test -g "acceptance" --retries=0 --repeat-each=5
+```
+
+When we prepared this workshop, the chatbot often answered **REST-430** (another Jackson issue that mentions "backwards incompatible"), and sometimes even mentioned an issue that **does not exist** in the dataset. Look at the failure details and answer:
+
+- Was REST-266 **cited**? (Check the second step of the failed test.) If it was, retrieval did its job and the mistake happened in **generation**.
+- Did the "only mentions Jira issues that it actually retrieved" step catch an invented issue?
+- Why does the same question sometimes pass and sometimes fail? What does that mean for how many times you should run LLM tests?
+- What would you change to fix it: the prompt, the model, or the retrieval settings? Try it and re-run.
+
+---
+
+## 🌟 Bonus: Level 3 – LLM-as-Judge
+
+Some qualities can't be checked with "contains". Is the answer **faithful** to the chunks that were retrieved? Is the refusal polite and free of invented facts? Here a second LLM grades your chatbot, using <a href="https://www.promptfoo.dev/" target="_blank" rel="noopener noreferrer">promptfoo</a>.
+
+1. From the portal's **Azure LLM** card, add the judge settings to `.env`:
+
+   ```bash
+   AZURE_API_KEY=...
+   AZURE_API_HOST=<your-resource>.openai.azure.com
+   AZURE_DEPLOYMENT=<deployment name>
+   ```
+
+2. Run the evaluation and open the results table (port 15500):
+
+   ```bash
+   npm run test:judge
+   npm run judge:view
+   ```
+
+3. Open `promptfooconfig.yaml`. Find the `context-faithfulness` check (the judge compares the answer with the chunks Dify returned in `retriever_resources`) and the `llm-rubric` checks (plain-English grading rules). Write one rubric of your own.
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
+  <b>Judges can be wrong too.</b> Read the judge's reasons in the results table. Do you agree with every verdict? Deterministic checks first, judges for what they can't cover.
+</div>
+
+---
+
+## 🧯 Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| Tests are **skipped** | A value in `.env` is missing or still a placeholder |
+| `401 unauthorized` | Wrong key type: the chatbot needs the `app-…` key, retrieval needs the `dataset-…` key |
+| `400 Workflow not published` | Click **Publish** in your Chatflow |
+| `404` on retrieve | `DIFY_DATASET_ID` is wrong – copy it from the knowledge base URL |
+| "cites the document" fails with *cited: nothing* | In the LLM node, **Context** must be set to the Knowledge Retrieval result, and **Citations and Attributions** must be enabled |
+| Retrieval tests fail | Check that all 23 documents show **Available** in your knowledge base |
+| `429` | Too many requests at once – wait a minute and run again |
+| Level 3: `API call error … azure` | Check the three `AZURE_*` values; the host has no `https://` and no path |
+
+---
+
+## ✅ Completion Check
+
+<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+    <li><label><input type="checkbox" /> <code>npm test</code> shows <b>12 passed</b> against your own Dify</label></li>
+    <li><label><input type="checkbox" /> You added one test case of your own to the golden dataset</label></li>
+    <li><label><input type="checkbox" /> You broke the chatbot, saw at least one test fail, and restored it to green</label></li>
+    <li><label><input type="checkbox" /> You can explain whether the Step 6 finding is a retrieval or a generation problem</label></li>
+  </ul>
+</div>
+
+---
+
+## 🌟 Wrap-up
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  You now have a regression suite for an AI system: a golden dataset, deterministic checks for retrieval, grounding, refusal and speed, and an LLM judge for what they can't cover. Next steps: run the suite in CI on every change to your Chatflow, and connect Dify to a tracing tool such as Langfuse to see <i>why</i> an answer failed.
+</div>
