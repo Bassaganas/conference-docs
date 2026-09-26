@@ -606,69 +606,16 @@ Run this fixed acceptance suite in <b>Retrieval Testing</b> before tuning furthe
     </p>
   </div>
 
-  <div style={{ textAlign: 'center', margin: '1em 0' }}>
-    <img 
-      src={require('../static/img/ex2/queries-compare.png').default} 
-      alt="Query Comparison" 
-      style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 8px #ddd' }} 
-      onClick={(e) => {
-        const img = e.target;
-        if (img.style.position === 'fixed') {
-          img.style.position = 'static';
-          img.style.top = 'auto';
-          img.style.left = 'auto';
-          img.style.transform = 'none';
-          img.style.zIndex = 'auto';
-          img.style.maxWidth = '100%';
-          img.style.maxHeight = 'none';
-          document.body.style.overflow = 'auto';
-        } else {
-          img.style.position = 'fixed';
-          img.style.top = '50%';
-          img.style.left = '50%';
-          img.style.transform = 'translate(-50%, -50%)';
-          img.style.zIndex = '9999';
-          img.style.maxWidth = '90vw';
-          img.style.maxHeight = '90vh';
-          img.style.objectFit = 'contain';
-          document.body.style.overflow = 'hidden';
-        }
-      }}
-    />
-    <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Comparing query results (click to expand)</i></div>
-  </div>
+  <p style={{ margin: '1em 0 0.5em 0' }}>Here is <code>What is issue 266 about?</code> in <b>Retrieval Testing</b> on each knowledge base, with the default vector search:</p>
 
-  <div style={{ textAlign: 'center', margin: '1em 0' }}>
-    <img 
-      src={require('../static/img/ex2/queries-compare-advanced.png').default} 
-      alt="Advanced Query Comparison" 
-      style={{ maxWidth: '100%', borderRadius: '8px', cursor: 'pointer', boxShadow: '0 2px 8px #ddd' }} 
-      onClick={(e) => {
-        const img = e.target;
-        if (img.style.position === 'fixed') {
-          img.style.position = 'static';
-          img.style.top = 'auto';
-          img.style.left = 'auto';
-          img.style.transform = 'none';
-          img.style.zIndex = 'auto';
-          img.style.maxWidth = '100%';
-          img.style.maxHeight = 'none';
-          document.body.style.overflow = 'auto';
-        } else {
-          img.style.position = 'fixed';
-          img.style.top = '50%';
-          img.style.left = '50%';
-          img.style.transform = 'translate(-50%, -50%)';
-          img.style.zIndex = '9999';
-          img.style.maxWidth = '90vw';
-          img.style.maxHeight = '90vh';
-          img.style.objectFit = 'contain';
-          document.body.style.overflow = 'hidden';
-        }
-      }}
-    />
-    <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Advanced query comparison (click to expand)</i></div>
-  </div>
+  <p style={{ margin: '1em 0 0.3em 0' }}><b>📄 Manual:</b> the top chunk is an unrelated slice of the <code>.txt</code> file. The words "issue 266" don't match anything meaningful.</p>
+  <img src={require('../static/img/dify/1.16.1/ex2/queries-compare-manual.png').default} alt="Manual knowledge base returning an unrelated chunk from REST_JiraEcosystem_issues.txt with score 0.26" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+
+  <p style={{ margin: '1em 0 0.3em 0' }}><b>🔧 Basic API:</b> each result is one clean Jira issue, but the top match is REST-432, the wrong one. The number 266 alone carries little meaning for the embedding.</p>
+  <img src={require('../static/img/dify/1.16.1/ex2/queries-compare-basic.png').default} alt="Basic API knowledge base returning REST-432 and REST-259 for a question about issue 266" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+
+  <p style={{ margin: '1em 0 0.3em 0' }}><b>🚀 Advanced API:</b> REST-266 comes first. Its aliases (<i>Issue 266</i>, <i>Jira 266</i>) and example questions give the retriever the words users actually type.</p>
+  <img src={require('../static/img/dify/1.16.1/ex2/queries-compare-advanced.png').default} alt="Advanced API knowledge base returning REST-266 first, with its aliases, score 0.34" style={{ maxWidth: '100%', borderRadius: '8px' }} />
 
   <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em', marginTop: '1em' }}>
     <p style={{ margin: '0', fontSize: '1em' }}>
