@@ -229,10 +229,10 @@ Run it a few times (please don't go higher than 3 – the whole class shares the
 npx playwright test -g "acceptance" --retries=0 --repeat-each=3
 ```
 
-When we prepared this workshop, the chatbot often answered **REST-430** (another Jackson issue that mentions "backwards incompatible"), and sometimes even mentioned an issue that **does not exist** in the dataset. Look at the failure details and answer:
+When we prepared this workshop, the chatbot often answered **REST-430** (another Jackson issue that mentions "backwards incompatible"), and sometimes also mentioned **REST-402** – an issue that is not in the knowledge base, but is referenced inside the text of REST-430. Look at the failure details and answer:
 
 - Was REST-266 **cited**? (Check the "cites the document" step.) If it was, retrieval did its job and the mistake happened in **generation**.
-- Did the "only mentions Jira issues that it actually retrieved" step catch an invented issue?
+- REST-402 is not one of the 23 issues. Is mentioning it a hallucination? (Hint: search the cited chunks for "REST-402" – the "only mentions Jira issues that it actually retrieved" step does exactly that.)
 - Why does the same question sometimes pass and sometimes fail? What does that mean for how many times you should run LLM tests?
 - What would you change to fix it: the prompt, the model, or the retrieval settings? Try it and re-run.
 
