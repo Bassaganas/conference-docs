@@ -15,6 +15,14 @@ const expectedExerciseFiles = [
   'exercise-3-ai-chatbot-setup.mdx',
   'exercise-4-advanced-prompting.mdx',
 ];
+// Exercises that exist only in some documentation versions
+const versionOnlyExerciseFiles = {
+  '1.16.1': ['exercise-5-rag-e2e-testing.mdx'],
+};
+
+function exerciseFilesFor(versionName) {
+  return [...expectedExerciseFiles, ...(versionOnlyExerciseFiles[versionName] ?? [])];
+}
 
 function fail(message) {
   console.error(`ERROR: ${message}`);
@@ -68,7 +76,7 @@ function checkDocumentationVersions(manifest) {
 
     const docsDirectory = path.join(root, version.docs_directory);
     validatePath(version.docs_directory, `documentation version ${versionName}`);
-    for (const exerciseFile of expectedExerciseFiles) {
+    for (const exerciseFile of exerciseFilesFor(versionName)) {
       if (!fs.existsSync(path.join(docsDirectory, exerciseFile))) {
         fail(`documentation version ${versionName} is missing exercise flow file: ${exerciseFile}`);
       }
@@ -93,8 +101,9 @@ function checkDocAssets(manifest) {
         }
       }
     }
-    if (docs.length !== expectedExerciseFiles.length) {
-      fail(`documentation version ${versionName} has ${docs.length} exercises; expected ${expectedExerciseFiles.length}`);
+    const expectedCount = exerciseFilesFor(versionName).length;
+    if (docs.length !== expectedCount) {
+      fail(`documentation version ${versionName} has ${docs.length} exercises; expected ${expectedCount}`);
     }
   }
   return docsCount;
