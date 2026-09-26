@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-import ChangeTag from '@site/src/components/ChangeTag';
+import Explore from '@site/src/components/Explore';
 
 # 📄 2: Build Your Knowledge Base
 
@@ -18,10 +18,6 @@ import ChangeTag from '@site/src/components/ChangeTag';
   </div>
 </div>
 
-<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Release baseline:</b> This exercise targets Dify <code>1.16.1</code>. The Knowledge labels, settings, indexed documents, and retrieval evidence below were verified on the authorized disposable instance.
-</div>
-
 ---
 
 ## 📌 What You'll Learn
@@ -33,7 +29,6 @@ import ChangeTag from '@site/src/components/ChangeTag';
     <li><label><input type="checkbox" /> Learn the role of chunk <em>overlap</em> for better results</label></li>
     <li><label><input type="checkbox" /> Discover why ranking and <code>top_k</code> are critical for relevance</label></li>
     <li><label><input type="checkbox" /> Practice ingesting documents manually via Dify UI</label></li>
-    <li><label><input type="checkbox" /> Learn to ingest programmatically via Dify API</label></li>
   </ul>
 </div>
 
@@ -49,11 +44,49 @@ When a document is ingested, it's transformed into a <b>vector representation</b
 
 In this tutorial, we use the model <code>text-embedding-3-large</code> from Azure OpenAI.
 
+<Explore title="Walk around an embedding space" href="https://projector.tensorflow.org/" source="Embedding Projector">
+  <p><b>What you'll find:</b> 10,000 English words from a Word2Vec model, each one a point in a 200-dimensional space, squeezed into 3D so you can rotate it. Use the <b>Search</b> box on the right, click a word, and the panel lists its nearest neighbours.</p>
+  <p><b>What to look for:</b></p>
+  <ul>
+    <li>Search <code>bug</code>. Its neighbours are <i>bugs, fix, patch, compiler, tracking</i>. Nobody told the model these words are related: it learned it from which words appear near each other in text.</li>
+    <li>Search <code>test</code>. Its neighbours mix <i>testing</i> with <i>match, cricket</i> and <i>nuclear</i>. A word model has <b>one point per word</b>, so every meaning of "test" gets blended together.</li>
+    <li>Switch between <b>UMAP</b>, <b>T-SNE</b> and <b>PCA</b> at the bottom left. The picture changes, but the neighbour list doesn't: the 3D view is only an approximation of the real 200 dimensions.</li>
+  </ul>
+  <p style={{ margin: 0 }}><b>How this connects to your knowledge base:</b> <code>text-embedding-3-large</code> works on the same idea, but it embeds whole chunks of text into 3,072 dimensions. Because it reads the surrounding words, "test" in a Jira issue lands near software testing, not cricket. When Dify retrieves chunks, it is finding the nearest points to your question in this kind of space.</p>
+</Explore>
+
+<Explore title="Why directions in the space carry meaning" href="https://www.3blue1brown.com/lessons/gpt#embedding" source="3Blue1Brown: Transformers, the tech behind LLMs">
+  <p><b>What you'll find:</b> an animated lesson (video and text) on how LLMs work. The <b>Embedding</b> section is the clearest visual explanation of embeddings around. Best saved for after the workshop.</p>
+  <p style={{ margin: 0 }}><b>What to look for:</b> the <b>Direction</b> part. The difference between <i>woman</i> and <i>man</i> is roughly the same arrow as the difference between <i>queen</i> and <i>king</i>. Meaning isn't just "which words are close": consistent directions encode concepts like gender or nationality. This is why similarity search works on meaning and not just on shared words.</p>
+</Explore>
+
+### 🏷️ Which Embedding Model?
+
+The embedding model is chosen separately from the chat model you set up in Exercise 1. Two rules matter in practice:
+
+<ul>
+  <li><b>Choose for retrieval, on your own data.</b> A model that ranks well overall may not be the best at finding the right Jira issue. Exercise 2.1's benchmark is exactly this kind of check.</li>
+  <li><b>Changing the embedding model means re-indexing everything.</b> Vectors from different models live in different spaces and can't be compared, so you can't mix them in one knowledge base.</li>
+</ul>
+
+<Explore title="Compare embedding models" href="https://huggingface.co/spaces/mteb/leaderboard" source="MTEB Leaderboard">
+  <p><b>What you'll find:</b> the Massive Text Embedding Benchmark, the standard public ranking of embedding models, with separate leaderboards per task, language, and model size.</p>
+  <p style={{ margin: 0 }}><b>What to look for:</b> open a <b>Retrieval</b> benchmark rather than the overall score, since retrieval is what RAG does. Compare the <b>size group</b> column: smaller models are cheaper and faster, and some are close to the big ones. Keep in mind that scores are self-reported and measured on public datasets, so treat the leaderboard as a shortlist, then test the candidates on your own documents.</p>
+</Explore>
+
+<Explore title="Further reading: embeddings in practice" href="https://simonwillison.net/2023/Oct/23/embeddings/" source="Simon Willison: Embeddings, what they are and why they matter">
+  <p><b>What you'll find:</b> a readable article (and talk) that starts from "an embedding is a list of numbers" and ends with working semantic search and RAG.</p>
+  <p style={{ margin: 0 }}><b>What to look for:</b> the <b>related content</b> example, where embeddings find similar articles with no keywords in common, and the section on <b>answering questions with RAG</b>. It's the same pipeline you're building in Dify: embed the documents, embed the question, retrieve the nearest chunks, and hand them to the LLM.</p>
+</Explore>
+
+<Explore title="Further reading: how embeddings are learned" href="https://jalammar.github.io/illustrated-word2vec/" source="Jay Alammar: The Illustrated Word2vec">
+  <p><b>What you'll find:</b> an illustrated, step-by-step explanation of how Word2Vec, the model behind the Embedding Projector demo, learns its vectors.</p>
+  <p style={{ margin: 0 }}><b>What to look for:</b> the opening <b>personality test</b> analogy, which shows how a person can be described as a list of scores and compared with <b>cosine similarity</b>. That's the same measure Dify uses to rank your chunks. Then skim the training section: the model learns by predicting which words appear next to each other, which is why <i>bug</i> ended up next to <i>fix</i>.</p>
+</Explore>
+
 ---
 
 ## 🍰 Chunking: Breaking Text into Pieces
-
-<h2 id="chunk-size-tradeoff"></h2>
 
 ### 📏 Chunk Size
 
@@ -87,9 +120,23 @@ Overlap ensures that context near the boundaries of chunks isn't lost.
 
 For example, if two chunks overlap by 100 tokens, the second chunk repeats the last 100 tokens of the first. This helps the model "remember" what came before — improving answers that need continuity.
 
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Tokens or characters?</b> The table above talks in tokens, but Dify's chunk settings are in characters. In English, one token is about 4 characters, so the 2,000-character chunks you'll use below are roughly 500 tokens.
+</div>
+
+<Explore title="See chunking happen" href="https://chunkviz.up.railway.app/" source="ChunkViz">
+  <p><b>What you'll find:</b> paste any text, set <b>Chunk Size</b> and <b>Chunk Overlap</b> (in characters), pick a splitter, and every chunk is shown in its own colour.</p>
+  <p><b>What to look for:</b> unzip the Jira dataset below and paste the first 40 lines or so of <code>REST_JiraEcosystem_issues.txt</code>.</p>
+  <ul style={{ margin: 0 }}>
+    <li>With the <b>Character Splitter</b> at a small chunk size, an issue's <code>key</code>, <code>summary</code> and <code>description</code> fall into different colours. A search that finds the summary won't bring back the key.</li>
+    <li>Raise Chunk Size to <code>2000</code> and Overlap to <code>200</code>: whole issues now fit in one chunk, and the overlap repeats the edge of each chunk at the start of the next.</li>
+    <li>Switch to the <b>Recursive Character Text Splitter</b>: it prefers to cut at blank lines and line breaks instead of mid-word. That's why you'll set a blank-line delimiter (<code>\n\n</code>) in Dify below.</li>
+  </ul>
+</Explore>
+
 ---
 
-## 🎯 Ranking and top-k Retrieval <ChangeTag kind="changed" />
+## 🎯 Ranking and top-k Retrieval
 
 Once you have all your documents chunked and embedded, you'll want to find the most relevant ones to a query.
 
@@ -104,7 +151,7 @@ This is where <b>ranking</b> comes in:
   <b>Getting the <code>top K</code> right can dramatically improve performance!</b>
 </div>
 
-Top K alone is not a quality target. In Dify 1.16.1, also test the retrieval mode,
+Top K alone is not a quality target. Also test the retrieval mode,
 score threshold, returned source, and behavior for an unrelated query. Exercise 2.1
 uses the same Jira fixture to turn these controls into a repeatable benchmark.
 
@@ -143,7 +190,24 @@ uses the same Jira fixture to turn these controls into a repeatable benchmark.
 </div>
 
 <ol start="3" style={{ marginBottom: '2em' }}>
-  <li> Unzip the dataset and upload the files to the Knowledge Base.</li>
+  <li>
+
+Unzip the dataset and upload the files to the Knowledge Base. `REST_JiraEcosystem_issues.txt` is a JSON list of Jira issues. Here is REST-266, trimmed to the fields that matter most (you'll search for it at the end of this exercise):
+
+```json
+{
+  "key": "REST-266",
+  "fields": {
+    "summary": "Default Jackson configuration is to error out on unknown properties",
+    "description": "When deserialising JSON into Java objects we should be as lenient as possible in what we accept. ... If a client sends extra JSON properties they should be ignored ...",
+    "status": { "name": "Not Being Considered" },
+    "priority": { "name": "Minor" },
+    "issuetype": { "name": "Bug" }
+  }
+}
+```
+
+  </li>
   <li>Upload <code>REST_JiraEcosystem_issues.txt</code> and <code>REST_JiraEcosystem_SUMMARY.txt</code>.</li>
   <li>Click on <b>Next</b>.</li>
   <li>
@@ -166,44 +230,11 @@ uses the same Jira fixture to turn these controls into a repeatable benchmark.
 </ol>
 
 <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em 1.2em', margin: '1em 0' }}>
-  <b>Verify retrieval, not just indexing:</b> open <b>Retrieval Testing</b> and query <code>REST-266 Default Jackson configuration unknown properties</code>. A useful result contains the issue key, summary, and description in the same retrieved context. This is a smoke check; the measured positive and no-match acceptance suite follows in Exercise 2.1.
+  <b>Verify retrieval, not just indexing:</b> open <b>Retrieval Testing</b> and query <code>REST-266 Default Jackson configuration unknown properties</code>. A useful result contains the issue key, summary, and description in the same retrieved context. This is a quick check. Exercise 2.1 adds a fuller set of test queries, including one that should return nothing.
 </div>
 
 <img src={require('../static/img/dify/1.16.1/ex2/knowledge-retrieval-rest-266.png').default} alt="REST-266 retrieval with key, summary, description, and score" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
 
-
 ---
 
-## 📦 Example Issue (JSON)
-
-```json
-{
-  "summary": "Support 'expand' param on GET /rest/api/2/project",
-  "description": "The GET /rest/api/2/project endpoint should support 'expand' to allow additional project details.",
-  "issueType": "New Feature",
-  "priority": "Medium"
-}
-```
-
----
-
-## 🧑‍💻 Advanced: Ingesting via API
-
-Need a working config?
-
-<details style={{
-  border: '2px solid #7c3aed',
-  borderRadius: '8px',
-  background: '#faf9ff',
-  padding: '0.5em 1em',
-  marginTop: '1em',
-  marginBottom: '1em'
-}}>
-<summary>Why is API ingestion better?</summary>
-
-<ul>
-  <li>✅ Supports more complex documents and formats.</li>
-  <li>🔁 Enables automation and batch processing.</li>
-  <li>📦 You can attach metadata (e.g. <code>issue_key</code>) for filtering or analytics.</li>
-</ul>
-</details>
+➡️ **Next:** in [Exercise 2.1](./exercise-2-api-knowledge-ingestion) you'll ingest the same Jira issues through an API, with structured metadata, and compare the results with this knowledge base.

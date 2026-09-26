@@ -2,6 +2,8 @@
 sidebar_position: 3
 ---
 
+import Explore from '@site/src/components/Explore';
+
 # 🧙 Exercise 1: Connect to Your Magical LLM
 
 export const toggleZoom = (e) => {
@@ -30,21 +32,13 @@ export const Shot = ({ src, alt, caption }) => (
     </p>
 </div>
 
-<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Release baseline:</b> This exercise targets the August 2026 workshop default, Dify <code>1.16.1</code>. The dated compatibility choices in the header may use slightly different labels or layouts, but the model-provider goal is the same.
-</div>
-
-<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Verified 1.16.1 path:</b> install Azure OpenAI Service (<code>0.0.69</code> or later) from <b>Integrations → Model Provider</b>, configure <code>gpt-35-turbo-16k</code> and <code>text-embedding-3-large</code>, then select them under <b>Default Models</b>. The screenshots below were captured from a successful disposable-instance run with secrets hidden.
-</div>
-
 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
   <div>
     <h3 style={{ color: '#0c4a6e', marginBottom: '1em' }}>🚀 What You'll Build</h3>
     <ul style={{ fontSize: '1em', lineHeight: '1.6' }}>
       <li><b>Connect</b> to Azure-hosted GPT models</li>
       <li><b>Configure</b> both LLM and embedding models</li>
-      <li><b>Create</b> your first AI chatbot</li>
+      <li><b>Create</b> your first AI workflow</li>
       <li><b>Test</b> the complete workflow</li>
     </ul>
   </div>
@@ -70,13 +64,13 @@ export const Shot = ({ src, alt, caption }) => (
     <div>
   <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 4:</b> Configure LLM models</label></li>
-        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 5:</b> Create first chatbot</label></li>
-        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 6:</b> Test your assistant (then try Exercise 1B)</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 5:</b> Create your first workflow</label></li>
+        <li style={{ marginBottom: '0.5em' }}><label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}><input type="checkbox" style={{ marginRight: '0.5em' }} /> <b>Step 6:</b> Run, debug, and tune it (then try Exercise 1B)</label></li>
   </ul>
     </div>
   </div>
   <div style={{ background: '#e0f2fe', border: '1px solid #38bdf8', borderRadius: '6px', padding: '0.8em', marginTop: '1em', fontSize: '0.9em' }}>
-    <b>⏱️ Estimated Time:</b> 15-20 minutes | <b>🎯 Goal:</b> Working AI chatbot with Azure LLM
+    <b>⏱️ Estimated Time:</b> 15-20 minutes | <b>🎯 Goal:</b> Working AI workflow with Azure LLM
   </div>
 </div>
 
@@ -174,7 +168,7 @@ After signing in you land on <b>Home</b>, which lists ready-made templates. Navi
   </div>
   <div>
       <p><b>4️⃣ Marketplace:</b> Browse and install plugins such as model providers and tools.</p>
-      <p><b>5️⃣ Account menu:</b> Account, preferences, appearance, and log out. It no longer contains the model provider settings.</p>
+      <p><b>5️⃣ Account menu:</b> Account, preferences, appearance, and log out.</p>
     </div>
   </div>
 </div>
@@ -187,10 +181,7 @@ After signing in you land on <b>Home</b>, which lists ready-made templates. Navi
     <li><b>Click "Integrations"</b> in the left sidebar</li>
     <li><b>"Model Provider"</b> opens by default. It's the first item in the Integrations menu</li>
   </ol>
-  <p style={{ margin: '0.5em 0 0 0', fontSize: '0.95em' }}>In earlier Dify versions this page was under <i>user icon → Settings → Model Provider</i>. In 1.16.1 the account menu only has Account, Preferences, Appearance, and Log out.</p>
 </div>
-
-<Shot src={require('../static/img/dify/1.16.1/ex1/dify-account-menu.png').default} alt="Dify account menu" caption="The account menu (bottom-left) no longer contains Settings" />
 
 <Shot src={require('../static/img/dify/1.16.1/ex1/dify-settings-model-provider.png').default} alt="Integrations Model Provider page" caption="Integrations → Model Provider, before any provider is installed" />
 
@@ -200,71 +191,11 @@ After signing in you land on <b>Home</b>, which lists ready-made templates. Navi
 
 Now let's wire your Dify to use Azure-hosted GPT models.
 
-### 🧭 Model Selection Guide (Before You Configure)
-
-Use this quick framework to choose the right model for each task in this workshop.
-
-<div style={{ background: '#fff7ed', border: '2px solid #fb923c', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
-  <b>External benchmark reference:</b> Use <a href="https://artificialanalysis.ai/" target="_blank" rel="noopener noreferrer">Artificial Analysis</a> to compare quality, latency, and relative cost before selecting a provider/model.
-</div>
-
-<table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1em' }}>
-  <thead>
-    <tr style={{ background: '#f3f4f6' }}>
-      <th style={{ padding: '0.6em', border: '1px solid #e5e7eb', textAlign: 'left' }}>Task</th>
-      <th style={{ padding: '0.6em', border: '1px solid #e5e7eb', textAlign: 'left' }}>Recommended model profile</th>
-      <th style={{ padding: '0.6em', border: '1px solid #e5e7eb', textAlign: 'left' }}>Why</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Requirement Q&amp;A in chatbot</td>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Balanced chat model (good quality/cost)</td>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>You need consistent answers with moderate latency.</td>
-    </tr>
-    <tr>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Knowledge retrieval embeddings</td>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>High-quality embedding model</td>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Embedding quality strongly impacts retrieval relevance.</td>
-    </tr>
-    <tr>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>High-volume test experimentation</td>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Lower-cost/faster model</td>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Faster feedback loops while iterating prompts and flows.</td>
-    </tr>
-    <tr>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Sensitive/private workloads</td>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Local or self-hosted model</td>
-      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Helps meet data residency and control constraints.</td>
-    </tr>
-  </tbody>
-</table>
-
-### ⚙️ Core Model Parameters You Should Tune
-
-<ul>
-  <li><b>Temperature</b>: start at <code>0.2-0.4</code> for deterministic testing tasks; increase for creative generation.</li>
-  <li><b>Top P</b>: keep at <code>0.8-1.0</code>; avoid changing both Top P and Temperature aggressively at the same time.</li>
-  <li><b>Max Tokens</b>: cap output to control cost and reduce noisy long answers.</li>
-  <li><b>Frequency/Presence Penalties</b>: use low values first; they can reduce repetition but also remove needed terminology.</li>
-  <li><b>Context Window</b>: ensure your model can handle prompt + retrieved chunks + expected answer length.</li>
-  <li><b>Timeout/Retry</b>: set explicit limits so workflow runs fail fast and are easier to debug.</li>
-</ul>
-
-<div style={{ background: '#ecfeff', border: '2px solid #06b6d4', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
-  <b>Recommended baseline for this workshop:</b> Temperature <code>0.3</code>, Top P <code>0.9</code>, and a moderate max token cap. Change one parameter at a time and re-run the same validation questions.
-</div>
-
 ### 1. Install Model Provider
 
 <ol>
   <li>
-    Navigate to <b>Integrations → Model Provider</b>
-    <div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
-      <b>Important:</b> Select the <b>Azure OpenAI</b> provider card under <b>Install model providers</b>.
-    </div>
-    <img src={require('../static/img/dify/1.16.1/ex1/dify-settings-model-provider.png').default} alt="Dify 1.16.1 model provider settings" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Model provider settings page</i></div>
+    On <b>Integrations → Model Provider</b>, find the <b>Azure OpenAI</b> provider card under <b>Install model providers</b>.
   </li>
   <li>
     Hover the <b>Azure OpenAI</b> card, click <b>Install</b>, then confirm with <b>Install</b> in the dialog. The provider moves to <b>Configuration required</b> with an <b>Add Model</b> button.
@@ -415,17 +346,12 @@ Use the credentials provided earlier to configure the model:
 
 <div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
   <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🔧 Configuration Steps</h4>
-
-  <li>
-    Click the <b>Default Models</b> button at the top of the Model Provider page
-  </li>
-  <li>
-    Select <b>gpt-35-turbo-16k</b> as the <b>System Reasoning Model</b> and <b>text-embedding-3-large</b> as the <b>Embedding Model</b>
-  </li>
-  <li>
-    Click <b>Save</b>
-  </li>
-  We won't use the Rerank, Speech-to-Text, or Text-to-Speech models in this exercise.
+  <ol style={{ margin: '0.5em 0' }}>
+    <li>Click the <b>Default Models</b> button at the top of the Model Provider page</li>
+    <li>Select <b>gpt-35-turbo-16k</b> as the <b>System Reasoning Model</b> and <b>text-embedding-3-large</b> as the <b>Embedding Model</b></li>
+    <li>Click <b>Save</b></li>
+  </ol>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>We won't use the Rerank, Speech-to-Text, or Text-to-Speech models in this exercise.</p>
 </div>
 
 <div style={{ textAlign: 'center' }}>
@@ -554,7 +480,7 @@ Use the credentials provided earlier to configure the model:
 
 <div style={{ background: '#f0f9ff', border: '2px solid #0ea5e9', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
   <h4 style={{ margin: '0 0 0.5em 0', color: '#0c4a6e' }}>🏁 Final Configuration</h4>
-  <p style={{ margin: '0', fontSize: '0.95em' }}>Complete your workflow by adding an <b>Output</b> block (called <i>End</i> in earlier Dify versions) that returns the LLM response.</p>
+  <p style={{ margin: '0', fontSize: '0.95em' }}>Complete your workflow by adding an <b>Output</b> block that returns the LLM response.</p>
 </div>
 
 <ol>
@@ -660,8 +586,48 @@ Check the <b>Tracing</b> tab for a detailed breakdown of what your chatbot did:
 
 <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em 1.2em', margin: '1em 0' }}>
   <p style={{ margin: '0', fontSize: '1em' }}>
-    🧠 <b>Pro Tip:</b> The tracing tab shows you exactly how your chatbot processed the input, including token usage and response generation steps.
+    🧠 <b>Pro Tip:</b> The tracing tab shows you exactly how your workflow processed the input, including token usage and response generation steps.
   </p>
+</div>
+
+<Explore title="Look inside the model you just called" href="https://bbycroft.net/llm" source="LLM Visualization">
+  <p><b>What you'll find:</b> an interactive 3D walkthrough of a GPT model. You can follow a short piece of text step by step through every layer, from the input to the predicted next token. Start with the small <i>nano-gpt</i> model; the same structure scales up to GPT-3.</p>
+  <p><b>What to look for:</b> open the <b>Embedding</b> chapter. Each input token is swapped for a long list of numbers, its <b>embedding</b>, and from then on the model works only with those numbers. At the end (<b>Softmax</b>) the model outputs a probability for every possible next token and picks one. Your Dify answer was built this way, one token at a time.</p>
+  <p style={{ margin: 0 }}><b>Why it matters later:</b> remember the embedding step. In Exercise 2 a separate <i>embedding model</i> does the same thing to whole Jira issues, so your assistant can search them by meaning.</p>
+</Explore>
+
+### 🎛️ Step 3: Try It — Tune the LLM
+
+Now that the workflow runs, see how the model's parameters change its answers. Open the <b>LLM</b> node and click the model name to open its parameter settings:
+
+<ul>
+  <li><b>Temperature</b>: how much randomness the model uses. Low values (<code>0.2-0.4</code>) give consistent, repeatable answers, which is what you want for testing tasks. Higher values give more varied, creative answers.</li>
+  <li><b>Top P</b>: another way to limit randomness. Keep it at <code>0.8-1.0</code> and don't change it together with Temperature.</li>
+  <li><b>Max Tokens</b>: caps the answer length. This keeps cost down and cuts rambling answers.</li>
+</ul>
+
+<Explore title="See what Temperature does to the probabilities" href="https://poloclub.github.io/transformer-explainer/" source="Transformer Explainer">
+  <p><b>What you'll find:</b> a real GPT-2 model running in your browser. It shows how a sentence flows through the model and, in the <b>Probabilities</b> column on the right, the chance of each candidate next word. The top bar has sliders for <b>Temperature</b> and top-k / top-p sampling.</p>
+  <p><b>What to look for:</b> pick a sentence from the <b>Examples</b> menu and watch the probability bars. Drag Temperature all the way down: the top word takes almost all the probability, so the model picks the same word every time. Drag it up: the bars even out and less likely words get picked more often. That's why low temperature gives repeatable answers and high temperature gives varied ones, which you're about to see in Dify.</p>
+  <p style={{ margin: 0 }}><b>Heads-up:</b> the Examples work straight away. Typing your own sentence downloads the 600 MB model first, so save that for a good connection.</p>
+</Explore>
+
+<Explore title="What is a token, really?" href="https://tiktokenizer.vercel.app/" source="Tiktokenizer">
+  <p><b>What you'll find:</b> a tokenizer viewer. Paste any text and it colours each token and counts them, for the tokenizers used by GPT models.</p>
+  <p style={{ margin: 0 }}><b>What to look for:</b> paste the answer from your test run. Tokens are often pieces of words, not whole words, and in English one token averages about <b>4 characters</b>. So <code>Max Tokens: 100</code> allows roughly 75 words, and the cost of every run is counted in tokens. Try a technical term like <code>deserialisation</code> and see it split into several tokens.</p>
+</Explore>
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em', margin: '1em 0' }}>
+  <h5 style={{ margin: '0 0 0.5em 0', color: '#ca8a04' }}>🧪 Experiment:</h5>
+  <ol style={{ margin: '0', fontSize: '0.95em' }}>
+    <li>Set Temperature to <code>0.3</code> and run the same test question twice. Compare the two answers.</li>
+    <li>Set Temperature to <code>1.0</code> and run it twice again. How different are the answers now?</li>
+    <li>Set Max Tokens to <code>100</code> and run it once more. What happens to the answer?</li>
+  </ol>
+</div>
+
+<div style={{ background: '#ecfeff', border: '2px solid #06b6d4', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
+  <b>Baseline for the rest of the workshop:</b> Temperature <code>0.3</code>, Top P <code>0.9</code>, and a moderate max token cap. When you tune later, change one parameter at a time and re-run the same questions.
 </div>
 
 ---
@@ -671,6 +637,44 @@ Check the <b>Tracing</b> tab for a detailed breakdown of what your chatbot did:
 You have just built and run a workflow against Azure OpenAI. This exercise runs the *same* workflow against a model that is not a managed cloud API, so you can compare quality, latency and cost with everything else held constant.
 
 Keep your Azure setup. It stays your known-good baseline, and every later exercise still works against it.
+
+### 🧭 Why compare models?
+
+There is no single best model. The right choice depends on the task:
+
+<table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1em' }}>
+  <thead>
+    <tr style={{ background: '#f3f4f6' }}>
+      <th style={{ padding: '0.6em', border: '1px solid #e5e7eb', textAlign: 'left' }}>Task</th>
+      <th style={{ padding: '0.6em', border: '1px solid #e5e7eb', textAlign: 'left' }}>Recommended model profile</th>
+      <th style={{ padding: '0.6em', border: '1px solid #e5e7eb', textAlign: 'left' }}>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Requirement Q&amp;A in chatbot</td>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Balanced chat model (good quality/cost)</td>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>You need consistent answers with moderate latency.</td>
+    </tr>
+    <tr>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Knowledge retrieval embeddings</td>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>High-quality embedding model</td>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Embedding quality strongly impacts retrieval relevance.</td>
+    </tr>
+    <tr>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>High-volume test experimentation</td>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Lower-cost/faster model</td>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Faster feedback loops while iterating prompts and flows.</td>
+    </tr>
+    <tr>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Sensitive/private workloads</td>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Local or self-hosted model</td>
+      <td style={{ border: '1px solid #e5e7eb', padding: '0.6em' }}>Helps meet data residency and control constraints.</td>
+    </tr>
+  </tbody>
+</table>
+
+The last row is what this exercise lets you try. To compare hosted models on quality, latency, and cost, [Artificial Analysis](https://artificialanalysis.ai/) is a useful starting point. Treat it as a discovery aid, and confirm the model card, license, context limit, and your own representative prompts before choosing.
 
 ### 🎯 Objective
 
@@ -825,7 +829,8 @@ Use this when you are studying on your own, or when the classroom model is unava
 
 **Never expose Ollama's unauthenticated port to the internet.** It has no authentication of its own, and its API can pull and delete models. Put TLS and authentication in front of it, and use the smallest model and context window that meet the goal.
 
-The reference setup used for these screenshots was:
+<details>
+  <summary><b>Example: exposing a laptop Ollama through an authenticated tunnel</b></summary>
 
 1. `ollama serve`
 2. `ollama pull qwen2.5:1.5b`
@@ -837,6 +842,8 @@ The reference setup used for these screenshots was:
   <img src={require('../static/img/dify/1.16.1/ex1/local-model/local-ollama-tunnel-setup.png').default} alt="Local Ollama exposed through an authenticated temporary HTTPS tunnel" style={{ maxWidth: '100%', borderRadius: '8px' }} />
   <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.5em' }}><i>Local Ollama plus an authenticated temporary HTTPS tunnel</i></div>
 </div>
+
+</details>
 
 Then register it in Dify exactly as in Path A step 3, using your own base URL, your own token and your own model tag.
 
@@ -858,8 +865,6 @@ Then register it in Dify exactly as in Path A step 3, using your own base URL, y
   </tbody>
 </table>
 
-For comparing model quality, latency and hardware efficiency, [Artificial Analysis](https://artificialanalysis.ai/) is a useful discovery aid — not a decision source. Confirm the model card, license, context limit and your own representative prompts before choosing.
-
 ---
 
 ## 🚦 When the classroom model is busy or down
@@ -877,17 +882,12 @@ The shared host serves the whole room, so you will occasionally meet its limits.
   <b>The classroom model is never a blocker.</b> Every exercise in this workshop works against Azure. If the local model misbehaves, switch the LLM node back and keep going — you can return to Exercise 1B later.
 </div>
 
-## 🧹 Cleanup and restoration
+## 🧹 Cleanup
 
-**During the workshop** you do not need to clean anything up. Your token expires on its own and your instructor tears down the shared host when the session ends.
-
-**If you want your Dify back to the Azure-only state:**
+**Switch back to Azure** before moving on:
 
 1. Open the **LLM node** in your workflow and switch the model back to your Azure deployment.
 2. Check **Integrations → Model Provider → Default Models** still points at Azure for the System Reasoning Model.
-3. Optionally remove the Ollama model entry under the Ollama provider. Leaving it is harmless — it simply stops working once your token expires.
-
-**After the workshop** the endpoint stops resolving and your token is revoked. A saved Ollama provider entry pointing at it will fail; delete it, or repoint it at your own endpoint using Path B.
 
 **If you used Path B**, stop your tunnel and your local Ollama (`ollama stop`, or quit the app). A tunnel left running is an authenticated route into your laptop.
 
@@ -920,7 +920,7 @@ This exercise is complete when:
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '12px', padding: '2em', marginBottom: '2em' }}>
   <div style={{ textAlign: 'center', marginBottom: '1.5em' }}>
     <h3 style={{ margin: '0 0 0.5em 0', color: '#7c3aed', fontSize: '1.4em' }}>🎉 Congratulations!</h3>
-    <p style={{ margin: '0', fontSize: '1.1em', color: '#7c3aed' }}>You've successfully connected your LLM and created your first AI chatbot!</p>
+    <p style={{ margin: '0', fontSize: '1.1em', color: '#7c3aed' }}>You've successfully connected your LLM and created your first AI workflow!</p>
   </div>
   
   <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '1em', marginBottom: '1.5em' }}>
@@ -928,8 +928,9 @@ This exercise is complete when:
     <ul style={{ margin: '0', fontSize: '0.95em' }}>
       <li>✅ Connected to Azure-hosted GPT models</li>
       <li>✅ Configured both LLM and embedding models</li>
-      <li>✅ Created your first AI chatbot</li>
-      <li>✅ Tested the complete workflow</li>
+      <li>✅ Created your first AI workflow</li>
+      <li>✅ Tested and traced the complete workflow</li>
+      <li>✅ Saw how Temperature and Max Tokens change the answers</li>
     </ul>
   </div>
 

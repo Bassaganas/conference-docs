@@ -4,9 +4,15 @@ sidebar_position: 6
 ---
 
 import CodeBlock from '@theme/CodeBlock';
-import ChangeTag from '@site/src/components/ChangeTag';
 
 # 🤖 3: AI Chatbot Setup
+
+export const Shot = ({ src, alt, caption }) => (
+  <div style={{ margin: '1em 0' }}>
+    <img src={src} alt={alt} style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} />
+    {caption && <div style={{ fontSize: '0.95em', color: '#666', marginTop: '0.4em' }}><i>{caption}</i></div>}
+  </div>
+);
 
 <div style={{ marginBottom: '2em' }}>
   <div>
@@ -19,34 +25,24 @@ import ChangeTag from '@site/src/components/ChangeTag';
     gap: '2em',
     marginTop: '2em'
   }}>
-    <img src={require('../static/img/retrieval.png').default} alt="Semantic Search" style={{ maxWidth: '320px', width: '100%', borderRadius: '12px', padding:'0, 0, 10' }} />
+    <img src={require('../static/img/retrieval.png').default} alt="Semantic Search" style={{ maxWidth: '320px', width: '100%', borderRadius: '12px' }} />
     <img src={require('../static/img/augmented.png').default} alt="Prepares the Prompt" style={{ maxWidth: '320px', width: '100%', borderRadius: '12px' }} />
   </div>
 </div>
+
 ---
 
-## 🧩 What You'll Do <ChangeTag kind="changed" />
+## 🧩 What You'll Do
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
   <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
     <li><label><input type="checkbox" /> Create a new <b>Chatflow</b></label></li>
-    <li><label><input type="checkbox" /> Integrate a <b>Retriever</b> block between the user query and the LLM</label></li>
-    <li><label><input type="checkbox" /> Connect your knowledge base (manual or API-ingested)</label></li>
-    <li><label><input type="checkbox" /> Test retrieval-augmented answers</label></li>
+    <li><label><input type="checkbox" /> Add a <b>Knowledge Retrieval</b> node between the user input and the LLM</label></li>
+    <li><label><input type="checkbox" /> Connect your knowledge base from Exercise 2 or 2.1</label></li>
+    <li><label><input type="checkbox" /> Test retrieval-augmented answers and inspect citations and the retrieval trace</label></li>
     <li><label><input type="checkbox" /> <b>Augment</b> your prompt to prevent hallucinations and improve results</label></li>
-    <li><label><input type="checkbox" /> Try sample queries</label></li>
-    <li><label><input type="checkbox" /> Inspect citations and the Knowledge Retrieval trace</label></li>
-    <li><label><input type="checkbox" /> Publish your Chatflow</label></li>
-    <li><label><input type="checkbox" /> Verify the published version and restore controls</label></li>
+    <li><label><input type="checkbox" /> Publish your Chatflow and keep a named version you can restore</label></li>
   </ul>
-</div>
-
-<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Release baseline:</b> The grounded Chatflow and Retriever flow documented here targets Dify <code>1.16.1</code>, the August 2026 workshop default. If you select a dated compatibility release, use its equivalent Knowledge and Studio controls.
-</div>
-
-<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Verified configuration:</b> use <code>gpt-35-turbo-16k</code>, select the API-ingested <code>Jira_API_Basic_*</code> knowledge base, bind <b>Knowledge Retrieval.result</b> to the LLM context, and keep the explicit no-match instruction. After importing the solution DSL on another instance, reselect your own knowledge base if Dify cannot resolve the exported dataset reference.
 </div>
 
 ---
@@ -55,74 +51,68 @@ import ChangeTag from '@site/src/components/ChangeTag';
 
 <ol style={{ marginBottom: '2em' }}>
   <li>
-    Go to the <b>Studio</b> and create a new Chatflow.<br />
-    <img src={require('../static/img/ex3/chatflow-landing.png').default} alt="Chatflow Landing" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Chatflow landing page</i></div>
+    Click <b>Studio</b> in the left sidebar, then <b>Create</b> → <b>Create from Blank</b>.
+    <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-landing.png').default} alt="Studio with the Create menu open and Create from Blank underlined" caption="Studio → Create → Create from Blank" />
   </li>
   <li>
-    Select <b>Chatflow</b>, give it a meaningful name and description, and create it.<br />
-    <img src={require('../static/img/ex3/chatflow-create.png').default} alt="Chatflow Create" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Creating a new Chatflow</i></div>
+    Select <b>Chatflow</b>, give it a meaningful name and description, and click <b>Create</b>.
+    <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-create.png').default} alt="Create from Blank dialog with the Chatflow app type selected" caption="Chatflow selected, with name and description" />
   </li>
   <li>
-    Add a <b>Prompt</b> to the LLM block. Be sure to include both the query and context in your prompt!<br />
-    <img src={require('../static/img/ex3/chatflow-llm-config.png').default} alt="LLM Config" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: LLM block configuration</i></div>
-  </li>
-  <li>
-    Preview your chatbot.<br />
+    A new Chatflow already contains <b>User Input → LLM → Answer</b>. Open the <b>LLM</b> node and select <b>gpt-35-turbo-16k</b> as the model. Then write a <b>SYSTEM</b> prompt, and use the <b>{'{'}x{'}'}</b> button (or type <code>{'{'}</code>) to insert the <b>Context</b> block.
     <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-      <b>Tip:</b> Pay attention to the <b>Workflow</b> process to see how your chatbot handles queries step by step.
+      The user's question is already in the <b>USER</b> message (<code>User Input / query</code>), so the SYSTEM prompt only needs your instructions and the context.
     </div>
-    <img src={require('../static/img/ex3/chatflow-preview.png').default} alt="Chatflow Preview" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Chatbot preview</i></div>
+    <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-llm-config.png').default} alt="LLM node with the model selected, a SYSTEM prompt containing the Context block, and the USER message holding query" caption="LLM node: SYSTEM prompt with Context, USER message with query" />
+  </li>
+  <li>
+    Click <b>Preview</b> and ask a question. Expand <b>Workflow Process</b> above the answer to see each node that ran, with its duration and token count.
+    <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-preview.png').default} alt="Preview panel with the Workflow Process expanded: User Input, LLM and Answer" caption="Preview with the Workflow Process expanded" />
   </li>
 </ol>
 
 ---
 
-## 🛠️ Step 2: Add a Retriever Block <ChangeTag kind="changed" />
+## 🛠️ Step 2: Add a Knowledge Retrieval Node
 
 <ol style={{ marginBottom: '2em' }}>
   <li>
-    In your chatbot workflow, <b>insert a Retriever block</b> between the user query input (Start Block) and the LLM block.<br />
-    <img src={require('../static/img/ex3/knowledge-retrieval.png').default} alt="Knowledge Retrieval" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Adding a Retriever block</i></div>
-    <img src={require('../static/img/dify/1.16.1/ex3/chatflow-with-knowledge-retrieval.png').default} alt="Dify 1.16.1 Start to Knowledge Retrieval to LLM to Answer flow" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Chatflow with Retriever block</i></div>
+    Hover the connection between <b>User Input</b> and <b>LLM</b>, click the <b>+</b> that appears, and choose <b>Knowledge Retrieval</b>.
+    <Shot src={require('../static/img/dify/1.16.1/ex3/knowledge-retrieval.png').default} alt="Node picker with Knowledge Retrieval highlighted and its description" caption="The node picker: Knowledge Retrieval queries your knowledge base with the user's question" />
+    <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-with-knowledge-retrieval.png').default} alt="Chatflow with User Input, Knowledge Retrieval, LLM and Answer nodes" caption="The Chatflow now runs User Input → Knowledge Retrieval → LLM → Answer" />
   </li>
   <li>
-    Configure the Retriever to use your knowledge base:
+    In the Knowledge Retrieval panel, <b>Query Text</b> is already set to <code>sys.query</code>. Click the <b>+</b> next to <b>Knowledge</b> to add a knowledge base.
+    <Shot src={require('../static/img/dify/1.16.1/ex3/retrieval-config.png').default} alt="Knowledge Retrieval settings with the Knowledge section and its add button highlighted" caption="Add knowledge with the + button" />
+  </li>
+  <li>
+    Select the knowledge base you want the chatbot to use and click <b>Add</b>:
     <ul>
-      <li>
-        If you completed <b>Exercise 2.1 (API ingestion)</b>, select your API-generated knowledge base (recommended for best results).<br />
-        <img src={require('../static/img/ex3/retrieval-config.png').default} alt="Retrieval Config" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-        <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Retrieval config</i></div>
-        <img src={require('../static/img/ex3/retrieval-select.png').default} alt="Retrieval Select" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-        <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Selecting a knowledge base</i></div>
-      </li>
+      <li>If you completed <b>Exercise 2.1</b>, select <code>{'Jira_API_Advanced_*'}</code> (recommended) or <code>{'Jira_API_Basic_*'}</code>.</li>
       <li>If you only did the manual upload, select your manually created knowledge base.</li>
     </ul>
+    <Shot src={require('../static/img/dify/1.16.1/ex3/retrieval-select.png').default} alt="Select reference Knowledge dialog with the advanced Jira knowledge base selected" caption="Selecting a knowledge base" />
   </li>
   <li>
-    Review the <b>metadata filtering</b> controls: <b>Disabled</b>, <b>Automatic</b>, and <b>Manual</b>. Keep filtering disabled in this basic flow because it has no Parameter Extractor. Exercise 4 adds the extractor and applies <code>issue_key equals extracted_key</code>; do not pretend semantic similarity enforces an exact identifier.<br />
-    <img src={require('../static/img/ex3/retrieval-metadata.png').default} alt="Metadata Filtering" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Metadata filtering options</i></div>
+    Look at the <b>Metadata Filtering</b> options: <b>Disabled</b>, <b>Automatic</b>, and <b>Manual</b>. Keep it <b>Disabled</b> for now. Filtering on an exact Jira key needs the key extracted from the question first, which you'll add in Exercise 4.
+    <Shot src={require('../static/img/dify/1.16.1/ex3/retrieval-metadata.png').default} alt="Metadata Filtering dropdown showing Disabled, Automatic and Manual" caption="Metadata filtering options" />
   </li>
 </ol>
 
 <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-  <b>Tip:</b> The Retriever block will fetch the most relevant chunks from your knowledge base and pass them as context to the LLM.
+  <b>Tip:</b> The Knowledge Retrieval node finds the most relevant chunks in your knowledge base. The LLM only sees them if you pass them in as context, which is the next step.
 </div>
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-  <b>Oops! But does it really work already?</b>
+  <b>Oops! But does it really work already?</b> Ask <code>What is this issue about: Jira Issue: REST-259?</code> in Preview:
 </div>
-<img src={require('../static/img/dify/1.16.1/ex3/chatflow-fallback.png').default} alt="Verified no-match fallback for an out-of-scope question" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+
+<Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-failed-answer.png').default} alt="Preview answer saying it has no access to specific Jira issues like REST-259" />
+
 <div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#b91c1c', fontSize: '1.1em' }}>
   <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>❌</span>
-  <b>Failure:</b> If you haven't connected the Retriever correctly, your chatbot will <u>not</u> be able to answer questions using your knowledge base.<br />
-  <span style={{ fontWeight: 400, color: '#991b1b' }}>You'll see a generic or empty answer, and the context will be missing!</span>
+  <b>Failure:</b> The retrieval node runs, but its results never reach the LLM.<br />
+  <span style={{ fontWeight: 400, color: '#991b1b' }}>The model answers from its own knowledge and says it can't see your Jira issues.</span>
 </div>
 
 ---
@@ -131,24 +121,22 @@ import ChangeTag from '@site/src/components/ChangeTag';
 
 <ol style={{ marginBottom: '2em' }}>
   <li>
-    Make sure the output of the Retriever block is connected to the <b>context</b> input of your LLM block.<br />
-    <img src={require('../static/img/ex3/chatflow-llm-retrieval.png').default} alt="LLM Retrieval" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Connecting Retriever to LLM</i></div>
+    Open the <b>LLM</b> node, click <b>Set variable</b> under <b>Context</b>, and choose <b>Knowledge Retrieval → result</b>.
+    <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-llm-retrieval.png').default} alt="LLM Context variable picker with Knowledge Retrieval result highlighted" caption="Bind Knowledge Retrieval → result to the LLM's Context" />
   </li>
   <li>
-    Now, once the Retriever is properly connected, try again!
+    Ask the same question again.
     <div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#166534', fontSize: '1.1em' }}>
       <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>✅</span>
-      <b>Success:</b> Your chatbot now uses the retrieved context and provides accurate, knowledge-based answers!
+      <b>Success:</b> The chatbot now answers from the retrieved Jira issue and lists its <b>Citations</b>.
     </div>
-    <img src={require('../static/img/dify/1.16.1/ex3/chatflow-answer.png').default} alt="Grounded REST-266 answer with testing implications and citation" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
-    <div style={{ fontSize: '0.95em', color: '#666', marginBottom: '1em' }}><i>Screenshot: Correct answer with context</i></div>
+    <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-answer.png').default} alt="Grounded answer describing REST-259 with a citation to Jira Issue REST-259" caption="A grounded answer with citations" />
   </li>
 </ol>
 
 ---
 
-## 🛠️ Step 4: Test Your RAG Chatbot <ChangeTag kind="changed" />
+## 🛠️ Step 4: Test Your RAG Chatbot
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
   <b>Try asking questions that require knowledge from your uploaded documents, such as:</b>
@@ -157,70 +145,71 @@ import ChangeTag from '@site/src/components/ChangeTag';
     <li>Describe the issue REST-259.</li>
     <li>List features related to webhook support.</li>
   </ul>
-  <b>Notice:</b> If you used the API-ingested knowledge base, you'll see richer, more accurate answers thanks to structured data and metadata!
 </div>
 
-### Grounding acceptance and Knowledge trace <ChangeTag kind="new" />
+### Check the answer against its sources
 
 Run this risk-oriented query:
 
 > Which Jira issue creates a backward-compatibility risk around unknown JSON
 > properties, and what should we test?
 
-Pass only when the answer identifies REST-266, explains the compatibility risk, states
-test implications supported by the retrieved context, and displays source citations.
+The answer passes only if it names REST-266, explains the compatibility risk, gives test ideas supported by the retrieved context, and shows source citations.
 
-<img src={require('../static/img/dify/1.16.1/ex3/grounded-risk-answer-citations.png').default} alt="Grounded REST-266 risk answer with visible source citations" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+<Shot src={require('../static/img/dify/1.16.1/ex3/grounded-risk-answer-citations.png').default} alt="Answer naming REST-266 as the backward-compatibility risk, with citations highlighted" />
 
-Expand the <b>Knowledge Retrieval</b> node in the workflow process. Check its query
-input, selected chunks, source metadata, score, and latency. This source-to-answer
-lineage is stronger evidence than an answer that merely sounds correct.
+Now expand <b>Workflow Process</b> and click the <b>Knowledge Retrieval</b> step. <b>INPUT</b> shows the query that was searched:
 
-<img src={require('../static/img/dify/1.16.1/ex3/knowledge-retrieval-trace.png').default} alt="Expanded Knowledge Retrieval trace showing query, latency, and REST-266 content" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+<Shot src={require('../static/img/dify/1.16.1/ex3/knowledge-retrieval-trace.png').default} alt="Expanded Knowledge Retrieval step showing its duration and the query input" />
 
-Finally, ask <code>Why is the sky blue?</code>. The retriever should accept no chunks
-and the prompt must return the workshop's no-match response instead of model knowledge.
+Scroll down to <b>OUTPUT</b>. It lists the chunks that were retrieved and passed to the LLM. Here the top chunk is REST-266, including the aliases and example questions that advanced ingestion added. Checking what was retrieved is stronger evidence than an answer that merely sounds right.
+
+<Shot src={require('../static/img/dify/1.16.1/ex3/knowledge-retrieval-trace-output.png').default} alt="Knowledge Retrieval output showing the REST-266 chunk with its aliases" />
 
 ---
 
 ## 🛠️ Step 5: Augmenting Your Prompt
 
-### 1. Current Behaviour, Hallucinations, and Out-of-Scope Answers
+### 1. Current Behaviour: Out-of-Scope Answers
+
+Ask something that has nothing to do with your project: <code>Why is the sky blue?</code>
 
 <div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#b91c1c', fontSize: '1.1em' }}>
   <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>⚠️</span>
-  <b>Current Behaviour:</b> Your chatbot may sometimes provide answers that are not based on your knowledge base, leading to hallucinations or out-of-scope responses.<br />
-  <span style={{ fontWeight: 400, color: '#991b1b' }}>This can happen if the prompt does not clearly instruct the LLM to stick to the provided context.</span>
+  <b>Current Behaviour:</b> The chatbot happily explains Rayleigh scattering, and even shows Jira citations that have nothing to do with the answer.<br />
+  <span style={{ fontWeight: 400, color: '#991b1b' }}>Two things go wrong: the prompt doesn't tell the LLM to stick to the context, and the retriever always returns its top chunks, even when none are relevant.</span>
 </div>
-<img src={require('../static/img/ex3/chatflow-answer-correct.png').default} alt="Hallucination Example" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+
+<Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-out-of-scope.png').default} alt="Answer explaining why the sky is blue, with unrelated Jira citations highlighted" />
 
 ### 2. Preventing Hallucination and Out-of-Scope Answers
 
-<h2 id="preventing-hallucinations"></h2>
-
 <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1.2em 1.5em', margin: '1.5em 0', fontWeight: 600, color: '#854d0e', fontSize: '1.1em' }}>
   <span style={{ fontSize: '1.3em', marginRight: '0.5em' }}>🔍</span>
-  <b>Preventing Hallucination:</b> To reduce hallucinations, ensure your prompt explicitly instructs the LLM to only use the provided context and to avoid making up information.<br />
-  <span style={{ fontWeight: 400, color: '#854d0e' }}>For example, include instructions like: "Only answer based on the provided context. If the answer is not in the context, say 'I don't know.'"</span>
+  <b>Fix the prompt:</b> Tell the LLM to answer only from the provided context, and give it an exact reply to use when the context doesn't help.
 </div>
 
 <details>
-  <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#facc15' }}>Copy-paste Prompt Example</summary>
+  <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#ca8a04' }}>Copy-paste Prompt Example</summary>
   <div style={{ margin: '1em 0' }}>
     <CodeBlock language="text">{`Answer in a clean, professional tone. Be concise but precise.
 Only answer questions using the information provided in the context below.
-If the context does not contain relevant information to answer the user's question, clearly say so.
+If the context does not contain relevant information to answer the user's question, reply exactly:
+"I'm sorry, I can't find relevant information in the project documentation to answer that."
 
 Context:
 {{#context#}}
-
-User question:
-{{#sys.query#}}
 `}</CodeBlock>
   </div>
 </details>
 
-<img src={require('../static/img/ex3/chatflow-fix-hallucinations.png').default} alt="Prevent Hallucination" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+Paste it into the LLM's SYSTEM prompt, replacing what's there. Dify turns <code>{'{{#context#}}'}</code> into the Context block. Ask again:
+
+<Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-fix-hallucinations.png').default} alt="Answer to Why is the sky blue? returning the no-match reply" />
+
+The answer is fixed, but the unrelated citations are still there, because the retriever still returns chunks. To fix that too, open the <b>Knowledge Retrieval</b> node, click <b>Retrieval Setting</b>, and turn on <b>Score Threshold</b> at <code>0.5</code>. Chunks scoring below the threshold are dropped. Out-of-scope questions then retrieve nothing, while REST-259 and REST-266 still return their issues.
+
+<Shot src={require('../static/img/dify/1.16.1/ex3/retrieval-score-threshold.png').default} alt="Retrieval Setting dialog with Score Threshold enabled at 0.5" caption="Retrieval Setting: Score Threshold enabled" />
 
 ### 3. Improving Our Prompt and Results
 
@@ -229,65 +218,52 @@ User question:
   <b>Improving Our Prompt:</b> Refine your prompt to be more specific and structured for your use case. For example, you can:
   <ul style={{ fontWeight: 400, color: '#166534', marginTop: '0.7em' }}>
     <li>Define the assistant's role (e.g., "You are a software testing assistant helping engineers understand Jira issues, project documentation, and related work.")</li>
-    <li>Specify the expected format of context documents (such as Jira issue fields and documentation summaries)</li>
-    <li>Instruct the assistant to extract and organize key information, highlight relevant fields, clarify technical areas, and reflect testing relevance</li>
+    <li>Describe what the context chunks contain (a Jira key and aliases, summary, type, status, assignee, and description)</li>
+    <li>Ask the assistant to organise key information, highlight relevant fields, clarify technical areas, and explain what it means for testing</li>
     <li>Clearly state how to handle missing information (e.g., mention what's known and what isn't)</li>
   </ul>
   This level of detail helps the LLM provide more accurate, relevant, and actionable answers.
 </div>
-<img src={require('../static/img/ex3/chatflow-prompt.png').default} alt="Improved Prompt" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+
+<Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-prompt.png').default} alt="LLM node with the improved software testing assistant SYSTEM prompt" />
 
 <details>
   <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#7c3aed' }}>Sample Prompt for Students</summary>
   <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', margin: '1em 0' }}>
-    <CodeBlock language="text">{`
-You are a software testing assistant helping engineers understand Jira issues, project documentation, and related work.
+    <CodeBlock language="text">{`You are a software testing assistant helping engineers understand Jira issues, project documentation, and related work.
 
-Context documents are formatted like this:
+Only answer using the information provided in the context below. Never use outside knowledge or speculation.
+If the context does not contain relevant information, reply exactly:
+"I'm sorry, I can't find relevant information in the project documentation to answer that."
 
-- Jira issues follow this structure:
-  Jira Issue: <KEY>
-  Project: <project name>
-  Type: <Bug | Feature | Task>
-  Status: <Open | Closed | etc.>
-  Assignee: <Name or Unassigned>
-  Created: <date>
-  Updated: <date>
-
-  Summary: <short summary>
-
-  Description:
-  <full description>
-
-- Summaries and technical documentation may also include:
-  Summary, Contributors, Assignees, Reporters, Issue Count, Type.
-
-Use this format to extract and organize key information when answering.
+Each context chunk describes one Jira issue: its key and aliases (for example REST-266, Issue 266), example questions, summary, type, status, assignee, dates, and description.
 
 Your reply should:
-- Provide a concise, professional summary of the issue or topic
+- Give a concise, professional summary of the issue or topic
 - Highlight relevant fields (summary, type, status, assignee, etc.)
-- Mention related issues or documentation when available
-- Clarify technical areas (e.g. endpoints, APIs, modules)
-- Reflect relevance for testing (e.g. requires new test case, linked to bug, feature readiness)
+- Mention related issues when they appear in the context
+- Clarify technical areas (for example endpoints, APIs, modules)
+- Explain the relevance for testing (for example new test cases, regression risk, feature readiness)
 
-If information is missing, mention what's known and what isn't.
+If information is missing, say what is known and what isn't.
 
 Context:
 {{#context#}}
-
-User question:
-{{#sys.query#}}
 `}</CodeBlock>
   </div>
 </details>
 
 ---
 
-### ✨ Optional: Enable Chatflow Features (e.g., Conversation Opener)
+### ✨ Optional: Add a Conversation Opener
 
 <details>
-  <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#7c3aed' }}>Consider enabling a Conversation Opener to make your chatbot more welcoming and user-friendly!</summary>
+  <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#7c3aed' }}>Make your chatbot more welcoming with a Conversation Opener and suggested questions</summary>
+
+Click <b>Features</b> in the top bar and turn on <b>Conversation Opener</b>. Then hover the card, click <b>Edit opener</b>, paste the message below, and add the suggested questions as <b>Opening Questions</b>.
+
+<Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-features.png').default} alt="Features panel with Conversation Opener highlighted" />
+
   <CodeBlock language="text">{`🎩 Welcome to Testus Patronus, the AI assistant for magical testers!
 
 Before we begin, tell me what you're working on today:
@@ -297,17 +273,13 @@ Before we begin, tell me what you're working on today:
 
 Just ask your question below and I'll see what's in the spellbook 📚
 `}</CodeBlock>
-  <b>Default queries you can offer as suggestions:</b>
+  <b>Opening questions you can offer:</b>
   <ul>
     <li>What kind of bug is issue 266 and what is it about?</li>
     <li>Who is assigned to REST-266?</li>
     <li>What is the project about?</li>
-    <li>Which issues are currently open?</li>
     <li>Does the project support webhooks?</li>
   </ul>
-  <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-    <b>Tip:</b> You can configure these features in your Chatflow settings to improve user experience!
-  </div>
 </details>
 
 ---
@@ -335,39 +307,43 @@ Just ask your question below and I'll see what's in the spellbook 📚
 
 ---
 
-## 🚀 Publishing Your Chatflow <ChangeTag kind="changed" />
+## 🚀 Publishing Your Chatflow
 
 <div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
   <b>Make your chatbot available to others!</b>
   <ol>
-    <li>In the Dify Studio, open your Chatflow project.</li>
-    <li>Look for the <b>Publish</b> or <b>Share</b> option (usually in the top-right corner).</li>
-    <img src={require('../static/img/dify/1.16.1/ex3/chatflow-with-knowledge-retrieval.png').default} alt="Dify 1.16.1 Chatflow editor with Preview and Publish controls" style={{ maxWidth: '100%', height: 'auto' }} />
-    <li>Click on <b>Publish Update</b> and then <b>Run App</b>.</li>
-    <img src={require('../static/img/ex3/chatflow-published.png').default} alt="Chatflow Published" style={{ maxWidth: '100%', height: 'auto' }} />
-    <li>Share the link with your team or test it in a new browser window.</li>
-    <img src={require('../static/img/ex3/chatflow-deployed.png').default} alt="Chatflow Deployed" style={{ maxWidth: '100%', height: 'auto' }} />
-    <li>Optionally, you can also share it as an embed on a website.</li>
-    <img src={require('../static/img/ex3/chatflow-embed-on-web.png').default} alt="Embed Chatflow on Web" style={{ maxWidth: '100%', height: 'auto' }} />
+    <li>
+      Click <b>Publish</b> in the top-right corner, then <b>Publish Update</b>.
+      <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-publish.png').default} alt="Publish menu with the Publish Update button highlighted" />
+    </li>
+    <li>
+      Once published, click <b>Run App</b> to open your chatbot as a web app.
+      <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-published.png').default} alt="Publish menu after publishing, with Run App highlighted and Embed Into Site underlined" />
+    </li>
+    <li>
+      Share the link with your team or test it in a new browser window. If you added a Conversation Opener, it greets users with your opening questions.
+      <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-deployed.png').default} alt="Published web app showing the Testus Patronus welcome message and opening questions" />
+    </li>
+    <li>
+      Optionally, click <b>Embed Into Site</b> to get an iframe or script snippet for your own website.
+      <Shot src={require('../static/img/dify/1.16.1/ex3/chatflow-embed-on-web.png').default} alt="Embed on website dialog with three layout options and an iframe snippet" />
+    </li>
   </ol>
   <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
     <b>Tip:</b> Test your published chatbot with the sample queries above to ensure everything works as expected!
   </div>
 </div>
 
-### Preserve an accepted version <ChangeTag kind="new" />
+### Keep a version you can go back to
 
-Publishing creates an auditable snapshot rather than making the current draft
-implicitly safe:
+Each publish saves a snapshot in the version history, so you can experiment in Exercise 4 and still roll back:
 
-1. Publish only after the fixed retrieval and grounding checks pass.
-2. Add a short version note describing the accepted benchmark.
-3. Open the version history and confirm that the published snapshot can be restored to
-   a draft.
-4. Keep the exported DSL as a portable artifact, but use the in-product version for a
-   fast rollback on this Dify instance.
+1. Publish only after the grounding checks in Step 4 and Step 5 pass.
+2. Click the clock icon at the far right of the top bar to open <b>Versions</b>.
+3. Open the <b>⋯</b> menu on the latest version, choose <b>Edit Info</b>, and give it a short title and release notes describing what you checked.
+4. Select a version to preview it. <b>Restore</b> copies it back into your draft.
 
-<img src={require('../static/img/dify/1.16.1/ex3/published-version-history.png').default} alt="Published Chatflow version history with restore controls" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', margin: '1em 0' }} />
+<Shot src={require('../static/img/dify/1.16.1/ex3/published-version-history.png').default} alt="Versions panel with a named version and release notes, and the Restore button highlighted" />
 
 ---
 
@@ -391,4 +367,7 @@ implicitly safe:
 >
   ⬇️ Download Exercise 3 Solution DSL
 </a>
-Ready to see your chatbot answer questions with real context? Move on to the next exercise to explore advanced prompting and evaluation! 
+
+After importing the solution, open the Knowledge Retrieval node and select your own knowledge base: the one referenced in the file only exists on the instance it was exported from.
+
+Ready to see your chatbot answer questions with real context? Move on to the next exercise to explore advanced prompting and evaluation!
