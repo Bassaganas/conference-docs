@@ -8,7 +8,7 @@ import ChangeTag from '@site/src/components/ChangeTag';
 # 🧪 5: Test Your RAG End to End <ChangeTag kind="new" />
 
 <div style={{ marginBottom: '2em' }}>
-  Your chatbot works when you try it by hand. But does it <b>still</b> work after you change the prompt, the model or the retrieval settings? In this final exercise you become the tester: you run a small suite of <b>automated end-to-end tests</b> against your own Dify chatbot, break the chatbot on purpose, and watch the tests catch it.
+  Your chatbot works when you try it by hand. But does it <b>still</b> work after you change the prompt, the model or the retrieval settings? In this final exercise you become the tester: you run a small suite of <b>automated end-to-end tests</b> against your own Dify chatbot, break the chatbot on purpose, and use a second LLM as a <b>judge</b> for the qualities that simple checks can't see.
 </div>
 
 ---
@@ -23,7 +23,7 @@ import ChangeTag from '@site/src/components/ChangeTag';
     <li><label><input type="checkbox" /> Run <b>Level 1</b> (retrieval) and <b>Level 2</b> (chatbot) tests</label></li>
     <li><label><input type="checkbox" /> Break your chatbot on purpose and see which tests fail</label></li>
     <li><label><input type="checkbox" /> Investigate a <b>real finding</b> in the Exercise 3 chatbot</label></li>
-    <li><label><input type="checkbox" /> Bonus: grade answers with an <b>LLM-as-judge</b></label></li>
+    <li><label><input type="checkbox" /> Import a <b>judge</b> workflow, check that the judge itself is reliable, then let it grade your chatbot (<b>Level 3</b>)</label></li>
   </ul>
 </div>
 
@@ -32,7 +32,7 @@ import ChangeTag from '@site/src/components/ChangeTag';
   <ul style={{ margin: '0.5em 0 0 0' }}>
     <li>Exercise 2 or 2.1 done: a <code>Jira_API_*</code> knowledge base with all 23 REST issues indexed.</li>
     <li>Exercise 3 done: your Chatflow answers with citations and is <b>published</b>.</li>
-    <li>A GitHub account (for Codespaces), or Node.js 22.22+ on your laptop.</li>
+    <li>A GitHub account (for Codespaces), or Node.js 20+ on your laptop.</li>
   </ul>
 </div>
 
@@ -46,14 +46,14 @@ A RAG answer can go wrong in two different places, so we test them separately:
 |---|---|---|
 | **Retrieval** | Did the search find the right chunk? | REST-266 is ranked 1st for a question about unknown JSON properties |
 | **Generation** | Is the answer correct and based **only** on what was found? | The answer mentions REST-266, cites it, and mentions no issue it didn't retrieve |
-| **Behaviour** | Does it say "I don't know" when it should? | "Why is the sky blue?" gets the polite fallback reply |
+| **Behaviour** | Does it say "I don't know" when it should? | "Why is the sky blue?" gets a polite refusal |
 | **Speed** | Is it fast enough? | The answer arrives in under 30 seconds |
 
 There are three kinds of checks, from cheapest to most powerful:
 
 1. **Deterministic** – "contains", regex, "the right document is cited", latency. Free and repeatable. This is where you start.
 2. **Semantic similarity** – "means the same as" an expected answer, using embeddings.
-3. **LLM-as-judge** – a second LLM grades the answer (for example: *is it faithful to the retrieved chunks?*). Powerful, but it costs tokens and can itself be wrong.
+3. **LLM-as-a-judge** – a second LLM grades the answer against a written criterion (for example: *is every claim supported by the retrieved chunks?*). Powerful, but it costs tokens and can itself be wrong.
 
 All tests are driven by a **golden dataset**: a list of *question + fact the answer must contain + document that must be the source*.
 
@@ -121,7 +121,7 @@ DIFY_DATASET_ID=...
 <details>
   <summary>No GitHub account? Run it on your laptop instead</summary>
 
-  Install Node.js 22.22 or newer, then:
+  Install Node.js 20 or newer, then:
 
   ```bash
   git clone https://github.com/Bassaganas/dify-rag-tests.git
@@ -135,10 +135,10 @@ Take a minute to look at the project:
 
 | File | What it is |
 |---|---|
-| `golden/jira-rest.json` | The golden dataset – questions, expected facts, expected source documents |
+| `golden/jira-rest.json` | The golden dataset – questions, expected facts, expected source documents, judge criteria |
 | `tests/1-retrieval.spec.ts` | Level 1 – calls `POST /v1/datasets/{id}/retrieve` |
 | `tests/2-chatbot.spec.ts` | Level 2 – calls `POST /v1/chat-messages` |
-| `promptfooconfig.yaml` | Level 3 (bonus) – LLM-as-judge |
+| `tests/3-judge.spec.ts` | Level 3 – LLM-as-a-judge, calls `POST /v1/workflows/run` |
 
 ---
 
@@ -150,17 +150,16 @@ Retrieval tests search your knowledge base directly. **No LLM is involved**, so 
 npm run test:retrieval
 ```
 
-Expected result – 4 passed:
+Expected result – 3 passed:
 
 ```text
 ✓ Level 1 – Knowledge retrieval › exact issue wording finds REST-266 first
 ✓ Level 1 – Knowledge retrieval › natural question finds REST-266 first
-✓ Level 1 – Knowledge retrieval › vague question still finds REST-266 in the top 3
 ✓ Level 1 – Knowledge retrieval › unrelated question returns no chunks
 ```
 
 <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
-  💡 If a retrieval test fails, the chatbot cannot give a grounded answer either. Always look at retrieval first.
+  💡 If a retrieval test fails, the chatbot cannot give a grounded answer either. Always look at retrieval first. Try adding a vague question such as <i>"Which Jira work has important test implications for REST API compatibility?"</i> to the <code>retrieval</code> list: depending on how your knowledge base was ingested, REST-266 may not even be in the top 10. Vague questions are where retrieval is weakest.
 </div>
 
 ---
@@ -172,16 +171,16 @@ Now we ask your published chatbot real questions. LLM wording changes from run t
 | Scenario | What the test checks |
 |---|---|
 | Grounded answers (5 questions) | Mentions the right fact, cites the right document, mentions no issue it didn't retrieve, answers in under 30 s |
-| Out-of-scope question | "Why is the sky blue?" → polite fallback and **no** citations |
+| Out-of-scope question | "Why is the sky blue?" → a refusal and **no** citations |
 | Unknown issue | "Summarize REST-999" → says it can't find it and invents nothing |
 | Error path | A wrong API key → `401` with a clear error body |
 
 ```bash
-npm test          # runs Level 1 + Level 2
+npm run test:chatbot
 npm run report    # opens the HTML report
 ```
 
-Expected result – **12 passed**. Open the report (Codespaces offers to open port 9323) and click a test: every Given / When / Then step is listed, together with the chatbot's actual answer and its token usage.
+Expected result – **8 passed**. Open the report (Codespaces offers to open port 9323) and click a test: every Given / When / Then step is listed, together with the chatbot's actual answer and its token usage.
 
 <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
   <b>Add your own test – no code needed.</b> Open <code>golden/jira-rest.json</code>, copy one entry of the <code>grounded</code> list and change the question, the fact and the expected issue. For example: <i>"Which issue reports that the WADL is invalid?"</i> must mention <code>REST-404</code>. Run <code>npm run test:chatbot</code> again.
@@ -224,44 +223,97 @@ The expected answer is **REST-266**. Add it to the `grounded` list in `golden/ji
 }
 ```
 
-Run it several times:
+Run it a few times (please don't go higher than 3 – the whole class shares the same LLM quota):
 
 ```bash
-npx playwright test -g "acceptance" --retries=0 --repeat-each=5
+npx playwright test -g "acceptance" --retries=0 --repeat-each=3
 ```
 
 When we prepared this workshop, the chatbot often answered **REST-430** (another Jackson issue that mentions "backwards incompatible"), and sometimes even mentioned an issue that **does not exist** in the dataset. Look at the failure details and answer:
 
-- Was REST-266 **cited**? (Check the second step of the failed test.) If it was, retrieval did its job and the mistake happened in **generation**.
+- Was REST-266 **cited**? (Check the "cites the document" step.) If it was, retrieval did its job and the mistake happened in **generation**.
 - Did the "only mentions Jira issues that it actually retrieved" step catch an invented issue?
 - Why does the same question sometimes pass and sometimes fail? What does that mean for how many times you should run LLM tests?
 - What would you change to fix it: the prompt, the model, or the retrieval settings? Try it and re-run.
 
 ---
 
-## 🌟 Bonus: Level 3 – LLM-as-Judge
+## ⚖️ Step 7: Level 3 – LLM-as-a-Judge
 
-Some qualities can't be checked with "contains". Is the answer **faithful** to the chunks that were retrieved? Is the refusal polite and free of invented facts? Here a second LLM grades your chatbot, using <a href="https://www.promptfoo.dev/" target="_blank" rel="noopener noreferrer">promptfoo</a>.
+Levels 1 and 2 can check *that* REST-266 is mentioned. They cannot check whether **every sentence** of an answer is backed by the documents, or whether a refusal quietly explains the physics of the sky anyway. For that we use a second LLM as a **judge**: it receives the question, the answer, the retrieved chunks (and, when we have one, a reference answer) and grades **one criterion** with PASS or FAIL.
 
-1. From the portal's **Azure LLM** card, add the judge settings to `.env`:
+### Why this works – and where it doesn't
 
-   ```bash
-   AZURE_API_KEY=...
-   AZURE_API_HOST=<your-resource>.openai.azure.com
-   AZURE_DEPLOYMENT=<deployment name>
-   ```
+The technique was popularised by Zheng et al. (2023), who found that a strong LLM judge agreed with human preferences **over 80%** of the time – about as often as two humans agree with each other. The same paper names the judge's weaknesses: it favours the first answer it sees (**position bias**), longer answers (**verbosity bias**) and answers written by itself (**self-enhancement bias**), and it can be misled by the very answer it is grading.
 
-2. Run the evaluation and open the results table (port 15500):
+For RAG, the most useful criterion is **faithfulness** (Es et al., 2024 – the RAGAS paper): split the answer into individual claims and check each claim against the retrieved context. An answer can be *faithful but wrong* (it correctly repeats a wrong chunk) or *correct but unfaithful* (right from the model's memory, not from your documents). That's why we test faithfulness and correctness separately.
 
-   ```bash
-   npm run test:judge
-   npm run judge:view
-   ```
+Our judge follows the practices that research and practitioners agree on:
 
-3. Open `promptfooconfig.yaml`. Find the `context-faithfulness` check (the judge compares the answer with the chunks Dify returned in `retriever_resources`) and the `llm-rubric` checks (plain-English grading rules). Write one rubric of your own.
+| Practice | In our judge | Source |
+|---|---|---|
+| **One criterion per judge call** | Separate criteria for faithfulness, correctness and refusal | Evidently; Anthropic |
+| **Binary verdict** instead of a 1–10 score | `PASS` or `FAIL` – easy to act on, easy to measure | Husain; Yan |
+| **Reasoning before the verdict** | The judge writes 1–3 sentences, then decides | Liu et al. (G-Eval) |
+| **Give the judge the evidence** | Retrieved chunks for faithfulness, a reference answer for correctness | Es et al. (RAGAS); Zheng et al. |
+| **Structured output, temperature 0** | JSON reply, temperature 0 | Evidently |
+| **A safe answer when unsure** | "If you are unsure, FAIL" in the judge prompt | Anthropic |
+| **Validate the judge before trusting it** | Level 3A: answers whose correct verdict we already know | Shankar et al.; Husain |
 
 <div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
-  <b>Judges can be wrong too.</b> Read the judge's reasons in the results table. Do you agree with every verdict? Deterministic checks first, judges for what they can't cover.
+  <b>Who validates the validator?</b> A judge is just another LLM prompt – it can be lenient, biased or plain wrong (Thakur et al., 2024; Shankar et al., 2024). So we test the judge <b>first</b>: in Level 3A we feed it answers where <i>we</i> know the right verdict (a faithful summary must PASS, an answer with an invented assignee must FAIL). Only when the judge gets those right do we let it grade the chatbot in Level 3B.
+</div>
+
+### 7.1 Import the judge
+
+<ol style={{ marginBottom: '1em' }}>
+  <li>Download the judge workflow below. In Dify, go to <b>Studio → Import DSL file</b> and import it.</li>
+  <li>Open the <b>Judge</b> node and check the model: it uses the same Azure model you configured in Exercise 1. If your Azure resource also offers a stronger model (for example GPT-4o), select it here – a judge should ideally be a <b>different and stronger</b> model than the one it grades.</li>
+  <li>Read the judge's system prompt: you'll recognise the practices from the table above.</li>
+  <li>Click <b>Publish</b>, then <b>API Access → API Key → Create new Secret key</b>, and add it to your <code>.env</code>:</li>
+</ol>
+
+```bash
+DIFY_JUDGE_KEY=app-...
+```
+
+<a
+  href="/dify-dsls/ex5_judge-1.16.1.yml"
+  download
+  style={{
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0.6em 1.2em',
+    color: '#fffce7',
+    background: '#7c3aed',
+    borderRadius: '6px',
+    fontWeight: 600,
+    textDecoration: 'none',
+    margin: '1em 0 2em 0',
+  }}
+>
+  ⬇️ Download the Exercise 5 Judge
+</a>
+
+### 7.2 Level 3A – Calibrate the judge
+
+```bash
+npm run test:judge -- -g "Calibrate"
+```
+
+Expected result – **6 passed**: three answers that must PASS and three that must FAIL (an invented assignee, a wrong reporter, a refusal that explains Rayleigh scattering anyway). Open the report: every test shows the judge's **reasoning**. If the judge gets a calibration case wrong, don't use it to grade your chatbot yet – improve the criterion wording in `golden/jira-rest.json` or switch the judge to a stronger model, then re-run.
+
+### 7.3 Level 3B – Judge the chatbot
+
+```bash
+npm run test:judge -- -g "Judge the chatbot"
+```
+
+Expected result – **4 passed**: two faithfulness checks, one correctness check against a reference answer, and one refusal check. Now try the Step 6 acceptance question with the **faithfulness** criterion (add it to the `live` list of the `judge` section). Can an answer be faithful to the retrieved chunks and still be wrong? What does that tell you about testing faithfulness **and** correctness?
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
+  💡 <b>Deterministic checks first, judges for what they can't cover.</b> A judge costs tokens on every run, can change its mind between runs, and 80% agreement with humans still means roughly one verdict in five could differ from yours. Read the reasoning of every FAIL before you believe it.
 </div>
 
 ---
@@ -271,13 +323,14 @@ Some qualities can't be checked with "contains". Is the answer **faithful** to t
 | Symptom | Fix |
 |---|---|
 | Tests are **skipped** | A value in `.env` is missing or still a placeholder |
-| `401 unauthorized` | Wrong key type: the chatbot needs the `app-…` key, retrieval needs the `dataset-…` key |
-| `400 Workflow not published` | Click **Publish** in your Chatflow |
+| `401 unauthorized` | Wrong key type: the chatbot and the judge need their own `app-…` key, retrieval needs the `dataset-…` key |
+| `400 Workflow not published` | Click **Publish** in your Chatflow or judge workflow |
 | `404` on retrieve | `DIFY_DATASET_ID` is wrong – copy it from the knowledge base URL |
 | "cites the document" fails with *cited: nothing* | In the LLM node, **Context** must be set to the Knowledge Retrieval result, and **Citations and Attributions** must be enabled |
 | Retrieval tests fail | Check that all 23 documents show **Available** in your knowledge base |
-| `429` | Too many requests at once – wait a minute and run again |
-| Level 3: `API call error … azure` | Check the three `AZURE_*` values; the host has no `https://` and no path |
+| Tests are slow or fail with a rate-limit error | The class shares one LLM quota. The tests already wait and retry; wait a minute and run again |
+| `Judge workflow failed` | Open the judge in Dify → **Logs** and check the Judge node's model is configured |
+| Judge says *Could not read the judge's reply as JSON* | The model ignored the output format – try a stronger judge model |
 
 ---
 
@@ -285,17 +338,33 @@ Some qualities can't be checked with "contains". Is the answer **faithful** to t
 
 <div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
   <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-    <li><label><input type="checkbox" /> <code>npm test</code> shows <b>12 passed</b> against your own Dify</label></li>
+    <li><label><input type="checkbox" /> <code>npm test</code> shows <b>21 passed</b> against your own Dify (3 retrieval + 8 chatbot + 10 judge)</label></li>
     <li><label><input type="checkbox" /> You added one test case of your own to the golden dataset</label></li>
     <li><label><input type="checkbox" /> You broke the chatbot, saw at least one test fail, and restored it to green</label></li>
     <li><label><input type="checkbox" /> You can explain whether the Step 6 finding is a retrieval or a generation problem</label></li>
+    <li><label><input type="checkbox" /> You can explain why the judge is calibrated before it grades the chatbot</label></li>
   </ul>
 </div>
+
+---
+
+## 📚 Further Reading
+
+- Zheng et al. (2023). *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena.* NeurIPS 2023. [arxiv.org/abs/2306.05685](https://arxiv.org/abs/2306.05685)
+- Liu et al. (2023). *G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment.* EMNLP 2023. [arxiv.org/abs/2303.16634](https://arxiv.org/abs/2303.16634)
+- Es et al. (2024). *RAGAs: Automated Evaluation of Retrieval Augmented Generation.* EACL 2024. [arxiv.org/abs/2309.15217](https://arxiv.org/abs/2309.15217) – and the [faithfulness metric docs](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/)
+- Shankar et al. (2024). *Who Validates the Validators? Aligning LLM-Assisted Evaluation of LLM Outputs with Human Preferences.* UIST 2024. [arxiv.org/abs/2404.12272](https://arxiv.org/abs/2404.12272)
+- Thakur et al. (2024). *Judging the Judges: Evaluating Alignment and Vulnerabilities in LLMs-as-Judges.* [arxiv.org/abs/2406.12624](https://arxiv.org/abs/2406.12624)
+- Gu et al. (2024). *A Survey on LLM-as-a-Judge.* [arxiv.org/abs/2411.15594](https://arxiv.org/abs/2411.15594)
+- Hamel Husain. *Using LLM-as-a-Judge For Evaluation: A Complete Guide.* [hamel.dev/blog/posts/llm-judge](https://hamel.dev/blog/posts/llm-judge/)
+- Eugene Yan. *Evaluating the Effectiveness of LLM-Evaluators.* [eugeneyan.com/writing/llm-evaluators](https://eugeneyan.com/writing/llm-evaluators/)
+- Evidently AI. *LLM-as-a-judge: a complete guide.* [evidentlyai.com/llm-guide/llm-as-a-judge](https://www.evidentlyai.com/llm-guide/llm-as-a-judge)
+- Anthropic. *Demystifying evals for AI agents.* [anthropic.com/engineering/demystifying-evals-for-ai-agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)
 
 ---
 
 ## 🌟 Wrap-up
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  You now have a regression suite for an AI system: a golden dataset, deterministic checks for retrieval, grounding, refusal and speed, and an LLM judge for what they can't cover. Next steps: run the suite in CI on every change to your Chatflow, and connect Dify to a tracing tool such as Langfuse to see <i>why</i> an answer failed.
+  You now have a regression suite for an AI system: a golden dataset, deterministic checks for retrieval, grounding, refusal and speed, and a calibrated LLM judge for faithfulness and correctness. Next steps: run the suite in CI on every change to your Chatflow, and connect Dify to a tracing tool such as Langfuse to see <i>why</i> an answer failed.
 </div>
