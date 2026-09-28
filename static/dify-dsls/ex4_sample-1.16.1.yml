@@ -1,10 +1,11 @@
 app:
-  description: The chatboot will be able to answer only about our documents context
+  description: Routes each question to a specialised retrieval and prompt path. Answers
+    only from the Jira knowledge base.
   icon: 🤖
   icon_background: '#FFEAD5'
   icon_type: emoji
   mode: advanced-chat
-  name: 'Exercise 4: Building an advanced RAG'
+  name: 'Exercise 4: Advanced RAG'
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -46,12 +47,20 @@ workflow:
         - local_file
         - remote_url
       number_limits: 3
-    opening_statement: "Hi there! I'm your AI-powered testing assistant. Here's what\
-      \ I can help you with:\n\n    •  Ask me about specific Jira issues (e.g., \"\
-      What does REST-433 fix?\")\n    •  Request summaries or comparisons for multiple\
-      \ issues\n    •  Get Gherkin-style test cases based on requirements or bugs\n\
-      \    •  Ask questions about your project’s scope, documentation, or contributors\n\
-      \n    Just type your question below and I’ll take it from there!"
+    opening_statement: 'Hi! I''m your AI testing assistant for the Atlassian REST
+      project. I can:
+
+
+      - explain a Jira issue ("What is REST-266 about?")
+
+      - summarize or compare several issues
+
+      - suggest what to test for a risk
+
+      - write Gherkin test cases from issues or requirements
+
+
+      Ask your question below.'
     retriever_resource:
       enabled: true
     sensitive_word_avoidance:
@@ -59,10 +68,10 @@ workflow:
     speech_to_text:
       enabled: false
     suggested_questions:
-    - What is this project about?
-    - How to test issue REST-266?
-    - Create test scenarios for issue REST-320
-    - Find issues related to Jira API
+    - What is REST-266 about?
+    - Summarize REST-266 and REST-265
+    - What should we test for backward compatibility?
+    - Generate test cases for REST-266
     suggested_questions_after_answer:
       enabled: true
     text_to_speech:
@@ -81,31 +90,6 @@ workflow:
       source: llm
       sourceHandle: source
       target: answer
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: knowledge-retrieval
-        targetType: llm
-      id: 1748687775954-source-llm-target
-      selected: false
-      source: '1748687775954'
-      sourceHandle: source
-      target: llm
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: parameter-extractor
-        targetType: knowledge-retrieval
-      id: 1748719005808-source-1748687775954-target
-      source: '1748719005808'
-      sourceHandle: source
-      target: '1748687775954'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -308,9 +292,9 @@ workflow:
         isInLoop: false
         sourceType: if-else
         targetType: llm
-      id: 1748785479296-f2be164b-f0ce-4db6-9a7b-69786c02a988-1748785532843-target
+      id: 1748785479296-false-1748785532843-target
       source: '1748785479296'
-      sourceHandle: f2be164b-f0ce-4db6-9a7b-69786c02a988
+      sourceHandle: 'false'
       target: '1748785532843'
       targetHandle: target
       type: custom
@@ -411,11 +395,83 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: if-else
+      id: 1748687775954-source-issue_found-target
+      source: '1748687775954'
+      sourceHandle: source
+      target: issue_found
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: issue_found-true-llm-target
+      source: issue_found
+      sourceHandle: 'true'
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: issue_found-false-answer_not_found-target
+      source: issue_found
+      sourceHandle: 'false'
+      target: answer_not_found
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: if-else
+      id: 1748719005808-source-has_key-target
+      source: '1748719005808'
+      sourceHandle: source
+      target: has_key
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: has_key-true-1748687775954-target
+      source: has_key
+      sourceHandle: 'true'
+      target: '1748687775954'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: has_key-false-1748784602400-target
+      source: has_key
+      sourceHandle: 'false'
+      target: '1748784602400'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         desc: ''
         selected: false
-        title: Start
+        title: User Input
         type: start
         variables: []
       height: 73
@@ -439,55 +495,51 @@ workflow:
           - '1748687775954'
           - result
         desc: ''
-        memory:
-          query_prompt_template: '{{#sys.query#}}'
-          role_prefix:
-            assistant: ''
-            user: ''
-          window:
-            enabled: false
-            size: 10
         model:
-          completion_params: {}
+          completion_params:
+            temperature: 0.3
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         prompt_template:
         - id: 5c286fbf-33f9-4150-8c64-696789577558
           role: system
-          text: "You are a software testing assistant helping engineers understand\
-            \ Jira issues, project documentation, and related work.\n\nOnly answer\
-            \ questions using the information provided in the context below.\nIf the\
-            \ context does not contain relevant information to answer the user's question,\
-            \ clearly say so.\n\nContext documents are formatted like this:\n\n- Jira\
-            \ issues follow this structure:\n  Jira Issue: <KEY>\n  Project: <project\
-            \ name>\n  Type: <Bug | Feature | Task>\n  Status: <Open | Closed | etc.>\n\
-            \  Assignee: <Name or Unassigned>\n  Created: <date>\n  Updated: <date>\n\
-            \n  Summary: <short summary>\n\n  Description:\n  <full description>\n\
-            \n- Summaries and technical documentation may also include:\n  Summary,\
-            \ Contributors, Assignees, Reporters, Issue Count, Type.\n\nUse this format\
-            \ to extract and organize key information when answering.\n\nYour reply\
-            \ should:\n- Be concise and professional\n- Highlight relevant fields\
-            \ (e.g., Summary, Type, Assignee)\n- Mention related issues if they exist\
-            \ in the context\n- Focus on the implications for software testing when\
-            \ possible\n- Never answer using outside knowledge or speculation\n\n\
-            If the question is outside the scope of the documents (e.g. “Why is the\
-            \ sky blue?”), respond with:\n> I'm sorry, I can't find relevant information\
-            \ in the project documentation to answer that.\n\nOnly answer using the\
-            \ provided context.\n\nOnly answer using the provided context.\n\nIf the\
-            \ context does NOT clearly mention the Jira issue referenced in the user's\
-            \ question (e.g. REST-XXX, issue XXX, XXX, Jira Issue XXX), then respond\
-            \ with:\n\n> I’m sorry, I can’t find details about that specific issue\
-            \ in the project documentation.\n\n\n\n\n\nContext:\n{{#context#}}\n\n\
-            User question:\n{{#sys.query#}}\n\nReminder: If the Jira issue mentioned\
-            \ above is not present in the context chunks, do not guess or fabricate\
-            \ the answer.\nExamples:\n\nQ: What does REST-433 fix?\nContext includes\
-            \ \"Jira Issue: REST-433\"\n✅ Answer with issue details.\n\nQ: What does\
-            \ REST-433 fix?\nContext does NOT include REST-433\n❌ Do not guess. Respond\
-            \ with: \"I’m sorry, I can’t find details about that specific issue...\"\
-            \n\n"
+          text: 'You are a software testing assistant helping engineers understand
+            Jira issues in the Atlassian REST project.
+
+
+            Answer only from the context below. Never use outside knowledge.
+
+            The context was filtered to the Jira issue the user asked about. If it
+            is empty or does not mention that issue, reply exactly:
+
+            "I''m sorry, I can''t find details about that issue in the project documentation."
+
+
+            Your reply should:
+
+            - Start with the issue key and its summary
+
+            - List the type, status and assignee
+
+            - Explain in two or three sentences what the issue changes or fixes
+
+            - End with "What to test": two to four concrete test ideas based on the
+            description
+
+
+            Context:
+
+            {{#context#}}
+
+
+            User question:
+
+            {{#sys.query#}}
+
+            '
         selected: false
-        title: LLM
+        title: LLM - Specific Issue
         type: llm
         variables: []
         vision:
@@ -495,10 +547,10 @@ workflow:
       height: 88
       id: llm
       position:
-        x: 456.2543663027028
+        x: 1500
         y: 33.57027864430731
       positionAbsolute:
-        x: 456.2543663027028
+        x: 1500
         y: 33.57027864430731
       selected: false
       sourcePosition: right
@@ -510,16 +562,16 @@ workflow:
         answer: '{{#llm.text#}}'
         desc: ''
         selected: false
-        title: Answer Specific Issue Queries
+        title: Answer - Specific Issue
         type: answer
         variables: []
       height: 103
       id: answer
       position:
-        x: 792.566799557453
+        x: 1840
         y: 33.57027864430731
       positionAbsolute:
-        x: 792.566799557453
+        x: 1840
         y: 33.57027864430731
       selected: false
       sourcePosition: right
@@ -529,7 +581,7 @@ workflow:
       zIndex: 0
     - data:
         dataset_ids:
-        - 6cKbMQM8KeUisYYXzRoSVTZwEObucVVwsbtpxzAyNJ6iSCNdcrCcOfXhQnGIVVI2
+        - W1plFG6wPRupvQB0T6LXXARA+GkduRuNFrUPXMZHtprMHDIwKWFC/Xl2XDIWt2EY
         desc: ''
         metadata_filtering_conditions:
           conditions:
@@ -539,20 +591,14 @@ workflow:
             value: '{{#1748719005808.issue_key#}}'
           logical_operator: and
         metadata_filtering_mode: manual
-        metadata_model_config:
-          completion_params:
-            temperature: 0.7
-          mode: chat
-          name: gpt-35-turbo-16k
-          provider: langgenius/azure_openai/azure_openai
         multiple_retrieval_config:
           reranking_enable: false
           reranking_mode: weighted_score
           reranking_model:
             model: ''
             provider: ''
-          score_threshold: 0.31
-          top_k: 10
+          score_threshold: null
+          top_k: 4
           weights:
             keyword_setting:
               keyword_weight: 0
@@ -571,10 +617,10 @@ workflow:
       height: 90
       id: '1748687775954'
       position:
-        x: 89.0778811944802
+        x: 456.25
         y: 33.57027864430731
       positionAbsolute:
-        x: 89.0778811944802
+        x: 456.25
         y: 33.57027864430731
       selected: false
       sourcePosition: right
@@ -584,38 +630,34 @@ workflow:
       zIndex: 0
     - data:
         desc: ''
-        instruction: "You are an intelligent assistant specialized in understanding\
-          \ user requests related to Jira issues and test case management. Your primary\
-          \ goal is to analyze the user's {{#sys.query#}} and extract one piece of\
-          \ information in a precise JSON format: \n1. **`issue_key`**: A Jira issue\
-          \ key, if explicitly mentioned or strongly implied. \n\n\n --- **Detailed\
-          \ Instructions for `issue_key` Extraction:** * An issue key follows the\
-          \ format: `[ONE_OR_MORE_UPPERCASE_LETTERS]-[ONE_OR_MORE_DIGITS]`. * Examples:\
-          \ `PROJ-123`, `BUG-42`, `INC-005`, `SUPPORT-789`. * Look for the issue key\
-          \ appearing after phrases like 'related to issue', 'ticket:', 'issue:',\
-          \ 'for ticket', 'for issue', or within the user's general statement. * If\
-          \ no string matches the exact 'PROJNAME-XXX' format (e.g., '123-PROJ', 'PROJ123',\
-          \ 'PROJ-ABC'), correct and give appropiate format and return this `issue_key`.\
-          \ \n/\n"
+        instruction: 'Extract the one Jira issue key the user is asking about.
+
+          A Jira issue key is an uppercase project prefix, a hyphen and a number,
+          for example REST-266.
+
+          Normalize other spellings to that format. This project''s prefix is REST,
+          so "rest 266", "REST266", "issue 266" and "ticket 266" all become REST-266.
+
+          Return only the key.
+
+          '
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         parameters:
-        - description: 'An issue key typically consists of an uppercase project prefix,
-            followed by an hyphen, and then one or more digits. For example: JIRA-123,
-            PROJ-45, BUG-007.'
+        - description: The Jira issue key the user asks about, for example REST-266.
           name: issue_key
-          required: true
+          required: false
           type: string
         query:
         - sys
         - query
         reasoning_mode: prompt
         selected: false
-        title: Single Issue Key Extractor
+        title: Issue Key Extractor
         type: parameter-extractor
         variables: []
         vision:
@@ -637,7 +679,7 @@ workflow:
     - data:
         classes:
         - id: '1'
-          name: ' specific_issue'
+          name: specific_issue
         - id: '2'
           name: list_issues
         - id: '1748767109717'
@@ -649,35 +691,44 @@ workflow:
         - id: '1748785172818'
           name: unrelated_or_invalid
         desc: ''
-        instruction: "    You are a smart assistant helping with software testing,\
-          \ Jira issues, and documentation.\n\n    Your task is to classify the user's\
-          \ query into ONE of the following categories:\n\n    - `specific_issue`:\
-          \ The user is asking about one particular Jira issue.\n      > Example:\
-          \ \"What does REST-433 fix?\" or \"Who closed issue BUG-123?\"\n\n    -\
-          \ `list_issues`: The user is referencing multiple **explicit issue keys**\
-          \ (e.g. REST-123, BUG-456). This category applies **only** when two or more\
-          \ issue keys are clearly mentioned.\n      > Example: \"How are REST-433\
-          \ and REST-426 related?\"\n\n    - `general_project`: The question relates\
-          \ to overall project scope, architecture, documentation, contributors, or\
-          \ themes of work. Includes filtered requests like \"List bugs related to\
-          \ the Jira plugin\" when no issue keys are named.\n      > Example: \"What\
-          \ is this project about?\" or \"List some bugs related to Jira plugin\"\n\
-          \n    - `test_related`: The user is asking about testing activities, strategies,\
-          \ or coverage.\n      > Example: \"What is the test plan for this feature?\"\
-          \ or \"Which tests cover the login module?\"\n\n    - `test_generation`:\
-          \ The user is asking to generate test cases. This includes:\n      • questions\
-          \ starting with \"write\", \"generate\", or \"create test\"\n      • generation\
-          \ requests from bugs, requirements, or user text\n      > Example: \"Create\
-          \ test cases for password reset\" or \"Generate tests for REST-433 and REST-434\"\
-          \n\n    - `unrelated_or_invalid`: The query is not related to testing, documentation,\
-          \ or issue analysis.\n      > Example: \"Write me a poem\" or \"What's the\
-          \ weather today?\"\n\n    ⚠️ Always return ONE label from:\n    `specific_issue`,\
-          \ `list_issues`, `general_project`, `test_related`, `test_generation`, `unrelated_or_invalid`\n\
-          \n    Do NOT explain your answer.\n\n    ---\n    User query:\n    {{#sys.query#}}\n"
+        instruction: 'You classify questions sent to a software testing assistant
+          for the Atlassian REST Jira project.
+
+          Choose exactly ONE category:
+
+
+          - specific_issue: asks about one Jira issue that it names by key or number.
+          Examples: "What does REST-266 fix?", "Who is assigned to issue 259?"
+
+          - list_issues: mentions two or more Jira issue keys and asks to summarize,
+          compare or relate them. Example: "Summarize REST-266 and REST-265"
+
+          - general_project: asks about the project as a whole (scope, modules, features,
+          contributors), about a group of issues, or which issue matches a description,
+          without naming a key. Examples: "What is this project about?", "Which issues
+          relate to Jackson?", "Which issue reports that CORS preflight requests are
+          not supported?"
+
+          - test_related: asks about test strategy, risk, regression or coverage,
+          without asking to write test cases. Example: "What should we test for backward
+          compatibility?"
+
+          - test_generation: asks to write, generate or create test cases or Gherkin
+          scenarios, with or without issue keys. Examples: "Generate test cases for
+          REST-266", "Create test scenarios for a password reset feature"
+
+          - unrelated_or_invalid: not about this project, its Jira issues, its documentation
+          or testing. Examples: "Write me a poem", "Why is the sky blue?"
+
+
+          If the user asks to write or generate tests, choose test_generation even
+          when the question contains issue keys.
+
+          '
         instructions: ''
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
@@ -706,11 +757,12 @@ workflow:
       zIndex: 0
     - data:
         dataset_ids:
-        - 6cKbMQM8KeUisYYXzRoSVTZwEObucVVwsbtpxzAyNJ6iSCNdcrCcOfXhQnGIVVI2
+        - W1plFG6wPRupvQB0T6LXXARA+GkduRuNFrUPXMZHtprMHDIwKWFC/Xl2XDIWt2EY
         desc: ''
         multiple_retrieval_config:
           reranking_enable: false
           reranking_mode: weighted_score
+          score_threshold: null
           top_k: 4
           weights:
             keyword_setting:
@@ -725,7 +777,7 @@ workflow:
         - sys.query
         retrieval_mode: multiple
         selected: false
-        title: KR General Knowledge
+        title: KR - Test Related
         type: knowledge-retrieval
       height: 90
       id: '1748767429892'
@@ -743,71 +795,44 @@ workflow:
       zIndex: 0
     - data:
         context:
-          enabled: false
-          variable_selector: []
+          enabled: true
+          variable_selector:
+          - '1748767429892'
+          - result
         desc: ''
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         prompt_template:
         - id: 8c741de7-7353-402c-bfcb-a1e6b6798e35
           role: system
-          text: 'You are a software testing assistant helping engineers understand
-            project-level information, contributors, documentation, and testing scope.
+          text: 'You are a senior test engineer advising a team that works on the
+            Atlassian REST project.
 
 
-            Only answer questions using the information provided in the context below.
+            Answer only from the Jira issues in the context below. Never use outside
+            knowledge.
 
-            If the context does not contain relevant information to answer the user''s
-            question, clearly say so.
+            If the context does not help answer the question, reply exactly:
 
-
-            Context documents may include:
-
-            - Project summaries, descriptions, and objectives
-
-            - Contributor and assignee lists
-
-            - Component or module overviews
-
-            - Documentation of testing scope or strategies
-
-            - Aggregated metrics such as issue count by type or status
-
-
-            Do not answer about specific Jira issues unless they are mentioned as
-            part of a broader project summary.
+            "I''m sorry, I can''t find relevant testing information in the project
+            documentation to answer that."
 
 
             Your reply should:
 
-            - Be concise and professional
+            - Name the Jira issues that create the risk or need testing, with their
+            keys
 
-            - Highlight key facts about the project (e.g., modules, teams, goals,
-            test scope)
+            - Explain each risk in one sentence
 
-            - Mention totals or distributions (e.g., "There are 12 open bugs", "Main
-            modules are X, Y")
+            - Recommend what to test: the test level (unit, integration, regression,
+            security) and concrete checks
 
-            - Focus on information relevant to project-level understanding or software
-            testing readiness
-
-            - Never answer using outside knowledge or speculation
-
-
-            If the user’s question is not answered in the context, respond with:
-
-            > I''m sorry, I can''t find relevant project-level information in the
-            documentation to answer that.
-
-
-            Only answer using the provided context.
-
-
-            ---
+            - Order the recommendations by risk, highest first
 
 
             Context:
@@ -819,38 +844,9 @@ workflow:
 
             {{#sys.query#}}
 
-
-            Examples:
-
-
-            Q: What does the project include?
-
-            Context includes a project summary and modules
-
-            ✅ Answer with module names and summary.
-
-
-            Q: What modules are included?
-
-            Context does NOT mention modules
-
-            ❌ Do not guess. Respond: "I can''t find relevant project-level information..."
-
-
-            Q: What’s the testing strategy for this release?
-
-            Context includes QA section
-
-            ✅ Answer with scope or strategy
-
-
-            Q: What’s the testing strategy for this release?
-
-            Context does NOT include any testing info
-
-            ❌ Do not guess.'
+            '
         selected: false
-        title: LLM 2
+        title: LLM - Test Related
         type: llm
         variables: []
         vision:
@@ -873,7 +869,7 @@ workflow:
         answer: '{{#1748767447593.text#}}'
         desc: ''
         selected: false
-        title: Answer 2
+        title: Answer - Test Related
         type: answer
         variables: []
       height: 103
@@ -892,35 +888,27 @@ workflow:
       zIndex: 0
     - data:
         desc: ''
-        instruction: "You are an intelligent assistant specialized in understanding\
-          \ user requests related to Jira issues and test case management. Your primary\
-          \ goal is to analyze the user's {{#sys.query#}} and extract all mentioned\
-          \ Jira issue keys in a precise JSON format:\n\n1. **`issue_keys`**: A list\
-          \ of Jira issue keys explicitly mentioned or strongly implied in the user's\
-          \ query.\n\n---\n\n**Detailed Instructions for `issue_keys` Extraction:**\n\
-          \n- An issue key follows the format: `[ONE_OR_MORE_UPPERCASE_LETTERS]-[ONE_OR_MORE_DIGITS]`.\n\
-          \  - Examples: `PROJ-123`, `BUG-42`, `INC-005`, `SUPPORT-789`.\n- Look for\
-          \ issue keys appearing after phrases like:\n  - 'related to issues'\n  -\
-          \ 'tickets:'\n  - 'issues:'\n  - 'for tickets'\n  - 'for issues'\n  - or\
-          \ within the user's general statement.\n- If a string closely resembles\
-          \ an issue key but deviates slightly (e.g., '123-PROJ', 'PROJ123', 'PROJ-ABC'),\
-          \ correct it to the appropriate format and include it in the `issue_keys`\
-          \ list.\n- If no valid issue keys are found, return an empty list.\n\n---\n\
-          \n**Output Format:**\n\n```json\n{\n  \"issue_keys\": [\"PROJ-123\", \"\
-          BUG-42\"]\n}"
+        instruction: 'Extract every Jira issue key mentioned in the user''s question,
+          in the order they appear.
+
+          A Jira issue key is an uppercase project prefix, a hyphen and a number,
+          for example REST-266.
+
+          Normalize other spellings to that format. This project''s prefix is REST,
+          so "rest 266", "REST266", "issue 266" and "ticket 266" all become REST-266.
+
+          If the question contains no issue key, return an empty list.
+
+          '
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         parameters:
-        - description: 'A coma separated list of issue keys that the user is interested
-            in.
-
-            An issue key typically consists of an uppercase project prefix, followed
-            by an hyphen, and then one or more digits. For example: JIRA-123, PROJ-45,
-            BUG-007.'
+        - description: Every Jira issue key in the question, for example ["REST-266",
+            "REST-265"].
           name: issue_keys
           required: true
           type: array[string]
@@ -962,51 +950,57 @@ workflow:
         desc: ''
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
-        prompt_config:
-          jinja2_variables: []
         prompt_template:
-        - edition_type: basic
-          id: 41d8a4b2-979b-4166-a924-d9b9e7b724da
+        - id: 41d8a4b2-979b-4166-a924-d9b9e7b724da
           role: system
-          text: "You are a software testing assistant helping engineers understand\
-            \ Jira issues, project documentation, and related work.\n\nOnly answer\
-            \ questions using the information provided in the context below.\nIf the\
-            \ context does not contain relevant information to answer the user's question,\
-            \ clearly say so.\n\nContext documents are formatted like this:\n\n- Jira\
-            \ issues follow this structure:\n  Jira Issue: <KEY>\n  Project: <project\
-            \ name>\n  Type: <Bug | Feature | Task>\n  Status: <Open | Closed | etc.>\n\
-            \  Assignee: <Name or Unassigned>\n  Created: <date>\n  Updated: <date>\n\
-            \n  Summary: <short summary>\n\n  Description:\n  <full description>\n\
-            \n- Summaries and technical documentation may also include:\n  Summary,\
-            \ Contributors, Assignees, Reporters, Issue Count, Type.\n\nUse this format\
-            \ to extract and organize key information when answering.\n\nYour reply\
-            \ should:\n- Be concise and professional\n- Highlight relevant fields\
-            \ (e.g., Summary, Type, Assignee)\n- Mention related issues if they exist\
-            \ in the context\n- Focus on the implications for software testing when\
-            \ possible\n- Never answer using outside knowledge or speculation\n\n\
-            If the question is outside the scope of the documents (e.g. “Why is the\
-            \ sky blue?”), respond with:\n> I'm sorry, I can't find relevant information\
-            \ in the project documentation to answer that.\n\nOnly answer using the\
-            \ provided context.\n\nOnly answer using the provided context.\n\nIf the\
-            \ context does NOT clearly mention the Jira issue referenced in the user's\
-            \ question (e.g. REST-XXX, issue XXX, XXX, Jira Issue XXX), then respond\
-            \ with:\n\n> I’m sorry, I can’t find details about that specific issue\
-            \ in the project documentation.\n\n\nContext:\n\n\nUser question:\n{{#sys.query#}}\n\
-            \nReminder: If the Jira issue mentioned above is not present in the context\
-            \ chunks, do not guess or fabricate the answer.\nExamples:\n\nQ: What\
-            \ does REST-433 fix?\nContext includes \"Jira Issue: REST-433\"\n✅ Answer\
-            \ with issue details.\n\nQ: What does REST-433 fix?\nContext does NOT\
-            \ include REST-433\n❌ Do not guess. Respond with: \"I’m sorry, I can’t\
-            \ find details about that specific issue...\"\n\n{{#context#}}\n\nBatch\
-            \ completion status: {{#1762727584347.batch_status#}}\nIf this status\
-            \ is partial or empty, state it clearly before presenting any successful\
-            \ results."
+          text: 'You are a software testing assistant helping engineers understand
+            Jira issues in the Atlassian REST project.
+
+
+            Answer only from the context below. Never use outside knowledge.
+
+            The context holds the Jira issues retrieved for the keys the user asked
+            about.
+
+
+            Batch status: {{#1762727584347.batch_status#}}
+
+            If the batch status starts with "Partial result" or "No requested Jira
+            issues", begin your reply with that status and name the missing keys.
+            Never describe an issue that is not in the context.
+
+
+            For each issue found, in the order the user asked:
+
+            - A heading with the issue key and summary
+
+            - Type, status and assignee
+
+            - One or two sentences on what it changes
+
+            - What to test: two or three concrete ideas
+
+
+            If the issues share a component, risk or theme, finish with a short "How
+            they relate" section.
+
+
+            Context:
+
+            {{#context#}}
+
+
+            User question:
+
+            {{#sys.query#}}
+
+            '
         selected: false
-        title: LLM 3
+        title: LLM - Multiple Issues
         type: llm
         variables: []
         vision:
@@ -1029,7 +1023,7 @@ workflow:
         answer: '{{#1748783029512.text#}}'
         desc: ''
         selected: false
-        title: Answer 3
+        title: Answer - Multiple Issues
         type: answer
         variables: []
       height: 103
@@ -1062,7 +1056,7 @@ workflow:
         parallel_nums: 10
         selected: false
         start_node_id: 1748783526414start
-        title: Iteration
+        title: Iteration - Issues
         type: iteration
         width: 618
       height: 187
@@ -1096,6 +1090,7 @@ workflow:
         x: 113.0778811944802
         y: 279.5747334168887
       selectable: false
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-iteration-start
@@ -1103,7 +1098,7 @@ workflow:
       zIndex: 1001
     - data:
         dataset_ids:
-        - 6cKbMQM8KeUisYYXzRoSVTZwEObucVVwsbtpxzAyNJ6iSCNdcrCcOfXhQnGIVVI2
+        - W1plFG6wPRupvQB0T6LXXARA+GkduRuNFrUPXMZHtprMHDIwKWFC/Xl2XDIWt2EY
         desc: ''
         isInIteration: true
         isInLoop: false
@@ -1123,7 +1118,7 @@ workflow:
             model: ''
             provider: ''
           score_threshold: null
-          top_k: 10
+          top_k: 4
           weights:
             keyword_setting:
               keyword_weight: 0
@@ -1137,7 +1132,7 @@ workflow:
         - item
         retrieval_mode: multiple
         selected: false
-        title: KR - Multiple Issues
+        title: KR - Each Issue
         type: knowledge-retrieval
       height: 90
       id: '1748783571565'
@@ -1156,7 +1151,7 @@ workflow:
       zIndex: 1001
     - data:
         dataset_ids:
-        - 6cKbMQM8KeUisYYXzRoSVTZwEObucVVwsbtpxzAyNJ6iSCNdcrCcOfXhQnGIVVI2
+        - W1plFG6wPRupvQB0T6LXXARA+GkduRuNFrUPXMZHtprMHDIwKWFC/Xl2XDIWt2EY
         desc: ''
         multiple_retrieval_config:
           reranking_enable: false
@@ -1165,7 +1160,7 @@ workflow:
             model: ''
             provider: ''
           score_threshold: null
-          top_k: 10
+          top_k: 4
           weights:
             keyword_setting:
               keyword_weight: 0
@@ -1179,7 +1174,7 @@ workflow:
         - query
         retrieval_mode: multiple
         selected: false
-        title: 'KR General Knowledge '
+        title: KR - General Project
         type: knowledge-retrieval
       height: 90
       id: '1748784602400'
@@ -1196,10 +1191,10 @@ workflow:
       width: 242
       zIndex: 0
     - data:
-        answer: '{{#1748784677999.text#}}/'
+        answer: '{{#1748784677999.text#}}'
         desc: ''
         selected: false
-        title: Answer 4
+        title: Answer - General Project
         type: answer
         variables: []
       height: 103
@@ -1225,7 +1220,7 @@ workflow:
         desc: ''
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
@@ -1233,48 +1228,26 @@ workflow:
         - id: b3c07274-69ce-4bb7-843b-e6db08c42df1
           role: system
           text: 'You are a software testing assistant helping engineers understand
-            project, product, and company context.
+            the Atlassian REST project: its scope, modules, features and open work.
 
 
-            Only answer questions using the retrieved context provided below. Do not
-            make assumptions or use outside knowledge.
+            Answer only from the context below. Never use outside knowledge. The context
+            contains several Jira issues; combine them into one answer.
+
+            If the context does not help answer the question, reply exactly:
+
+            "I''m sorry, I can''t find relevant project information in the documentation
+            to answer that."
 
 
-            Your goal is to synthesize information across the provided context and
-            answer the user''s question as fully as possible. If relevant content
-            is spread across multiple context blocks, combine them into a cohesive
-            answer.
+            Your reply should:
 
+            - Answer the question directly in the first sentence
 
-            Context documents may include:
+            - Support it with the Jira issues in the context, citing their keys (for
+            example REST-320)
 
-            - Project summaries or goals
-
-            - Technical overviews or API scopes
-
-            - Lists of contributors or reporters
-
-            - Fixes, optimizations, and technical constraints
-
-
-            Your response should:
-
-            - Be concise and professional
-
-            - Highlight specific facts from the context
-
-            - Focus on what the project is about and why it matters
-
-            - Relate the information to software testing implications if relevant
-
-
-            If no relevant information can be found in the context, respond with:
-
-            > I’m sorry, I can’t find relevant information in the documentation to
-            answer that.
-
-
-            ---
+            - Point out what matters for testing when it is relevant
 
 
             Context:
@@ -1289,7 +1262,7 @@ workflow:
             '
         selected: false
         structured_output_enabled: false
-        title: LLM 4
+        title: LLM - General Project
         type: llm
         variables: []
         vision:
@@ -1310,44 +1283,36 @@ workflow:
       zIndex: 0
     - data:
         desc: ''
-        instruction: "You are an intelligent assistant specialized in understanding\
-          \ user requests related to Jira issues and test case management. Your primary\
-          \ goal is to analyze the user's {{#sys.query#}} and extract all mentioned\
-          \ Jira issue keys in a precise JSON format:\n\n1. **`issue_keys`**: A list\
-          \ of Jira issue keys explicitly mentioned or strongly implied in the user's\
-          \ query.\n\n---\n\n**Detailed Instructions for `issue_keys` Extraction:**\n\
-          \n- An issue key follows the format: `[ONE_OR_MORE_UPPERCASE_LETTERS]-[ONE_OR_MORE_DIGITS]`.\n\
-          \  - Examples: `PROJ-123`, `BUG-42`, `INC-005`, `SUPPORT-789`.\n- Look for\
-          \ issue keys appearing after phrases like:\n  - 'related to issues'\n  -\
-          \ 'tickets:'\n  - 'issues:'\n  - 'for tickets'\n  - 'for issues'\n  - or\
-          \ within the user's general statement.\n- If a string closely resembles\
-          \ an issue key but deviates slightly (e.g., '123-PROJ', 'PROJ123', 'PROJ-ABC'),\
-          \ correct it to the appropriate format and include it in the `issue_keys`\
-          \ list.\n- If no valid issue keys are found, return an empty list.\n\n---\n\
-          \n**Output Format:**\n\n```json\n{\n  \"issue_keys\": [\"PROJ-123\", \"\
-          BUG-42\"]\n}"
+        instruction: 'Extract every Jira issue key mentioned in the user''s question,
+          in the order they appear.
+
+          A Jira issue key is an uppercase project prefix, a hyphen and a number,
+          for example REST-266.
+
+          Normalize other spellings to that format. This project''s prefix is REST,
+          so "rest 266", "REST266", "issue 266" and "ticket 266" all become REST-266.
+
+          If the question contains no issue key, return an empty list.
+
+          '
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         parameters:
-        - description: 'A coma separated list of issue keys that the user is interested
-            in.
-
-            An issue key typically consists of an uppercase project prefix, followed
-            by an hyphen, and then one or more digits. For example: JIRA-123, PROJ-45,
-            BUG-007.'
+        - description: Every Jira issue key in the question, for example ["REST-266",
+            "REST-265"].
           name: issue_keys
-          required: true
+          required: false
           type: array[string]
         query:
         - sys
         - query
         reasoning_mode: prompt
         selected: false
-        title: Issue Keys Extractor (1)
+        title: Issue Keys Extractor (Tests)
         type: parameter-extractor
         variables: []
         vision:
@@ -1375,7 +1340,7 @@ workflow:
         answer: '{{#1748786653855.text#}}'
         desc: ''
         selected: false
-        title: Answer 5
+        title: Answer - Polite Redirect
         type: answer
         variables: []
       height: 103
@@ -1397,6 +1362,7 @@ workflow:
         error_handle_mode: remove-abnormal-output
         height: 187
         is_parallel: true
+        iterator_input_type: array[string]
         iterator_selector:
         - '17487850509710'
         - issue_keys
@@ -1407,7 +1373,7 @@ workflow:
         parallel_nums: 10
         selected: false
         start_node_id: 1748785286399start
-        title: Iteration (1)
+        title: Iteration - Tests
         type: iteration
         width: 618
       height: 187
@@ -1426,7 +1392,7 @@ workflow:
       zIndex: 0
     - data:
         dataset_ids:
-        - 6cKbMQM8KeUisYYXzRoSVTZwEObucVVwsbtpxzAyNJ6iSCNdcrCcOfXhQnGIVVI2
+        - W1plFG6wPRupvQB0T6LXXARA+GkduRuNFrUPXMZHtprMHDIwKWFC/Xl2XDIWt2EY
         desc: ''
         isInIteration: true
         isInLoop: false
@@ -1446,7 +1412,7 @@ workflow:
             model: ''
             provider: ''
           score_threshold: null
-          top_k: 10
+          top_k: 4
           weights:
             keyword_setting:
               keyword_weight: 0
@@ -1460,7 +1426,7 @@ workflow:
         - item
         retrieval_mode: multiple
         selected: false
-        title: Knowledge Retrieval 5
+        title: KR - Issue for Tests
         type: knowledge-retrieval
       height: 90
       id: '1748785286399017487852864000'
@@ -1494,6 +1460,7 @@ workflow:
         x: 480.2543663027028
         y: 811.564737158242
       selectable: false
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-iteration-start
@@ -1512,22 +1479,11 @@ workflow:
             - issue_keys
           id: 'true'
           logical_operator: and
-        - case_id: f2be164b-f0ce-4db6-9a7b-69786c02a988
-          conditions:
-          - comparison_operator: empty
-            id: 94834777-b870-481f-9bce-d5977fd70fe7
-            value: ''
-            varType: array[string]
-            variable_selector:
-            - '17487850509710'
-            - issue_keys
-          id: f2be164b-f0ce-4db6-9a7b-69786c02a988
-          logical_operator: and
         desc: ''
         selected: false
-        title: IF/ELSE
+        title: Has Issue Keys?
         type: if-else
-      height: 204
+      height: 140
       id: '1748785479296'
       position:
         x: 89.0778811944802
@@ -1543,56 +1499,41 @@ workflow:
       zIndex: 0
     - data:
         context:
-          enabled: true
-          variable_selector:
-          - sys
-          - query
+          enabled: false
+          variable_selector: []
         desc: ''
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         prompt_template:
         - id: f1e90d8d-abc0-478c-8604-f2805bc0c2f1
           role: system
-          text: "You are an experienced Test Case Generator.\n\n              Your\
-            \ task is to create Gherkin-style test cases based on a user-reported\
-            \ requirement or issue described in natural language.\n              The\
-            \ requirement may reference features, behaviors, bugs, or changes not\
-            \ currently in the knowledge base. You must rely solely on the user’s\
-            \ input and any additional context in the flow.\n\n              <context>\n\
-            \              {{#context#}}\n              </context>\n\n           \
-            \   User requirement:\n              {{#sys.query#}}\n\n             \
-            \ ---\n\n              \U0001F50D Once you have the requirement details,\
-            \ do the following:\n              1. Analyze the user input and extract\
-            \ the intent, preconditions, actions, and expected outcomes.\n       \
-            \       2. Generate one or more test cases using the Gherkin format.\n\
-            \n              ---\n\n              \U0001F4CA Test Case Format:\n\n\
-            \              ```gherkin\n              Feature: [Concise feature name]\n\
-            \                Scenario: [High-level description of the scenario]\n\
-            \                  Given [Initial precondition]\n                  And\
-            \ [Optional second precondition]\n                  When [Action performed\
-            \ by the user or system]\n                  And [Optional secondary action]\n\
-            \                  Then [Expected outcome or behavior]\n             \
-            \     And [Optional second expected outcome]\n              ```\n\n  \
-            \            ---\n\n              ✅ Guidelines:\n              - Use clear,\
-            \ concise, domain-appropriate language.\n              - Focus on realistic\
-            \ testable behavior.\n              - Avoid filler steps — each line should\
-            \ add functional value.\n              - If multiple scenarios are implied,\
-            \ provide each in its own clearly labeled block.\n\n              \U0001F4C6\
-            \ Present each test case inside a styled markdown code block, like this:\n\
-            \n              ```gherkin\n              Feature: Login security\n\n\
-            \                Scenario: User enters incorrect password\n          \
-            \        Given the user is on the login page\n                  When the\
-            \ user enters a valid username\n                  And an incorrect password\n\
-            \                  Then the user should see an error message\n       \
-            \           And should not be logged in\n              ```\n\n       \
-            \       Do not include any explanation or commentary — only output the\
-            \ test case(s) in clean, Gherkin-formatted code blocks.\n"
+          text: 'You are an experienced test designer. The user describes a requirement
+            in their own words, without a Jira issue key.
+
+
+            Write Gherkin test scenarios for that requirement:
+
+            - One gherkin code block with a Feature and three to five Scenarios
+
+            - Cover the main flow, invalid input and at least one edge case
+
+            - Keep every step concrete and testable; leave out steps that check nothing
+
+            - If the requirement is too vague to test, ask one clarifying question
+            instead of guessing
+
+
+            User requirement:
+
+            {{#sys.query#}}
+
+            '
         selected: false
-        title: LLM 5
+        title: LLM - Gherkin from Requirement
         type: llm
         variables: []
         vision:
@@ -1620,36 +1561,50 @@ workflow:
         desc: ''
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         prompt_template:
         - id: 94d687e6-c23d-43e3-977c-65cb9c4a8cc1
           role: system
-          text: "\nYou are an experienced Test Case Generator. Your task is to create\
-            \ test cases related to  issues in context in Gherkin format based on\
-            \ the following user-reported issue (obtained from the knoledge retrieval\
-            \ node) and flow context:\n<context>\n{{#context#}}\n</context>\n{{#sys.query#}}\n\
-            Once you have the issue details, analyze the information, paying close\
-            \ attention to the title, description, and any steps to reproduce. \n\
-            Based on this analysis, generate a test case in Gherkin format using the\
-            \ following structure: \nFeature: [Concise title summarizing the feature\
-            \ being tested, derived from the Jira issue title] \n  Scenario: [Specific\
-            \ scenario derived from the Jira issue details] \n  - Given [Precondition\
-            \ 1, based on the issue context] \n  - And [Precondition 2, if any] \n\
-            \  - When [Action 1 taken by the user, based on steps to reproduce] \n\
-            \  - And [Action 2 taken by the user, if any] \n  - Then [Expected outcome\
-            \ based on the problem description and intended functionality] \n  - And\
-            \ [Further expected outcome, if any] \n\nPlease ensure the Gherkin steps\
-            \ are clear, concise, and directly relate to the Jira issue.\nProvide\
-            \ the test cases in a visual way easy to identify, leave clear which is\
-            \ each scenario (with colours and inside a \"box\" as it was code)\n\n\
-            \n\nBatch completion status: {{#1762728060345.batch_status#}}\nIf this\
-            \ status is partial or empty, state it clearly before presenting any successful\
-            \ results."
+          text: 'You are an experienced test designer. Write Gherkin test scenarios
+            for the Jira issues in the context below.
+
+
+            Use only the behaviour described in the context. Do not invent endpoints,
+            fields or error messages.
+
+
+            Batch status: {{#1762728060345.batch_status#}}
+
+            If the batch status starts with "Partial result" or "No requested Jira
+            issues", begin your reply with that status and name the missing keys.
+            Only write scenarios for issues that are in the context.
+
+
+            For each issue:
+
+            - A heading "### <issue key>: <summary>"
+
+            - One gherkin code block with a Feature and two or three Scenarios: the
+            main behaviour, an edge case, and a regression check when relevant
+
+            - Concrete, testable Given/When/Then steps
+
+
+            Context:
+
+            {{#context#}}
+
+
+            User request:
+
+            {{#sys.query#}}
+
+            '
         selected: false
-        title: LLM 6
+        title: LLM - Gherkin from Issues
         type: llm
         variables: []
         vision:
@@ -1662,7 +1617,7 @@ workflow:
       positionAbsolute:
         x: 1434.2543663027027
         y: 743.564737158242
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1672,7 +1627,7 @@ workflow:
         answer: '{{#1748785557565.text#}}'
         desc: ''
         selected: false
-        title: Answer 6
+        title: Answer - Gherkin from Issues
         type: answer
         variables: []
       height: 103
@@ -1683,6 +1638,7 @@ workflow:
       positionAbsolute:
         x: 1738.2543663027027
         y: 743.564737158242
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1692,7 +1648,7 @@ workflow:
         answer: '{{#1748785532843.text#}}'
         desc: ''
         selected: false
-        title: Answer 7
+        title: Answer - Gherkin from Requirement
         type: answer
         variables: []
       height: 103
@@ -1703,6 +1659,7 @@ workflow:
       positionAbsolute:
         x: 760.2543663027028
         y: 986.9215676569963
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1710,35 +1667,41 @@ workflow:
       zIndex: 0
     - data:
         context:
-          enabled: true
-          variable_selector:
-          - sys
-          - query
+          enabled: false
+          variable_selector: []
         desc: ''
         model:
           completion_params:
-            temperature: 0.7
+            temperature: 0.3
           mode: chat
           name: gpt-35-turbo-16k
           provider: langgenius/azure_openai/azure_openai
         prompt_template:
         - id: 3c1b3adc-6c0e-4224-a8e1-18c5f6c6fb6d
           role: system
-          text: "Since this query {{#sys.query#}} is not related to the chatbot context\
-            \ it should return one of these answers:\ndefault_non_testing_responses:\n\
-            \  - \"I'm here to help with software testing topics. Could you rephrase\
-            \ your question to focus on testing or technical documentation?\"\n  -\
-            \ \"This assistant is specialized in analyzing test cases, requirements,\
-            \ and project documentation. That question might be better suited for\
-            \ a general assistant.\"\n  - \"I couldn’t find testing-relevant content\
-            \ in your question. If you’d like help with test generation or issue analysis,\
-            \ just let me know!\"\n  - \"Hmm, I’m not sure how to assist with that.\
-            \ I specialize in software quality, requirements, and test design. Want\
-            \ to dig into a specific feature or issue?\"\n  - \"This assistant works\
-            \ best with technical context. Try asking about a feature, bug, or test\
-            \ scenario you'd like to explore.\"\n"
+          text: 'You are Testus Patronus, an assistant that only helps with software
+            testing for the Atlassian REST Jira project.
+
+
+            The user''s message is outside that scope. Do not answer it, not even
+            partially.
+
+            Start your reply with exactly: "I''m sorry, I can''t help with that: it
+            isn''t covered by the project documentation."
+
+            Then add one friendly sentence: say what you can help with (Jira issues,
+            project scope, test strategy and Gherkin test cases) and suggest one example
+            question that doesn''t name a specific issue, such as "What is this project
+            about?".
+
+
+            User message:
+
+            {{#sys.query#}}
+
+            '
         selected: false
-        title: LLM 7
+        title: LLM - Polite Redirect
         type: llm
         variables: []
         vision:
@@ -1784,7 +1747,7 @@ workflow:
             children: null
             type: array[object]
         selected: false
-        title: Code
+        title: Combine Results
         type: code
         variables:
         - value_selector:
@@ -1838,7 +1801,7 @@ workflow:
             children: null
             type: array[object]
         selected: false
-        title: Code 2
+        title: Combine Results (Tests)
         type: code
         variables:
         - value_selector:
@@ -1865,8 +1828,92 @@ workflow:
       type: custom
       width: 242
       zIndex: 0
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: bbb8c3cb-24d6-4183-9c7b-ccf9e38a930d
+            value: ''
+            varType: array[object]
+            variable_selector:
+            - '1748687775954'
+            - result
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: Issue Found?
+        type: if-else
+      height: 140
+      id: issue_found
+      position:
+        x: 820
+        y: 33.57
+      positionAbsolute:
+        x: 820
+        y: 33.57
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        answer: I'm sorry, I can't find {{#1748719005808.issue_key#}} in the project
+          documentation. Check the issue key and try again.
+        desc: ''
+        selected: false
+        title: Answer - Issue Not Found
+        type: answer
+        variables: []
+      height: 151
+      id: answer_not_found
+      position:
+        x: 1160
+        y: -130
+      positionAbsolute:
+        x: 1160
+        y: -130
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: c04e27bb-4383-43de-9b1a-69763121ab78
+            value: ''
+            varType: string
+            variable_selector:
+            - '1748719005808'
+            - issue_key
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: Has Key?
+        type: if-else
+      height: 150
+      id: has_key
+      position:
+        x: 89.08
+        y: 33.57
+      positionAbsolute:
+        x: 89.08
+        y: 33.57
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
     viewport:
-      x: 633.8594701196103
-      y: 329.6019403717205
-      zoom: 0.3468247355543864
+      x: 792.1891000984979
+      y: 274.1399041636766
+      zoom: 0.6944433269104796
   rag_pipeline_variables: []

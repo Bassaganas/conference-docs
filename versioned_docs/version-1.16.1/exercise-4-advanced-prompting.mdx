@@ -1,249 +1,562 @@
 ---
+title: "4: Advanced RAG (Bonus)"
 sidebar_position: 8
 ---
 
-import ChangeTag from '@site/src/components/ChangeTag';
+import CodeBlock from '@theme/CodeBlock';
 
-# 🎓 Bonus Exercise – Advanced Techniques for Smarter RAGs
+# 🎓 4: Advanced RAG (Bonus)
+
+export const Shot = ({ src, alt, caption, width }) => (
+  <div style={{ margin: '1em 0' }}>
+    <img src={src} alt={alt} style={{ maxWidth: width ?? '100%', width: '100%', height: 'auto', borderRadius: '8px', border: '1px solid #e5e7eb' }} />
+    {caption && <div style={{ fontSize: '0.95em', color: '#666', marginTop: '0.4em' }}><i>{caption}</i></div>}
+  </div>
+);
+
+export const Copy = ({ title, language = 'text', children }) => (
+  <details open style={{ margin: '1em 0' }}>
+    <summary style={{ fontWeight: 'bold', cursor: 'pointer', color: '#7c3aed' }}>{title}</summary>
+    <div style={{ marginTop: '0.6em' }}>
+      <CodeBlock language={language}>{children}</CodeBlock>
+    </div>
+  </details>
+);
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>🪄 This is a free-form, bonus exercise.</b> There's no "correct" outcome — only deeper exploration.<br /><br />
-  You've already built a powerful testing assistant. Now it's time to experiment with <b>advanced Retrieval-Augmented Generation (RAG)</b> strategies and <b>Dify-specific features</b> that make your assistant more intelligent, focused, and useful for testers.
+  <b>🪄 Bonus exercise.</b> Your Exercise 3 chatbot sends every question down the same path: one retriever, one prompt. That works for simple questions, but it struggles when the user names an exact Jira key, asks about several issues at once, or wants test cases.<br /><br />
+  In this exercise you build a Chatflow that first works out <b>what kind of question</b> it received, then sends it down a path with its own retrieval and prompt. Every prompt, parameter and code snippet you need is on this page, ready to copy.
 </div>
 
-<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Release baseline:</b> This bonus exercise targets Dify <code>1.16.1</code> while preserving the 1.9.1 Parameter Extractor, Question Classifier, Iteration, If/Else, retrieval, and prompt-template scope.
-</div>
+<Shot src={require('../static/img/dify/1.16.1/ex4/advanced-flow-overview.png').default} alt="Complete advanced Chatflow: a Question Classifier routing to six branches" caption="What you'll build: a Question Classifier that routes each question to one of six branches" />
 
-<img src={require('../static/img/dify/1.16.1/ex4/advanced-flow-overview.png').default} alt="Complete Dify 1.16.1 advanced workflow and all classifier branches" style={{ maxWidth: '100%', borderRadius: '8px', marginBottom: '1em' }} />
+---
 
-<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  <b>Workflow compatibility <ChangeTag kind="changed" />:</b>
-  <ul>
-    <li>Name the extractor output <code>issue_keys</code> everywhere; a singular/plural mismatch leaves the Iteration input empty.</li>
-    <li>Inside Iteration, retrieve with the current <code>item</code>, not the original multi-issue query.</li>
-    <li>Add <code>issue_key is &#123;&#123;iteration.item&#125;&#125;</code> to the test-generation retriever so each Gherkin scenario is grounded in the correct issue.</li>
-    <li>Dify 1.16.1 may expose Iteration results as a flat object list. The supplied Code nodes accept both flat and legacy nested lists before combining answers.</li>
-    <li>Both Iterations remove abnormal outputs so one failed item does not discard every successful issue result.</li>
+## 🧩 What You'll Do
+
+<div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
+  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+    <li><label><input type="checkbox" /> Route questions with a <b>Question Classifier</b></label></li>
+    <li><label><input type="checkbox" /> Extract Jira keys with a <b>Parameter Extractor</b> and retrieve the exact issue with a <b>metadata filter</b></label></li>
+    <li><label><input type="checkbox" /> Handle several issues at once with an <b>Iteration</b> and a <b>Code</b> node</label></li>
+    <li><label><input type="checkbox" /> Give project and test-strategy questions their own retriever and prompt</label></li>
+    <li><label><input type="checkbox" /> Generate Gherkin test cases, using <b>IF/ELSE</b> to handle requests with and without issue keys</label></li>
+    <li><label><input type="checkbox" /> Politely redirect questions that are out of scope</label></li>
+    <li><label><input type="checkbox" /> Run the acceptance questions and check every route</label></li>
   </ul>
+  <div style={{ marginTop: '0.8em' }}><b>⏱️ Estimated time:</b> 60-90 minutes to build it all. Short on time? Build Steps 1-3, then import the solution at the end of the page and explore the other branches.</div>
+</div>
+
+### Before you start
+
+- You need the <code>{'Jira_API_Advanced_*'}</code> knowledge base from **Exercise 2.1**. Its documents carry the <code>issue_key</code> metadata field that the exact-key filters use. <code>{'Jira_API_Basic_*'}</code> also works; the manual knowledge base from Exercise 2 does not, because it has no metadata.
+- Use **gpt-35-turbo-16k** in every model node, as in Exercise 3.
+- Create a new, blank **Chatflow** (Studio → Create → Create from Blank → Chatflow). Name it, for example, <code>Exercise 4: Advanced RAG</code>. Keep the **User Input** node and delete the default **LLM** and **Answer** nodes; every branch gets its own.
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>How to use the copy blocks:</b> hover a block and click the copy icon in its top-right corner, then paste into the Dify field named above the block. When you paste a prompt, Dify turns <code>{'{{#context#}}'}</code> into the purple <b>Context</b> block and <code>{'{{#sys.query#}}'}</code> into the <b>User Input / query</b> variable, just like in Exercise 3.
+</div>
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Name your nodes as you go.</b> Click a node's title to rename it. This page uses names like <b>KR - Single Issue</b> (KR = Knowledge Retrieval). Using the same names makes the variable pickers much easier to read, because every variable is shown as <i>Node name / variable</i>.
 </div>
 
 ---
 
-## 🧠 Why Go Beyond the Basics?
+## 🛠️ Step 1: Route Questions with a Question Classifier
 
-<div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', marginBottom: '2em' }}>
+A **Question Classifier** asks the LLM to put the user's question into one of the classes you define. Each class gets its own output handle, so each type of question can follow its own path.
+
+1. Hover the right edge of **User Input**, click **+**, and add a **Question Classifier**. Its input variable is already <code>sys.query</code>.
+2. Select **gpt-35-turbo-16k**. Click the settings icon next to the model and set **Temperature** to <code>0</code>. Routing should be predictable, not creative.
+3. Add classes until there are six, and type one name into each class's text box, in this order:
+
+| Class | Name | Example question |
+| --- | --- | --- |
+| 1 | <code>specific_issue</code> | What is REST-266 about? |
+| 2 | <code>list_issues</code> | Summarize REST-266 and REST-265 |
+| 3 | <code>general_project</code> | What is this project about? |
+| 4 | <code>test_related</code> | What should we test for backward compatibility? |
+| 5 | <code>test_generation</code> | Generate test cases for REST-266 |
+| 6 | <code>unrelated_or_invalid</code> | Write me a poem about the sea |
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/question-classifier.png').default} alt="Question Classifier panel with the six classes specific_issue to unrelated_or_invalid" caption="The six classes" width="420px" />
+
+4. Class names alone are ambiguous. For example, is "Generate tests for REST-266" about a specific issue, or is it test generation? Open **Advanced Setting** at the bottom of the panel and paste this into **Instruction**:
+
+<Copy title="Question Classifier → Advanced Setting → Instruction">{`You classify questions sent to a software testing assistant for the Atlassian REST Jira project.
+Choose exactly ONE category:
+
+- specific_issue: asks about one Jira issue that it names by key or number. Examples: "What does REST-266 fix?", "Who is assigned to issue 259?"
+- list_issues: mentions two or more Jira issue keys and asks to summarize, compare or relate them. Example: "Summarize REST-266 and REST-265"
+- general_project: asks about the project as a whole (scope, modules, features, contributors), about a group of issues, or which issue matches a description, without naming a key. Examples: "What is this project about?", "Which issues relate to Jackson?", "Which issue reports that CORS preflight requests are not supported?"
+- test_related: asks about test strategy, risk, regression or coverage, without asking to write test cases. Example: "What should we test for backward compatibility?"
+- test_generation: asks to write, generate or create test cases or Gherkin scenarios, with or without issue keys. Examples: "Generate test cases for REST-266", "Create test scenarios for a password reset feature"
+- unrelated_or_invalid: not about this project, its Jira issues, its documentation or testing. Examples: "Write me a poem", "Why is the sky blue?"
+
+If the user asks to write or generate tests, choose test_generation even when the question contains issue keys.`}</Copy>
+
+---
+
+## 🛠️ Step 2: Branch `specific_issue`: Exact-Key Retrieval
+
+In Exercise 3, a question about REST-266 searched the whole knowledge base by meaning. Similar issues could outrank REST-266, and a key that doesn't exist still returned *something*. This branch pulls the key out of the question and retrieves **only** the document whose <code>issue_key</code> metadata matches.
+
+<div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '0.6em 1.2em', margin: '1em 0', fontFamily: 'monospace' }}>
+  specific_issue → Issue Key Extractor → Has Key?<br />
+  &nbsp;&nbsp;IF → KR - Single Issue → Issue Found?<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;IF → LLM - Specific Issue → Answer - Specific Issue<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;ELSE → Answer - Issue Not Found<br />
+  &nbsp;&nbsp;ELSE → KR - General Project (the Step 4 branch)
+</div>
+
+### 2.1 Parameter Extractor: Issue Key Extractor
+
+1. From the classifier's <code>specific_issue</code> handle, add a **Parameter Extractor** and rename it **Issue Key Extractor**. Select **gpt-35-turbo-16k** with **Temperature** <code>0</code>. The input variable is <code>User Input / query</code>.
+2. Under **Extract Parameters**, click **+** and add:
+   - **Name:** <code>issue_key</code>
+   - **Type:** String
+   - **Required:** off. Some questions look like single-issue questions but name no key; the next step handles them
+   - **Description:** <code>The Jira issue key the user asks about, for example REST-266.</code>
+3. Paste this into **Instruction**. The normalization line lets "issue 266" or "rest266" find REST-266:
+
+<Copy title="Issue Key Extractor → Instruction">{`Extract the one Jira issue key the user is asking about.
+A Jira issue key is an uppercase project prefix, a hyphen and a number, for example REST-266.
+Normalize other spellings to that format. This project's prefix is REST, so "rest 266", "REST266", "issue 266" and "ticket 266" all become REST-266.
+Return only the key.`}</Copy>
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/issue-key-extractor.png').default} alt="Issue Key Extractor with the issue_key parameter and the instruction highlighted" caption="The issue_key parameter and its instruction" width="420px" />
+
+### 2.1b Cheaper alternative: extract the key with code
+
+Your LLM extractor works. But look at what it does: it finds a pattern like `REST-266` in a sentence. Every question pays for an LLM call to do that, and a few lines of Python can do the same job. Here are the two measured side by side on the same questions:
+
+| Extractor | Tokens per question | Time | "What is REST-266 about?" | "What does issue 266 fix?" |
+| --- | --- | --- | --- | --- |
+| Parameter Extractor (LLM) | ~550 | 1.0-1.7 s | REST-266 | REST-266 |
+| Code node (Python) | 0 | ~0.1 s | REST-266 | REST-266 |
+
+<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Rule of thumb:</b> if you can describe the answer as a pattern, use code. It's free, instant, and gives the same output every time. Keep the LLM for things only language understanding can do, such as "the ticket about Jackson leniency", where there is no key to match.
+</div>
+
+To swap the LLM for code:
+
+1. Add a **Code** node between the Question Classifier's <code>specific_issue</code> handle and **Has Key?**, and rename it **Extract Keys (Code)**. Keep **Python3**.
+2. Replace the default code with:
+
+<Copy title="Extract Keys (Code) → Code (Python3)" language="python">{"import re\n\n# Jira projects in the knowledge base. The first one is used for bare\n# numbers such as \"issue 266\". Add more prefixes if you ingest other projects.\nPROJECTS = [\"REST\"]\n\n# A known prefix, an optional hyphen or space, and a number:\n# REST-266, rest 266, REST266\nPROJECT_KEY = re.compile(r\"\\b(\" + \"|\".join(PROJECTS) + r\")[\\s-]?(\\d+)\\b\", re.IGNORECASE)\n# A bare number after a word that means \"issue\": issue 266, ticket #266\nBARE_NUMBER = re.compile(r\"\\b(?:issue|ticket|bug)\\s*#?\\s*(\\d+)\\b\", re.IGNORECASE)\n\n\ndef main(query: str) -> dict:\n    found = []  # (position in the question, normalized key)\n    for match in PROJECT_KEY.finditer(query):\n        found.append((match.start(), match.group(1).upper() + \"-\" + match.group(2)))\n    for match in BARE_NUMBER.finditer(query):\n        found.append((match.start(), PROJECTS[0] + \"-\" + match.group(1)))\n\n    issue_keys = []\n    for _, key in sorted(found):\n        if key not in issue_keys:\n            issue_keys.append(key)\n\n    return {\n        \"issue_key\": issue_keys[0] if issue_keys else \"\",\n        \"issue_keys\": issue_keys,\n    }"}</Copy>
+
+3. Now make the node's variables match the code. Dify passes each **input variable** to <code>main()</code> by name, and reads back the returned keys by **output variable** name, so the names must match exactly:
+
+| In the node | Default | Change it to |
+| --- | --- | --- |
+| Input Variables | <code>arg1</code>, <code>arg2</code> | <code>query</code> → **User Input / query** (delete <code>arg2</code>) |
+| Output Variables | <code>result</code> (String) | <code>issue_key</code> (**String**) and <code>issue_keys</code> (**Array[String]**); delete <code>result</code> |
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/extract-keys-code.png').default} alt="Extract Keys (Code) node: input query from User Input, outputs issue_key String and issue_keys Array[String]" caption="The same outputs as the LLM extractor, without an LLM" width="420px" />
+
+4. Rewire the branch, and check each item yourself. Dify's **Checklist** (the orange badge next to **Preview**) catches only one of these mistakes:
+   - Point the condition in **Has Key?**, the filter condition in **KR - Single Issue** and the variable in **Answer - Issue Not Found** at **Extract Keys (Code) / issue_key**. If you delete **Issue Key Extractor** first, all three keep pointing at a node that no longer exists. The Checklist flags the Answer node ("Invalid variable"), but **not** the filter condition. The filter then silently matches nothing.
+   - Delete **Issue Key Extractor**.
+   - The classifier's <code>specific_issue</code> handle connects **only** to **Extract Keys (Code)**, and <code>list_issues</code> still connects to **Issue Keys Extractor** (plural: the Step 3 node, not the one you just deleted). A class connected to two nodes is valid wiring, so nothing flags it. Dify simply runs both branches.
+5. Rerun the Step 2 checks. Open the node's **Last Run** tab to see exactly what it extracted.
+
+<div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Something wrong after the swap?</b> Expand <b>Workflow Process</b> above the answer and compare it with these symptoms:
+  <ul style={{ marginBottom: 0 }}>
+    <li><b>Code node fails with</b> <code>TypeError: main() got an unexpected keyword argument 'arg1'</code>: the input variable is still <code>arg1</code>. Rename it to <code>query</code>.</li>
+    <li><b>Code node fails with an error about its outputs:</b> the Output Variables don't match the keys the code returns. Use <code>issue_key</code> (String) and <code>issue_keys</code> (Array[String]).</li>
+    <li><b>All nodes are green, but the reply is "I'm sorry, I can't find" followed by a blank where the key should be:</b> <b>KR - Single Issue</b> still filters on the deleted extractor's <code>issue_key</code>. It returns nothing within a few milliseconds, too fast to have searched, so <b>Issue Found?</b> takes ELSE. Re-point the filter condition to <b>Extract Keys (Code) / issue_key</b>.</li>
+    <li><b>Nodes from another branch run too</b>, for example <b>Issue Keys Extractor</b>, <b>Iteration - Issues</b> and <b>LLM - Multiple Issues</b> on a single-issue question: one class handle connects to two branches, and Dify runs both. The answers can contradict each other. A "not found" reply can even appear with a REST-266 citation, because the other branch found it. Move the extra connection to the right class handle.</li>
+  </ul>
+</div>
+
+Notice what the code does **not** do, and why:
+
+- <code>PROJECTS</code> lists the prefixes that count as Jira keys. Without that list, a question about <code>UTF-8</code> would be read as issue number 8 in project UTF. Code only knows the patterns you give it, so pin them down.
+- It doesn't guess. Anything that doesn't match returns an empty <code>issue_key</code>, and **Has Key?** sends the question to semantic search instead of a filter that can't match.
+- The node also returns <code>issue_keys</code>, a list of every key in the question, so it can replace the **Issue Keys Extractor** in Steps 3 and 5 as well. A question without keys gives an empty list, and the **Has Issue Keys?** check in Step 5 works unchanged.
+
+<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Try it:</b> ask <code>Who is assigned to rest266?</code>, <code>Status of ticket #259</code> and <code>Does UTF-8 break JSON parsing?</code>, and compare the <b>Last Run</b> output of the code node with the LLM extractor's. For the best of both, run the code first and fall back to the LLM extractor only when the code finds nothing. You'll need an IF/ELSE and a Variable Aggregator to merge the two paths. The downloadable solution uses the LLM extractor, so you can compare the two.
+</div>
+
+### 2.2 IF/ELSE: Has Key?
+
+Not every question routed here contains a key. *"Which issue reports that CORS preflight requests are not supported?"* asks about one issue, but describes it instead of naming it. The extractor then returns an empty <code>issue_key</code>. The exact-key filter can't match an empty key, so without this step the chatbot would answer "I can't find" for an issue that exists.
+
+1. After the extractor, add an **IF/ELSE** node named **Has Key?**.
+2. **IF:** **Issue Key Extractor / issue_key** **is not empty**. The **IF** branch continues to the exact-key retrieval in 2.3.
+3. **ELSE:** connect it to **KR - General Project**, the semantic-search retriever you build in Step 4. A node can receive connections from several branches. If you haven't built Step 4 yet, come back and connect it then.
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/has-key.png').default} alt="Has Key? IF issue_key is not empty goes to KR - Single Issue; ELSE goes to KR - General Project" caption="No key → search by meaning instead of by key" width="420px" />
+
+### 2.3 Knowledge Retrieval with a metadata filter: KR - Single Issue
+
+1. From the **IF** handle of **Has Key?**, add a **Knowledge Retrieval** node and rename it **KR - Single Issue**. Keep **Query Text** as <code>sys.query</code>.
+2. Click **+** next to **Knowledge** and add <code>{'Jira_API_Advanced_*'}</code>.
+3. Set **Metadata Filtering** to **Manual** and click **Conditions** → **Add Condition**:
+   - Field: <code>issue_key</code>
+   - Operator: <b>is</b>
+   - Value: switch to <b>Variable</b> and pick <b>Issue Key Extractor / issue_key</b>
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/kr-single-issue-filter.png').default} alt="Metadata Filter Conditions: issue_key is the Issue Key Extractor issue_key variable" caption="The exact-key filter" />
+
+4. Open **Retrieval Setting**. Set **Top K** to <code>4</code> and leave **Score Threshold** **off**.
+
+<div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Why no score threshold here?</b> The filter already guarantees that only REST-266 can come back. A threshold would only drop it: with the question "What is REST-266 about?", REST-266 scores <b>0.27</b> in <code>{'Jira_API_Basic_*'}</code>. A 0.3 threshold removes it, and the chatbot then answers "can't find that issue" for an issue that exists. Use thresholds on open-ended searches (Exercise 3), not on exact-key lookups.
+</div>
+
+### 2.4 IF/ELSE: Issue Found?
+
+If the key doesn't exist, the filtered retriever returns nothing. You might expect the LLM to say so. In testing, though, gpt-35-turbo-16k answered <code>What is REST-999 about?</code> with an invented issue, complete with status and assignee, even though the prompt said to refuse when the context is empty. Don't leave this decision to the model; make it with a rule.
+
+1. After **KR - Single Issue**, add an **IF/ELSE** node named **Issue Found?**.
+2. **IF:** **KR - Single Issue / result** **is not empty**. The **IF** branch continues to the LLM in 2.5.
+3. **ELSE:** add an **Answer** node named **Answer - Issue Not Found**. Paste the text below, then replace <code>[issue_key]</code> with the variable **Issue Key Extractor / issue_key** (type <code>{'{'}</code> to pick it):
+
+<Copy title="Answer - Issue Not Found → Answer">{`I'm sorry, I can't find [issue_key] in the project documentation. Check the issue key and try again.`}</Copy>
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/issue-found.png').default} alt="Issue Found? IF KR - Single Issue result is not empty goes to LLM - Specific Issue; ELSE goes to Answer - Issue Not Found" caption="An empty retrieval never reaches the LLM" width="420px" />
+
+### 2.5 LLM and Answer
+
+1. From the **IF** handle of **Issue Found?**, add an **LLM** node, rename it **LLM - Specific Issue**, select **gpt-35-turbo-16k**, and set **Temperature** to <code>0.3</code>.
+2. Under **Context**, click **Set variable** and choose **KR - Single Issue / result**.
+3. Paste this into the **SYSTEM** prompt:
+
+<Copy title="LLM - Specific Issue → SYSTEM">{`You are a software testing assistant helping engineers understand Jira issues in the Atlassian REST project.
+
+Answer only from the context below. Never use outside knowledge.
+The context was filtered to the Jira issue the user asked about. If it is empty or does not mention that issue, reply exactly:
+"I'm sorry, I can't find details about that issue in the project documentation."
+
+Your reply should:
+- Start with the issue key and its summary
+- List the type, status and assignee
+- Explain in two or three sentences what the issue changes or fixes
+- End with "What to test": two to four concrete test ideas based on the description
+
+Context:
+{{#context#}}
+
+User question:
+{{#sys.query#}}`}</Copy>
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/llm-specific-issue.png').default} alt="LLM - Specific Issue with Context set to KR - Single Issue result and the pasted SYSTEM prompt" caption="Context bound to the filtered retriever; the pasted prompt shows the Context block and the query variable" width="420px" />
+
+4. Add an **Answer** node, rename it **Answer - Specific Issue**, and set its content to **LLM - Specific Issue / text** (type <code>{'{'}</code> or use the <b>{'{'}x{'}'}</b> button).
+
+### ✅ Check it
+
+Click **Preview** and ask <code>What is REST-266 about?</code>. The label above the answer shows which Answer node replied: it should be **Answer - Specific Issue**, with a single citation to REST-266. Also try <code>What does issue 266 fix?</code>, which should find REST-266 too.
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/answer-specific-issue.png').default} alt="Answer - Specific Issue describing REST-266 with fields, a summary, test ideas and one citation" caption="Answered by the specific_issue branch, grounded in REST-266 only" width="400px" />
+
+Then ask <code>What is REST-999 about?</code>. No document has that key, so the reply must come from **Answer - Issue Not Found**:
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/answer-issue-not-found.png').default} alt="Answer - Issue Not Found: I'm sorry, I can't find REST-999 in the project documentation" caption="A missing key gets a fixed reply, not an invented issue" width="400px" />
+
+---
+
+## 🛠️ Step 3: Branch `list_issues`: One Retrieval per Issue
+
+One search for "REST-266 and REST-265" returns whichever chunks score best, often mostly one issue. This branch extracts **every** key and runs one filtered retrieval per key with an **Iteration**. A **Code** node then combines the results and reports any keys that weren't found.
+
+<div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '0.6em 1.2em', margin: '1em 0', fontFamily: 'monospace' }}>
+  list_issues → Issue Keys Extractor → Iteration - Issues [ KR - Each Issue ] → Combine Results → LLM - Multiple Issues → Answer - Multiple Issues
+</div>
+
+### 3.1 Parameter Extractor: Issue Keys Extractor
+
+From the <code>list_issues</code> handle, add a **Parameter Extractor** named **Issue Keys Extractor** (gpt-35-turbo-16k, Temperature <code>0</code>) with one parameter:
+
+- **Name:** <code>issue_keys</code> (plural; the Iteration reads this exact name)
+- **Type:** Array[String]
+- **Required:** on
+- **Description:** <code>Every Jira issue key in the question, for example ["REST-266", "REST-265"].</code>
+
+<Copy title="Issue Keys Extractor → Instruction">{`Extract every Jira issue key mentioned in the user's question, in the order they appear.
+A Jira issue key is an uppercase project prefix, a hyphen and a number, for example REST-266.
+Normalize other spellings to that format. This project's prefix is REST, so "rest 266", "REST266", "issue 266" and "ticket 266" all become REST-266.
+If the question contains no issue key, return an empty list.`}</Copy>
+
+### 3.2 Iteration: Iteration - Issues
+
+1. After the extractor, add an **Iteration** node named **Iteration - Issues**.
+2. **Input:** **Issue Keys Extractor / issue_keys**. The Iteration runs its inner nodes once per key, and the current key is available as <code>item</code>.
+3. Inside the Iteration box, click **+** after the start icon and add a **Knowledge Retrieval** named **KR - Each Issue**:
+   - **Query Text:** **Iteration - Issues / item** (not <code>sys.query</code>, which contains every key)
+   - **Knowledge:** <code>{'Jira_API_Advanced_*'}</code>
+   - **Metadata Filtering:** Manual, <code>issue_key</code> **is** Variable **Iteration - Issues / item**
+   - **Retrieval Setting:** Top K <code>4</code>, Score Threshold off
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/kr-each-issue.png').default} alt="KR - Each Issue: Query Text is the Iteration item and the issue_key filter uses the same item" caption="Inside the loop, the query and the filter both use the current item" />
+
+4. Back on the Iteration node, set:
+   - **Output Variables:** **KR - Each Issue / result**
+   - **Parallel Mode:** on (optional; issues are retrieved at the same time)
+   - **Error Response Method:** **Remove Abnormal Output**, so one failing key doesn't fail the whole run
+   - **Flatten Output:** off
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/iteration-settings.png').default} alt="Iteration - Issues settings: input issue_keys, output KR - Each Issue result, Remove Abnormal Output" caption="Input, output and error handling" width="420px" />
+
+### 3.3 Code: Combine Results
+
+The Iteration returns a list of results, one per key. A key that doesn't exist, such as REST-999, just produces an empty result, and nothing tells the LLM that it's missing. This Code node flattens the results into one context list and compares the requested keys with the keys actually found.
+
+1. After the Iteration, add a **Code** node named **Combine Results**. Keep **Python3**.
+2. **Input Variables:** the names must match the arguments of <code>main()</code> in the code below:
+   - rename <code>arg1</code> to <code>inputs</code> and pick **Iteration - Issues / output**
+   - rename <code>arg2</code> to <code>expected_keys</code> and pick **Issue Keys Extractor / issue_keys**
+3. Replace the code with:
+
+<Copy title="Combine Results → Code (Python3)" language="python">{"import re\n\n\ndef main(inputs: list, expected_keys: list) -> dict:\n    flat_context = []\n    for item in inputs:\n        if isinstance(item, list):\n            flat_context.extend(value for value in item if isinstance(value, dict))\n        elif isinstance(item, dict):\n            flat_context.append(item)\n\n    expected = [str(key).upper() for key in expected_keys if key]\n    retrieved_keys = set(re.findall(\n        r\"(?<![A-Z0-9-])[A-Z][A-Z0-9]+-\\d+(?![A-Z0-9-])\",\n        str(flat_context).upper(),\n    ))\n    completed = [key for key in expected if key in retrieved_keys]\n    missing = [key for key in expected if key not in retrieved_keys]\n\n    if not expected:\n        batch_status = \"No Jira issue keys were requested.\"\n    elif not completed:\n        batch_status = \"No requested Jira issues were retrieved: \" + \", \".join(expected) + \".\"\n    elif missing:\n        batch_status = \"Partial result: retrieved \" + str(len(completed)) + \" of \" + str(len(expected)) + \" requested issues. Missing: \" + \", \".join(missing) + \".\"\n    else:\n        batch_status = \"Complete result: retrieved all \" + str(len(expected)) + \" requested issues.\"\n\n    return {\"flat_context\": flat_context, \"batch_status\": batch_status}"}</Copy>
+
+4. **Output Variables:** delete the default <code>result</code> and add <code>flat_context</code> as **Array[Object]** and <code>batch_status</code> as **String**, the two keys the code returns.
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/combine-results-code.png').default} alt="Combine Results code node with inputs, the Python code, and outputs batch_status and flat_context" caption="Inputs, code and outputs" width="420px" />
+
+### 3.4 LLM and Answer
+
+1. Add an **LLM** named **LLM - Multiple Issues** (Temperature <code>0.3</code>) with **Context** set to **Combine Results / flat_context**.
+2. Paste the prompt into **SYSTEM**. Then select the placeholder <code>[batch_status]</code>, delete it, type <code>{'{'}</code> and pick **Combine Results / batch_status**.
+
+<Copy title="LLM - Multiple Issues → SYSTEM">{`You are a software testing assistant helping engineers understand Jira issues in the Atlassian REST project.
+
+Answer only from the context below. Never use outside knowledge.
+The context holds the Jira issues retrieved for the keys the user asked about.
+
+Batch status: [batch_status]
+If the batch status starts with "Partial result" or "No requested Jira issues", begin your reply with that status and name the missing keys. Never describe an issue that is not in the context.
+
+For each issue found, in the order the user asked:
+- A heading with the issue key and summary
+- Type, status and assignee
+- One or two sentences on what it changes
+- What to test: two or three concrete ideas
+
+If the issues share a component, risk or theme, finish with a short "How they relate" section.
+
+Context:
+{{#context#}}
+
+User question:
+{{#sys.query#}}`}</Copy>
+
+3. Add **Answer - Multiple Issues** showing **LLM - Multiple Issues / text**.
+
+### ✅ Check it
+
+Ask <code>Summarize REST-266 and REST-265</code>. You should get one section per issue and citations for both. Then ask <code>Summarize REST-266 and REST-999</code>. The answer must start with the partial status and must not invent REST-999:
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/answer-multi-partial.png').default} alt="Answer - Multiple Issues starting with Partial result: retrieved 1 of 2 requested issues. Missing: REST-999." caption="A partial batch is reported, not hidden" width="400px" />
+
+---
+
+## 🛠️ Step 4: Branches `general_project` and `test_related`
+
+These two branches don't name a key, so they use a normal semantic search, as in Exercise 3. They differ in their prompts: a project overview needs a summary across issues, while a test-strategy question needs risks and recommendations.
+
+<div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '0.6em 1.2em', margin: '1em 0', fontFamily: 'monospace' }}>
+  general_project → KR - General Project → LLM - General Project → Answer - General Project<br />
+  test_related → KR - Test Related → LLM - Test Related → Answer - Test Related
+</div>
+
+For **each** branch:
+
+1. Add a **Knowledge Retrieval** (**KR - General Project** or **KR - Test Related**): Query Text <code>sys.query</code>, knowledge <code>{'Jira_API_Advanced_*'}</code>, Metadata Filtering **Disabled**, Top K <code>4</code>.
+2. Add an **LLM** (Temperature <code>0.3</code>) and set **Context** to that branch's retriever **result**.
+3. Paste the matching prompt, then add the **Answer** node.
+
+<div style={{ background: '#fef2f2', border: '2px solid #ef4444', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Don't forget the Context.</b> If the Context field is empty, the <code>{'{{#context#}}'}</code> block in the prompt stays empty. The LLM then follows its own rule and replies "I can't find relevant information" to every question, even though the retriever found the right issues.
+</div>
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/llm-test-related.png').default} alt="LLM - Test Related with Context set to KR - Test Related result, highlighted" caption="Context bound to the branch's own retriever" width="420px" />
+
+<Copy title="LLM - General Project → SYSTEM">{`You are a software testing assistant helping engineers understand the Atlassian REST project: its scope, modules, features and open work.
+
+Answer only from the context below. Never use outside knowledge. The context contains several Jira issues; combine them into one answer.
+If the context does not help answer the question, reply exactly:
+"I'm sorry, I can't find relevant project information in the documentation to answer that."
+
+Your reply should:
+- Answer the question directly in the first sentence
+- Support it with the Jira issues in the context, citing their keys (for example REST-320)
+- Point out what matters for testing when it is relevant
+
+Context:
+{{#context#}}
+
+User question:
+{{#sys.query#}}`}</Copy>
+
+<Copy title="LLM - Test Related → SYSTEM">{`You are a senior test engineer advising a team that works on the Atlassian REST project.
+
+Answer only from the Jira issues in the context below. Never use outside knowledge.
+If the context does not help answer the question, reply exactly:
+"I'm sorry, I can't find relevant testing information in the project documentation to answer that."
+
+Your reply should:
+- Name the Jira issues that create the risk or need testing, with their keys
+- Explain each risk in one sentence
+- Recommend what to test: the test level (unit, integration, regression, security) and concrete checks
+- Order the recommendations by risk, highest first
+
+Context:
+{{#context#}}
+
+User question:
+{{#sys.query#}}`}</Copy>
+
+### ✅ Check it
+
+Ask <code>What is this project about?</code> (**Answer - General Project**) and <code>What should we test for backward compatibility?</code> (**Answer - Test Related**). The test answer should name REST-266 and rank its recommendations by risk:
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/answer-test-related.png').default} alt="Answer - Test Related listing REST-430, REST-266 and REST-287 with risks and recommended tests ordered by risk" caption="Risks and tests, each tied to a Jira key" width="400px" />
+
+---
+
+## 🛠️ Step 5: Branch `test_generation`: With or Without Issue Keys
+
+Users ask for tests in two ways: *"Generate test cases for REST-266"* (ground them in the issue) and *"Create test scenarios for a password reset feature"* (no issue, just a requirement). An **IF/ELSE** node picks the path.
+
+<div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '0.6em 1.2em', margin: '1em 0', fontFamily: 'monospace' }}>
+  test_generation → Issue Keys Extractor (Tests) → Has Issue Keys?<br />
+  &nbsp;&nbsp;IF → Iteration - Tests [ KR - Issue for Tests ] → Combine Results (Tests) → LLM - Gherkin from Issues → Answer<br />
+  &nbsp;&nbsp;ELSE → LLM - Gherkin from Requirement → Answer
+</div>
+
+1. **Issue Keys Extractor (Tests):** same parameter and instruction as in Step 3.1, but turn **Required off**. A requirement without keys should return an empty list, not fail.
+2. **IF/ELSE** named **Has Issue Keys?**: **IF** **Issue Keys Extractor (Tests) / issue_keys** **is not empty**. Leave **ELSE** as the other path.
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/has-issue-keys.png').default} alt="Has Issue Keys? IF issue_keys is not empty, going to Iteration - Tests; ELSE going to LLM - Gherkin from Requirement" caption="IF keys were found → issue-based tests; ELSE → requirement-based tests" width="420px" />
+
+3. **IF path:** rebuild the Step 3 pattern. You can select **Iteration - Issues** and **Combine Results**, copy them (Ctrl/Cmd+C) and paste them (Ctrl/Cmd+V), then **re-point every variable** at the test branch: the Iteration input, the inner retriever's query and filter, and both Code inputs. Rename the copies **Iteration - Tests**, **KR - Issue for Tests** and **Combine Results (Tests)**. Then add **LLM - Gherkin from Issues** with **Context** set to **Combine Results (Tests) / flat_context**, and replace <code>[batch_status]</code> as in Step 3.4:
+
+<Copy title="LLM - Gherkin from Issues → SYSTEM">{`You are an experienced test designer. Write Gherkin test scenarios for the Jira issues in the context below.
+
+Use only the behaviour described in the context. Do not invent endpoints, fields or error messages.
+
+Batch status: [batch_status]
+If the batch status starts with "Partial result" or "No requested Jira issues", begin your reply with that status and name the missing keys. Only write scenarios for issues that are in the context.
+
+For each issue:
+- A heading "### <issue key>: <summary>"
+- One gherkin code block with a Feature and two or three Scenarios: the main behaviour, an edge case, and a regression check when relevant
+- Concrete, testable Given/When/Then steps
+
+Context:
+{{#context#}}
+
+User request:
+{{#sys.query#}}`}</Copy>
+
+4. **ELSE path:** add **LLM - Gherkin from Requirement** with **no Context**. There is nothing to retrieve; the requirement is in the question itself.
+
+<Copy title="LLM - Gherkin from Requirement → SYSTEM">{`You are an experienced test designer. The user describes a requirement in their own words, without a Jira issue key.
+
+Write Gherkin test scenarios for that requirement:
+- One gherkin code block with a Feature and three to five Scenarios
+- Cover the main flow, invalid input and at least one edge case
+- Keep every step concrete and testable; leave out steps that check nothing
+- If the requirement is too vague to test, ask one clarifying question instead of guessing
+
+User requirement:
+{{#sys.query#}}`}</Copy>
+
+5. Give each LLM its own **Answer** node.
+
+### ✅ Check it
+
+<code>Generate test cases for REST-266</code> should reply from **Answer - Gherkin from Issues** with scenarios that match the issue. <code>Create test scenarios for a password reset feature</code> should take the ELSE path.
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/answer-gherkin-issue.png').default} alt="Answer - Gherkin from Issues with a Gherkin feature and three scenarios for REST-266" caption="Gherkin grounded in the retrieved issue" width="400px" />
+
+---
+
+## 🛠️ Step 6: Branch `unrelated_or_invalid`: Polite Redirect
+
+From the last class handle, add **LLM - Polite Redirect** (no Context, no retrieval) and its **Answer** node. Nothing is retrieved, so the model has nothing to be tempted to misuse. The reply must start with an explicit refusal ("I'm sorry, I can't help with that…"), the same contract as the Exercise 3 chatbot, so that automated tests such as those in Exercise 5 recognise it. Its example question deliberately names no issue key: a refusal shouldn't mention Jira issues.
+
+<Copy title="LLM - Polite Redirect → SYSTEM">{`You are Testus Patronus, an assistant that only helps with software testing for the Atlassian REST Jira project.
+
+The user's message is outside that scope. Do not answer it, not even partially.
+Start your reply with exactly: "I'm sorry, I can't help with that: it isn't covered by the project documentation."
+Then add one friendly sentence: say what you can help with (Jira issues, project scope, test strategy and Gherkin test cases) and suggest one example question that doesn't name a specific issue, such as "What is this project about?".
+
+User message:
+{{#sys.query#}}`}</Copy>
+
+<Shot src={require('../static/img/dify/1.16.1/ex4/answer-redirect.png').default} alt="Answer - Polite Redirect declining the poem and suggesting an example question" caption="Out-of-scope requests get a friendly redirect" width="400px" />
+
+---
+
+## 🧪 Step 7: Run the Acceptance Questions
+
+Run each question in **Preview**, starting a new conversation (the ↻ icon) each time. The label above each answer tells you which branch replied.
+
+| Question | Expected answer node | Passes when |
+| --- | --- | --- |
+| What is REST-266 about? | Answer - Specific Issue | Describes REST-266, with one REST-266 citation |
+| What does issue 266 fix? | Answer - Specific Issue | "issue 266" is normalized to REST-266 |
+| What is REST-999 about? | Answer - Issue Not Found | Says REST-999 can't be found; no invented details |
+| Summarize REST-266 and REST-265 | Answer - Multiple Issues | One section per issue, citations for both |
+| Summarize REST-266 and REST-999 | Answer - Multiple Issues | Starts with "Partial result… Missing: REST-999" |
+| What is this project about? | Answer - General Project | Summary backed by cited Jira keys |
+| What should we test for backward compatibility? | Answer - Test Related | Names REST-266 and ranks tests by risk |
+| Generate test cases for REST-266 | Answer - Gherkin from Issues | Gherkin scenarios that match REST-266 |
+| Create test scenarios for a password reset feature | Answer - Gherkin from Requirement | Gherkin scenarios, no Jira citations |
+| Which issue reports that CORS preflight requests are not supported? | Answer - General Project | Names REST-366: no key, so **Has Key?** falls back to semantic search |
+| Write me a poem about the sea | Answer - Polite Redirect | Starts with "I'm sorry", names no Jira issue, and suggests a testing question |
+
+Once they all pass, **Publish** and name the version, as in Exercise 3.
+
+### When something doesn't pass
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| A made-up answer for a key that doesn't exist | The LLM runs on an empty context | Add the **Issue Found?** IF/ELSE from Step 2.4 |
+| "I'm sorry, I can't find  in the project documentation" (a blank where the key should be) | The question names no key, and there is no fallback | Add the **Has Key?** IF/ELSE from Step 2.2 |
+| "Can't find" for an issue that exists | Score Threshold is on in the filtered retriever, or the filter points at the wrong or a deleted variable | Turn the threshold off. Open the filter's **Conditions** and check that the value is the current extractor's <code>issue_key</code> (or the Iteration's <code>item</code>) |
+| Nodes from two branches run for one question, and the answers are mixed | One class handle connects to two branches | Keep one connection per class handle; move the extra one to the right class |
+| "issue 266" becomes <code>ISSUE-266</code> | The extractor instruction lacks the normalization rule | Paste the extractor instruction from this page |
+| Every project or testing question gets "can't find relevant information" | The LLM's Context field is empty | Set Context to the branch retriever's <code>result</code> |
+| The Iteration runs zero times | The extractor output name doesn't match (<code>issue_key</code> vs <code>issue_keys</code>) | Use <code>issue_keys</code> (Array[String]) and re-select the Iteration input |
+| A multi-issue answer only describes one issue, or mixes them up | The inner retriever searches with <code>sys.query</code> | Use <b>Iteration / item</b> as Query Text and as the filter value |
+| The question goes down the wrong branch | Classifier temperature is too high or the instruction is missing | Temperature <code>0</code>, and paste the classifier instruction |
+
+Open the **Workflow Process** of a run (the label above the answer) or the node's **Last Run** tab to see each node's input and output, just like the retrieval trace in Exercise 3.
+
+---
+
+## 🔭 Going Further
+
+You now use two advanced RAG techniques: **metadata filtering** (exact-key retrieval) and **multi-query retrieval** (one search per issue). Here are more ideas to try on your own.
+
+<div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2em', alignItems: 'center', margin: '1em 0 2em' }}>
   <div>
-    While standard RAG systems retrieve documents and pass them to a language model, real-world software testing questions require:
-    <ul>
-      <li><b>Better focus</b> on relevant information</li>
-      <li><b>More structured reasoning</b> for complex queries</li>
-      <li><b>Dynamic adaptation</b> to different types of questions</li>
-    </ul>
-    This is where combining advanced <b>RAG strategies</b> with <b>Dify blocks</b> unlocks the next level.
+    <b>🧹 Query rewriting.</b> Vague questions retrieve vague context. Add an LLM node before retrieval in <code>general_project</code> that rewrites the question into a precise search query (for example "Which issues touch JSON?" → "Jackson JSON serialization deserialization issues"), and use its output as the retriever's Query Text. Compare the retrieved chunks before and after.<br /><br />
+    <b>🎯 Chunk design.</b> Small chunks match precise questions; large chunks keep context together. Re-ingest a copy of the knowledge base with a different chunk size and compare the <code>test_related</code> answers.
   </div>
   <div style={{ textAlign: 'center' }}>
-    <img src={require('../static/img/ex4/rag-advanced.png').default} alt="Advanced RAG" style={{ maxWidth: '100%', borderRadius: '8px', boxShadow: '0 2px 8px #ddd' }} />
+    <img src={require('../static/img/ex4/rag-advanced.png').default} alt="Advanced RAG strategies" style={{ maxWidth: '100%', borderRadius: '8px' }} />
   </div>
 </div>
 
----
+<b>🪜 Parent-child retrieval.</b> Sometimes the answer needs a whole group: an epic and its stories, or a test suite and its cases. Store the parent in metadata (for example <code>epic_id</code>), retrieve one item, then retrieve its siblings by filtering on that parent.
 
-## 🧪 Part 1 – Advanced RAG Techniques
+<Shot src={require('../static/img/ex4/parent-child-dilema.png').default} alt="Small chunks retrieve precisely but lose context; large chunks keep context but retrieve less precisely" />
+<Shot src={require('../static/img/ex4/parent-child.png').default} alt="Parent-child retrieval: match on small child chunks, return the larger parent for context" />
 
-These are conceptual strategies used in many RAG systems that help with retrieval quality, context relevance, and multi-turn generation.
-
-### 🪜 1. Parent–Child Retrieval
-
-<h2 id="parent-child-retrieval"></h2>
-
-<b>Why it matters:</b> You often need related items together: a parent epic with child issues, or a test suite with all cases. This improves reasoning and coverage.
-
-  <img src={require('../static/img/ex4/parent-child-dilema.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-<b>How to use it:</b>
-<ul>
-  <li>Structure your documents with parent-child metadata (e.g., <code>epic_id</code>, <code>test_suite</code>)</li>
-  <li>Filter in Dify's knowledge retriever by metadata field to retrieve children or a whole group</li>
-</ul>
-
-  <img src={require('../static/img/ex4/parent-child.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-### 🧹 2. Query Rewriting
-
-<h2 id="query-rewriting"></h2>
-
-<b>Why it matters:</b> Many queries are vague or poorly phrased. Rewriting improves retrieval and LLM generation.
-
-<b>How to use it:</b>
-<ul>
-  <li>Use a classifier or prompt node to detect vague queries</li>
-  <li>Add system prompts that reformulate the query with more context before retrieval</li>
-</ul>
-
-### 🔁 3. Iterative or Multi-Query Retrieval
-
-<b>Why it matters:</b> If a query references multiple issues or modules, each subquery deserves its own chunk of context.
-
-<b>How to use it:</b>
-<ul>
-  <li>Split queries using a Parameter Extractor</li>
-  <li>Loop over values with the <b>Iteration node</b></li>
-  <li>Combine or format answers at the end</li>
-</ul>
-
-### 🎯 4. Retrieval Filtering and Chunk Design
-
-<b>Why it matters:</b> Filtering based on metadata avoids off-topic results. Chunking well ensures completeness without verbosity.
-
-<b>How to use it:</b>
-<ul>
-  <li>During ingestion, assign metadata like <code>component</code>, <code>priority</code>, or <code>type</code></li>
-  <li>Use metadata filters in the Retrieval node</li>
-  <li>Experiment with different chunk sizes: smaller for bugs, bigger for concepts</li>
-</ul>
+<b>🧠 More classes.</b> Add a class such as <code>issue_status</code> ("Which issues are still open?") and route it to a retriever filtered on status metadata.
 
 ---
 
-## ⚙️ Part 2 – Powerful Dify Blocks to Boost Your Chatbot
-
-These are not RAG strategies per se, but <b>Dify capabilities</b> that improve your assistant's intelligence and control.
-
-### 📚 1. Parameter Extractor
-
-Extracts structured data (like issue keys, module names, or dates) from user queries. Ideal for filtering or branching logic.
-
-  <img src={require('../static/img/ex4/issue-extract.png').default} alt="Parameter Extractor" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-### 🧠 2. Question Classifier
-
-Classifies user intent (e.g., test generation vs. documentation lookup). Each category can follow a different chatflow.
-
-<b>Try categories like:</b>
-<ul>
-  <li><code>specific_issue</code></li>
-  <li><code>list_issues</code></li>
-  <li><code>general_project</code></li>
-  <li><code>test_related</code></li>
-  <li><code>test_generation</code></li>
-  <li><code>unrelated</code></li>
-</ul>
-
-  <img src={require('../static/img/ex4/question-classifier.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-### 🔁 3. Iteration <ChangeTag kind="changed" />
-
-Use it to generate a loop over multiple issues. Great for:
-<ul>
-  <li>"Generate test cases for REST-201, REST-202, REST-203"</li>
-  <li>"Summarize these five bugs"</li>
-</ul>
-
-  <img src={require('../static/img/ex4/iterations.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-For both Iteration nodes, set the error response method to
-<b>Remove Abnormal Output</b>. Each loop currently returns one object, so the Iteration
-already emits a flat object list and <b>Flatten Output</b> stays off. Enable it only if
-you change the loop to return an array per issue. The final output can contain fewer
-items than the input array, so downstream Code nodes must omit failed items and produce
-a clear response when no valid item remains.
-
-<img src={require('../static/img/dify/1.16.1/ex4/iteration-error-strategy.png').default} alt="Iteration configured to flatten results and remove abnormal outputs" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-### ⚖️ 4. If/Else Routing
-
-<h2 id="ifelse-routing"></h2>
-
-Adds logic to your flow:
-<ul>
-  <li>If <code>issue_key</code> exists → go to filtered retrieval</li>
-  <li>If query is <code>unrelated</code> → reply with a fallback message</li>
-</ul>
-
-  <img src={require('../static/img/ex4/if-else.png').default} alt="API Ingestion Endpoint" style={{ maxWidth: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-### 🧰 5. Prompt Templates
-
-Use specialized prompts depending on user intent. For example:
-<ul>
-  <li>System prompt for test generation (<code>You are a Gherkin generator...</code>)</li>
-  <li>System prompt for architecture questions (<code>You are a system design assistant...</code>)</li>
-</ul>
-
----
-
-## 🧪 Bonus Challenges <ChangeTag kind="changed" />
-
-Let's revisit our question classifier. It identifies 6 types of queries. Try customizing each path using the above techniques:
-
-The supplied 1.16.1 workflow was executed through the four acceptance paths below. Use these results to compare your own routing, retrieval, and answer grounding.
-
-<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1em', margin: '1em 0' }}>
-  <img src={require('../static/img/dify/1.16.1/ex4/chatflow-specific-issue.png').default} alt="Specific REST-266 answer grounded in retrieved Jira context" style={{ width: '100%', borderRadius: '8px' }} />
-  <img src={require('../static/img/dify/1.16.1/ex4/chatflow-iteration.png').default} alt="Iteration answer covering REST-266 and REST-265" style={{ width: '100%', borderRadius: '8px' }} />
-  <img src={require('../static/img/dify/1.16.1/ex4/chatflow-if-else.png').default} alt="Issue-filtered Gherkin scenarios for REST-266" style={{ width: '100%', borderRadius: '8px' }} />
-  <img src={require('../static/img/dify/1.16.1/ex4/chatflow-classifier-fallback.png').default} alt="Unrelated-query classifier route with polite redirect" style={{ width: '100%', borderRadius: '8px' }} />
-</div>
-
-<img src={require('../static/img/dify/1.16.1/ex4/chatflow-iteration-resilient-answer.png').default} alt="Verified multi-issue answer for REST-266 and REST-265" style={{ width: '100%', borderRadius: '8px', margin: '1em 0' }} />
-<img src={require('../static/img/dify/1.16.1/ex4/chatflow-iteration-resilient-answer-trace.png').default} alt="Successful multi-issue workflow process through classifier, extractor, Iteration, combiner, and final answer" style={{ width: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-The two-item run should retain one independently grounded result per issue and citations
-for both sources. Because abnormal outputs are removed, also make the final combiner
-state when fewer issues completed than were requested; never silently claim full batch
-success.
-
-Try <code>Summarize REST-266 and REST-999</code>. The supplied combiner compares the
-extracted keys with the retrieved context, reports that REST-999 was not found, and
-still returns the grounded REST-266 result.
-
-<img src={require('../static/img/dify/1.16.1/ex4/chatflow-iteration-partial-answer.png').default} alt="Partial multi-issue answer reporting that REST-999 was not found while preserving REST-266" style={{ width: '100%', borderRadius: '8px', margin: '1em 0' }} />
-
-<table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2em' }}>
-  <thead>
-    <tr style={{ background: '#f3f0ff' }}>
-      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Category</th>
-      <th style={{ padding: '0.5em', border: '1px solid #e5e7eb' }}>Try This...</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>specific_issue</code></td><td style={{ border: '1px solid #e5e7eb' }}>Parameter extractor → filtered retriever by <code>issue_key</code></td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>list_issues</code></td><td style={{ border: '1px solid #e5e7eb' }}>Parameter extractor → iteration over each → summarize or generate</td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>general_project</code></td><td style={{ border: '1px solid #e5e7eb' }}>Dedicated retriever + LLM focused on project scope</td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>test_related</code></td><td style={{ border: '1px solid #e5e7eb' }}>Retrieval filtering by <code>type = test_strategy</code> or tuned prompt</td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>test_generation</code></td><td style={{ border: '1px solid #e5e7eb' }}>Custom prompt + single or iterative test generation</td></tr>
-    <tr><td style={{ border: '1px solid #e5e7eb' }}><code>unrelated</code></td><td style={{ border: '1px solid #e5e7eb' }}>Route to fallback LLM with polite redirect message</td></tr>
-  </tbody>
-</table>
-
----
-
-## 🔭 Modern Capabilities Evaluated <ChangeTag kind="new" />
-
-| Capability available after 1.9.1 | Workshop decision | Why |
-| --- | --- | --- |
-| Summary Index | Adopt in Exercise 2.1 | Improves conceptual risk/test retrieval and can be measured against the same Jira benchmark |
-| Knowledge tracing and app versions | Adopt in Exercise 3 | Makes grounding diagnosable and accepted drafts recoverable |
-| Iteration error strategy and batch status | Adopt here | Preserves successful issue results and reports partial or empty batches explicitly |
-| Schedule/webhook triggers | Defer | Current ingestion is not idempotent and does not observe terminal indexing |
-| Human Input | Defer | Read-only Q&A has no meaningful approval boundary; it would add queue and timeout complexity |
-| Multimodal knowledge | Defer | The Jira fixture contains no answer-critical images |
-| Agent application | Separate workshop | It changes the architecture and tool-execution threat model rather than improving this deterministic RAG goal |
-
-Newer is not automatically better. The core assistant remains a Chatflow because exact
-Jira filtering, measurable retrieval, citations, and predictable no-match behavior are
-the learning objective.
-
----
-
-## 🗂️ Download: Preconfigured Bonus Chatflow <ChangeTag kind="changed" />
-
-<div style={{ background: '#ecfdf5', border: '2px solid #22c55e', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  You can download a ready-made version of this bonus exercise, including a fully configured Dify chatflow with:
-  <ul>
-    <li>Question classifier</li>
-    <li>Iteration for multi-issue generation</li>
-    <li>Metadata-based filters</li>
-    <li>Specialized prompts per query type</li>
-  </ul>
-</div>
+## 🗂️ Solution Download
 
 <a
   href="/dify-dsls/ex4_sample-1.16.1.yml"
@@ -261,27 +574,15 @@ the learning objective.
     marginTop: '1em',
   }}
 >
-  ⬇️ Download Exercise 4 Sample
+  ⬇️ Download Exercise 4 Solution DSL
 </a>
 
-<div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-  💡 Import this YAML file into Dify and start tweaking!
-</div>
-
-<div style={{ background: '#fffbe8', border: '2px solid #facc15', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
-  <b>Required after import:</b> dataset IDs belong to the Dify workspace that
-  exported the sample. Open <b>KR - Single Issue</b>,
-  both <b>KR General Knowledge</b> nodes, <b>KR - Multiple Issues</b>, and
-  <b>Knowledge Retrieval 5</b>; reselect your own
-  <code>Jira_API_Basic_*</code> knowledge base in every node before running the
-  flow. Confirm the manual <code>issue_key</code> filters remain attached to the
-  exact-key retrieval nodes.
-</div>
+Import it with **Studio → Import DSL file**. The file refers to a knowledge base on the instance it was exported from, so reselect <code>{'Jira_API_Advanced_*'}</code> in these five nodes before running it: **KR - Single Issue**, **KR - Each Issue**, **KR - General Project**, **KR - Test Related** and **KR - Issue for Tests**. Then check that the three filtered retrievers (**KR - Single Issue**, **KR - Each Issue**, **KR - Issue for Tests**) still show **Conditions 1** under Metadata Filtering.
 
 ---
 
 ## 🌟 Wrap-up
 
 <div style={{ background: '#f3f0ff', border: '2px solid #7c3aed', borderRadius: '8px', padding: '1em 1.5em', marginBottom: '2em' }}>
-  If you've made it here, congratulations — you're ready to <b>take Testus Patronus to the next level</b>! Explore, experiment, and summon the full potential of AI-powered software testing.
+  Your assistant now picks the right retrieval strategy for each question. It looks up exact issues by key, handles several issues without mixing them up, reports what it couldn't find, writes Gherkin tests from issues or requirements, and stays in scope. Keep experimenting, and use the acceptance table to check that every change still passes.
 </div>
