@@ -267,43 +267,71 @@ Questions that name a key score high, because the Exercise 2.1 aliases match. Qu
 
 Level 2 can check that an answer **mentions** REST-266. It can't check whether each **sentence** is true, or whether a refusal quietly answers the question anyway. For that, a second LLM grades the answer: the **judge**. It grades one criterion at a time. The two that matter most for a RAG are **faithfulness** and **correctness**.
 
-### Faithfulness vs. correctness, with real answers
+### Faithfulness vs. correctness
 
-- **Faithful:** every claim in the answer is supported by the **retrieved chunks**. The judge compares the answer with the context.
-- **Correct:** the answer matches the **right answer** (a reference). The judge compares the answer with the reference.
+Every RAG answer is built from three things:
 
-They are independent, so you need both. All four combinations happen. The question for each is *"Which issue reports that CORS preflight requests are not supported?"* (right answer: REST-366), unless noted.
+- the **question** the user asks,
+- the **context**: the chunks the search found in your documents,
+- the **answer** the LLM writes from that context.
 
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1em', margin: '1em 0 2em 0' }}>
-  <div style={{ border: '2px solid #22c55e', borderRadius: '8px', padding: '0.8em 1em' }}>
-    <b>✅ Faithful and ✅ correct</b> (Exercise 4 chatbot)<br />
-    <small><b>Context:</b> REST-366 · "JIRA doesnt support preflighted requests for CORS. It doesnt respect content of Access-Control-Request-Method header"</small><br />
-    <small><b>Answer:</b> "REST-366. Jira does not respect the Access-Control-Request-Method header in preflight OPTIONS requests…"</small><br />
-    <small>Every claim is in the chunk, and the key is right. This is the goal.</small>
-  </div>
-  <div style={{ border: '2px solid #ef4444', borderRadius: '8px', padding: '0.8em 1em' }}>
-    <b>❌ Unfaithful and ❌ wrong</b> (Exercise 3 chatbot, Step 6)<br />
-    <small><b>Context:</b> empty</small><br />
-    <small><b>Answer:</b> "REST-266 (Issue 266). Status: Resolved. Assignee: Markus Unterwaditzer…"</small><br />
-    <small>Nothing supports it, and it's wrong. Fix <b>retrieval</b> first.</small>
-  </div>
-  <div style={{ border: '2px solid #f59e0b', borderRadius: '8px', padding: '0.8em 1em' }}>
-    <b>✅ Correct but ❌ unfaithful</b> (Exercise 3 chatbot, real answer)<br />
-    <small><b>Question:</b> "Which issue creates a backward-compatibility risk when unknown JSON properties are accepted?" (right answer: REST-266)</small><br />
-    <small><b>Context:</b> empty</small><br />
-    <small><b>Answer:</b> "REST-266, titled 'Accept unknown JSON properties'…"</small><br />
-    <small>The key is right, but only because the prompt's example says REST-266. The title is invented; the real one is "Default Jackson configuration is to error out on unknown properties". A "mentions REST-266" test passes, and the next question gets an invented answer.</small>
-  </div>
-  <div style={{ border: '2px solid #f59e0b', borderRadius: '8px', padding: '0.8em 1em' }}>
-    <b>✅ Faithful but ❌ wrong</b> (example)<br />
-    <small><b>Same question</b> (right answer: REST-266)</small><br />
-    <small><b>Context:</b> only REST-430 · "…the change … is backwards incompatible and might break some usages (including third party plugins)"</small><br />
-    <small><b>Answer:</b> "REST-430 creates the risk: its hardening fix is backwards incompatible and might break third-party plugins."</small><br />
-    <small>Every claim is in the chunk, but it's the wrong chunk. Fix <b>retrieval</b>, not the prompt.</small>
-  </div>
+The judge checks two different things:
+
+- **Faithful** means the answer only says what the **context** says. Nothing is invented.
+- **Correct** means the answer is **right**: it matches the true answer (the *reference*).
+
+They sound alike, but they're independent: an answer can be one without the other. Picture a chatbot that answers questions from a company handbook:
+
+<div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0' }}>
+  <b>Question:</b> "How many vacation days do new employees get?"<br />
+  <b>True answer (reference):</b> 25 days
 </div>
 
-A third criterion, **refusal**, checks out-of-scope answers: *"Why is the sky blue?"* → *"I'm sorry, I can't find relevant information…"* passes. *"The sky is blue because of Rayleigh scattering…"* fails, even though it's true, because it doesn't come from your documents.
+export const Case = ({ title, color, context, answer, verdict }) => (
+  <div style={{ border: `2px solid ${color}`, borderRadius: '8px', padding: '0.8em 1em' }}>
+    <div style={{ fontWeight: 700, marginBottom: '0.5em' }}>{title}</div>
+    <div style={{ marginBottom: '0.4em' }}><b>Context found:</b> <i>{context}</i></div>
+    <div style={{ marginBottom: '0.4em' }}><b>Answer:</b> <i>{answer}</i></div>
+    <div style={{ color: '#475569' }}>{verdict}</div>
+  </div>
+);
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1em', margin: '1em 0 1.5em 0' }}>
+  <Case
+    title="✅ Faithful and ✅ correct"
+    color="#22c55e"
+    context='"New employees get 25 vacation days per year."'
+    answer='"New employees get 25 vacation days."'
+    verdict="Everything comes from the context, and it's right. This is the goal."
+  />
+  <Case
+    title="✅ Faithful but ❌ wrong"
+    color="#f59e0b"
+    context='"Interns get 10 vacation days per year." (the search found the wrong page)'
+    answer='"You get 10 vacation days."'
+    verdict="The LLM did its job: it repeated the context. The search brought the wrong page. Fix retrieval, not the prompt."
+  />
+  <Case
+    title="❌ Unfaithful but ✅ correct"
+    color="#f59e0b"
+    context='nothing found'
+    answer='"New employees get 25 vacation days."'
+    verdict="Right, but not from your documents: the model guessed and got lucky. Next time the guess is wrong, and nothing warns you."
+  />
+  <Case
+    title="❌ Unfaithful and ❌ wrong"
+    color="#ef4444"
+    context='"New employees get 25 vacation days per year."'
+    answer='"New employees get 30 vacation days, plus their birthday off."'
+    verdict="The context was right, but the LLM invented details. Fix the prompt or the model."
+  />
+</div>
+
+That's why the judge grades both. A faithfulness check alone would pass the "Interns get 10 days" answer, and a correctness check alone would pass the lucky guess.
+
+**You've already seen two of these in your own chatbot.** In Step 6, with nothing retrieved, the Exercise 3 chatbot answered the CORS question with REST-266 and an invented assignee: **unfaithful and wrong**. For *"Which issue creates a backward-compatibility risk when unknown JSON properties are accepted?"* it cites nothing, yet answers REST-266, the right key. It only gets it right because its prompt uses REST-266 as an example: **unfaithful but correct**, a lucky guess.
+
+A third criterion, **refusal**, checks out-of-scope questions. For *"Why is the sky blue?"*, the answer *"I'm sorry, I can't find relevant information…"* passes. *"The sky is blue because of Rayleigh scattering…"* fails: it's true, but it doesn't come from your documents.
 
 ### How our judge is built
 
@@ -355,7 +383,7 @@ A judge is just another LLM prompt, and it can be wrong. So you **test the judge
 
 **Expected: 4 passed with the Exercise 4 chatbot, 3 with the Exercise 3 chatbot.** The failing one is "CORS answer is faithful", for the reason you found in Step 6.
 
-Then try the acceptance question from the orange card above with **both** criteria. Add it to the `live` list of the `judge` section in `golden/jira-rest.json`, once as `faithfulness` and once as `correctness` with the reference `REST-266`. Does the Exercise 3 chatbot pass one and fail the other?
+Then try the lucky-guess question from Step 6 (*"Which issue creates a backward-compatibility risk when unknown JSON properties are accepted?"*) with **both** criteria. Add it to the `live` list of the `judge` section in `golden/jira-rest.json`, once as `faithfulness` and once as `correctness` with the reference `REST-266`. Does the Exercise 3 chatbot pass one and fail the other?
 
 <div style={{ background: '#e0f2fe', border: '2px solid #38bdf8', borderRadius: '8px', padding: '0.8em 1.2em', margin: '1em 0 2em 0' }}>
   💡 <b>Rules first, judges for the rest.</b> A judge costs tokens on every run and can change its mind between runs. Read the reasoning of every FAIL before you believe it.
