@@ -518,6 +518,7 @@ Each check matches one you already know:
 | Symptom | Fix |
 |---|---|
 | No **Use this template** button | You must be signed in to GitHub. If you still don't see it, ask your instructor, or open a Codespace directly on the original repository (**Code → Codespaces**) |
+| **Cannot reach Dify**, or `fetch failed` / *Could not reach Dify* | `DIFY_BASE_URL` points at a Dify that is stopped or isn't yours any more. Workshop instances are temporary, so update the `DIFY_*` secrets to your current instance |
 | `401` *"Authorization header must be provided and start with 'Bearer'"* | Your `DIFY_BASE_URL` starts with `http://`. Use `https://`: the redirect from http to https drops the key |
 | `401 unauthorized` | Wrong key type: the chatbot and the judge need their own `app-…` key, retrieval needs the `dataset-…` key |
 | Run stops at **Check your secrets** | Add the secrets it lists in **Settings → Secrets and variables → Actions** |
