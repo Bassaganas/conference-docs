@@ -171,13 +171,13 @@
         },
         {
           "id": "exercise-4-advanced-flow",
-          "state": "advanced retrieval with Iteration abnormal-output handling plus verified complete and partial multi-issue results",
+          "state": "six-branch routed Chatflow: classifier, exact-key retrieval with empty-result guard, per-issue Iteration with batch status, test-strategy and Gherkin branches, polite redirect; node panels and verified Preview answers",
           "fixture": "static/dify-dsls/ex4_sample-1.16.1.yml",
           "output_directories": ["static/img/dify/1.16.1/ex4"],
           "target_docs": ["versioned_docs/version-1.16.1/exercise-4-advanced-prompting.mdx"],
           "redactions": ["API keys", "private origins", "student identifiers"],
           "status": "reviewed",
-          "captured_at": "2026-08-26T13:32:00Z",
+          "captured_at": "2026-09-28T18:00:00Z",
           "source_revision": "6f8ed69ee15f9a2e7189ca066275e973d091d1e9",
           "service_version": "1.16.1"
         }
