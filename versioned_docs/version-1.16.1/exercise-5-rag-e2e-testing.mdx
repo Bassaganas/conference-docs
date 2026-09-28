@@ -426,6 +426,51 @@ When we prepared this workshop, a stronger model fixed the similar-issues case b
 
 <a href="https://www.promptfoo.dev/" target="_blank" rel="noopener noreferrer">Promptfoo</a> is a popular open-source tool for testing LLM apps. Instead of test code, you write a **table**: questions and checks in a YAML file. Promptfoo asks every question to every chatbot you list and shows the answers **side by side**. That makes it the quickest way to answer *"is my Exercise 4 chatbot really better than Exercise 3?"*
 
+### How Promptfoo works
+
+A Promptfoo config has three parts, and Promptfoo tries every combination:
+
+1. **Providers**: what you test. Here, your Dify chatbots: "Exercise 3 chatbot" and "Exercise 4 chatbot".
+2. **Tests**: the rows of the table. Each test has **vars** (here, the `question`) and a list of **assertions**: the checks.
+3. **Evaluation**: Promptfoo sends every test's question to every provider, runs each check on each answer, and marks the cell PASS only if **all** its checks pass.
+
+So 5 tests × 2 chatbots = 10 cells in the result table. Checks listed under `defaultTest` run on every test. Here, that's the 30-second latency limit and the "no invented issue keys" check.
+
+### Built-in checks
+
+Promptfoo has many ready-made check types, so you rarely need code. These are the most useful ones for a RAG chatbot. They're all free and deterministic: no LLM involved.
+
+| Check | Passes when the answer… | Example |
+|---|---|---|
+| `contains` / `icontains` | contains a text (`i` = ignore upper/lower case) | `value: REST-266` |
+| `icontains-any` | contains at least one of several texts | `value: ["can't find", "cannot find", "no information"]` |
+| `contains-all` | contains every text in the list | `value: ["REST-266", "Bug"]` |
+| `not-…` | the opposite of any check | `type: not-icontains` with `value: Rayleigh` |
+| `regex` | matches a pattern | `value: "REST-\\d+"` (any issue key) |
+| `starts-with` | starts with a text | `value: "I'm sorry"` |
+| `is-json` | is valid JSON | (no value) |
+| `latency` | arrived within N milliseconds | `threshold: 30000` |
+| `javascript` | passes your own JavaScript rule | `value: output.length < 500` |
+
+A test using a few of them:
+
+```yaml
+- description: Refusal – a question outside the project
+  vars:
+    question: Why is the sky blue?
+  assert:
+    - type: icontains-any               # it says it can't help…
+      value: ["sorry", "can't find", "cannot find"]
+    - type: not-icontains               # …and doesn't explain the physics anyway
+      value: Rayleigh
+    - type: javascript                  # and it cites no document (our check)
+      value: file://checks.mjs:citesNothing
+```
+
+Promptfoo also has **LLM-graded** checks, which ask another LLM to judge the answer: `llm-rubric` (grade against your own sentence), `factuality` (compare with a reference answer), and RAG-specific ones such as `context-faithfulness` and `answer-relevance`. They need a grader LLM key configured in Promptfoo, outside Dify. That's why this project grades with your Dify judge through a `javascript` check instead.
+
+### The project's config
+
 The project already has a Promptfoo version of the Level 2 and 3 checks in `promptfoo/promptfooconfig.yaml`. One test looks like this:
 
 ```yaml
