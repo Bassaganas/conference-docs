@@ -202,6 +202,25 @@
         }
       ]
     },
+    "rag-tests": {
+      "owner": "dify-rag-tests",
+      "capture_environment": "local-promptfoo-report-against-explicitly-approved-disposable-workshop",
+      "external_triggers": ["promptfoo/promptfooconfig.yaml checks", "Promptfoo HTML report layout", "Exercise 3 and Exercise 4 solution DSLs"],
+      "shots": [
+        {
+          "id": "exercise-5-promptfoo-compare",
+          "state": "Promptfoo HTML report filtered to the CORS question: Exercise 3 chatbot (solution DSL, threshold 0.5) fails with no context, Exercise 4 chatbot passes; issue, reference and ignore columns hidden",
+          "fixture": "static/dify-dsls/ex3_solved-1.16.1.yml and static/dify-dsls/ex4_sample-1.16.1.yml against Jira_API_Advanced_*",
+          "outputs": ["static/img/dify/1.16.1/ex5/promptfoo-compare.png"],
+          "target_docs": ["versioned_docs/version-1.16.1/exercise-5-rag-e2e-testing.mdx"],
+          "redactions": ["API keys", "private origins"],
+          "status": "reviewed",
+          "captured_at": "2026-09-28T20:45:00Z",
+          "source_revision": null,
+          "service_version": "promptfoo 0.123.1"
+        }
+      ]
+    },
     "sut": {
       "owner": "lotr_sut",
       "capture_environment": "local-compose-or-explicitly-approved-disposable-workshop",
