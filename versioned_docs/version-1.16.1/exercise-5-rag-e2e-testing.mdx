@@ -176,6 +176,35 @@ Retrieval tests search your knowledge base **directly**, with no LLM involved. T
   💡 Level 1 tests your <b>data</b>, not your app. If retrieval fails here, no chatbot can give a grounded answer. If it passes here but the chatbot still fails, the problem is in the app, as you'll see in Step 6.
 </div>
 
+<details>
+  <summary><b>Going further: how to test semantic retrieval properly</b> (deliberately not part of this project)</summary>
+
+These three tests are a <b>smoke test</b>: they prove that retrieval works at all. They don't tell you how good it is for vague questions such as <i>"Which was the issue about the backend?"</i>. We kept them small on purpose, so the exercise stays short. A real retrieval benchmark works like this:
+
+1. **Label a set of relevant documents per question, not one answer.** A vague question usually has several right answers. Write them down, optionally graded (2 = exactly it, 1 = related):
+   ```json
+   {
+     "query": "Which issues deal with JSON serialization?",
+     "relevant": {
+       "REST-266": 2,
+       "REST-300": 2,
+       "REST-304": 2,
+       "REST-391": 1,
+       "REST-430": 1
+     }
+   }
+   ```
+   For a vague question, the labels *are* the specification. If people can't agree which issues are relevant, the question is ambiguous, and a good chatbot should ask back instead of guessing.
+2. **Measure ranking, not pass/fail.** **Recall@k**: did the relevant documents reach the top k that the LLM will see? This matters most for a RAG, because a chunk that isn't retrieved can't be used. **Precision@k**: how much of the top k is noise? **MRR / nDCG**: is the best document near the top?
+3. **Assert on the average over many questions, against a baseline.** For example: *"mean Recall@5 over 30 questions is at least 0.8, and no more than 0.05 below the last accepted run"*. That stays stable even when single questions move. List the worst questions, so you can see which ones got worse.
+4. **Ask each question several ways.** Use the same relevant set for an exact keyword, a natural question, a vague one ("the backend one"), a synonym ("serialization" vs. "JSON parsing"), a typo, and another language. The spread shows how robust retrieval is. It's exactly what the Exercise 2.1 aliases try to improve.
+5. **Test "nothing relevant" and the score gap.** Off-topic questions should score clearly below relevant ones. Measure the margin, and check that your Score Threshold sits inside it with room on both sides. Step 6 shows what happens when it doesn't.
+6. **Test where it runs.** The knowledge base API and a Chatflow's Knowledge Retrieval node can score on different scales (Step 6). Run the same labelled questions against both: the knowledge base tests your data, the app tests what users get.
+
+Where do labelled questions come from? Real questions from Dify **Logs**; questions an LLM writes for each document and a person then reviews (the RAGAS test-set generator does this); or metadata such as a Jira *component* field, when your data has one. Retrieval involves no LLM, so a benchmark like this is free, fast and gives the same result every time: an ideal way to compare semantic vs. hybrid search, chunk sizes, Top K and thresholds.
+
+</details>
+
 ---
 
 ## 🛠️ Step 4: Level 2 – Test the Chatbot
