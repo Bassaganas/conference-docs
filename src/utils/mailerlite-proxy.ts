@@ -1,3 +1,5 @@
+import type { AttributionFields } from './attribution';
+
 // Newsletter signups go through the TestingFantasy subscribe proxy, a Lambda function URL in
 // the classroom AWS account (cloud-classroom-provisioning, module "mailerlite_proxy").
 //
@@ -44,7 +46,9 @@ export interface ProxySubscribeResult {
   error?: string;
 }
 
-export type SubscribeFields = Partial<{
+// Text fields, interest flags and the attribution fields (src/utils/attribution.ts) the proxy
+// accepts. Anything else is rejected with 400.
+export type SubscribeFields = AttributionFields & Partial<{
   company: string;
   TeamSize: string;
   course_interest: string;

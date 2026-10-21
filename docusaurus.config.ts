@@ -25,6 +25,8 @@ const config: Config = {
   organizationName: 'Bassaganas', // Usually your GitHub org/user name.
   projectName: 'conference-docs', // Usually your repo name.
 
+  // First-touch attribution for the sign-up form, recorded on whichever page a visitor lands.
+  clientModules: [require.resolve('./src/clientModules/attribution.ts')],
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 

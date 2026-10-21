@@ -9,6 +9,10 @@ import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 
 import styles from './index.module.css';
 import { subscribeViaProxy } from '../utils/mailerlite-proxy';
+import { currentAttribution, subscriberFields } from '../utils/attribution';
+
+// Which form a sign-up came from, stored in MailerLite as signup_placement.
+const SIGNUP_PLACEMENT = 'docstp-banner';
 
 function ImperfectStarSVG({ color, size }: { color: string; size: number }) {
   // Generate a star with slightly randomized points
@@ -119,44 +123,12 @@ function HomepageHeader() {
   const [hover, setHover] = useState(false);
   const [btnSize, setBtnSize] = useState({ width: 0, height: 0 });
   const btnRef = useRef<HTMLAnchorElement>(null);
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
   useLayoutEffect(() => {
     if (btnRef.current) {
       const rect = btnRef.current.getBoundingClientRect();
       setBtnSize({ width: rect.width, height: rect.height });
     }
   }, [hover]);
-
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    try {
-      const result = await subscribeViaProxy(
-        email,
-        {
-          source: 'testus-patronus-homepage',
-          course_interest: 'harry-potter'
-        },
-        ["168614688429442382"]
-      );
-
-      if (result.ok) {
-        setIsSubmitted(true);
-      } else {
-        console.error('Subscribe failed:', result.error);
-        alert('Could not save your email right now. Please try again in a minute.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Could not save your email right now. Please try again in a minute.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   // Make email capture available globally
   useEffect(() => {
@@ -276,6 +248,9 @@ function HomepageHeader() {
             <p style="color: #1a1a2e; font-size: 0.65rem; opacity: 0.7; margin: 0;">
               Free • No spam • Unsubscribe anytime
             </p>
+            <p id="email-capture-privacy" style="color: #1a1a2e; font-size: 0.6rem; opacity: 0.7; margin: 0.3rem 0 0 0; line-height: 1.3;">
+              Your address is stored in MailerLite, the mailing service Testing Fantasy uses, with how you found this site (the campaign of the link you followed, the site that sent you and the first page you opened). You can ask us to remove it at any time.
+            </p>
           </div>
         </div>
       `;
@@ -302,7 +277,9 @@ function HomepageHeader() {
               email,
               {
                 source: 'testus-patronus-global',
-                course_interest: 'harry-potter'
+                course_interest: 'harry-potter',
+                interest_courses: true,
+                ...subscriberFields(currentAttribution(), SIGNUP_PLACEMENT),
               },
               ["168614688429442382"]
             );
@@ -340,7 +317,7 @@ function HomepageHeader() {
                     🎉 Welcome to Testing Fantasy!
                   </h4>
                   <p style="color: #1a1a2e; margin-bottom: 0.6rem; font-size: 0.75rem; opacity: 0.9; line-height: 1.3;">
-                    You're now part of our community! Get ready for new sagas and testing adventures.
+                    You're on the list. We'll write when there's a new saga or testing adventure to share.
                   </p>
                   <a
                     href="https://testingfantasy.com"
@@ -362,9 +339,6 @@ function HomepageHeader() {
                   >
                     Explore All Sagas
                   </a>
-                  <p style="color: #1a1a2e; font-size: 0.65rem; opacity: 0.7; margin: 0.4rem 0 0 0;">
-                    Check your email for confirmation
-                  </p>
                 </div>
               `;
               
@@ -377,14 +351,14 @@ function HomepageHeader() {
               }
             } else {
               console.error('Subscribe failed:', result.error);
-              alert('Something went wrong. Please try again.');
-              submitBtn.textContent = '⚡ Join the Order';
+              alert("That didn't go through. Please try again in a minute.");
+              submitBtn.textContent = 'Join Community';
               submitBtn.disabled = false;
             }
           } catch (error) {
             console.error('Error:', error);
-            alert('Something went wrong. Please try again.');
-            submitBtn.textContent = '⚡ Join the Order';
+            alert("That didn't go through. Please try again in a minute.");
+            submitBtn.textContent = 'Join Community';
             submitBtn.disabled = false;
           }
         });
