@@ -519,6 +519,7 @@ Once they all pass, **Publish** and name the version, as in Exercise 3.
 
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
+| *6 validation errors for QuestionClassifierNodeData … classes.0.label … Input should be a valid string* | The classes have no saved title. The panel still shows "CLASS 1…6", but the stored value is empty. It can happen after editing an imported flow, and it's copied into every export of that flow | Open **Question Classifier**, double-click each class title, type a name (for example `CLASS 1`) and press Enter. Or re-import the solution DSL below |
 | A made-up answer for a key that doesn't exist | The LLM runs on an empty context | Add the **Issue Found?** IF/ELSE from Step 2.4 |
 | "I'm sorry, I can't find  in the project documentation" (a blank where the key should be) | The question names no key, and there is no fallback | Add the **Has Key?** IF/ELSE from Step 2.2 |
 | "Can't find" for an issue that exists | Score Threshold is on in the filtered retriever, or the filter points at the wrong or a deleted variable | Turn the threshold off. Open the filter's **Conditions** and check that the value is the current extractor's <code>issue_key</code> (or the Iteration's <code>item</code>) |

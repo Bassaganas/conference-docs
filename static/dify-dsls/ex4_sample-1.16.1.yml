@@ -680,16 +680,22 @@ workflow:
         classes:
         - id: '1'
           name: specific_issue
+          label: CLASS 1
         - id: '2'
           name: list_issues
+          label: CLASS 2
         - id: '1748767109717'
           name: general_project
+          label: CLASS 3
         - id: '1748767162845'
           name: test_related
+          label: CLASS 4
         - id: '1748774938291'
           name: test_generation
+          label: CLASS 5
         - id: '1748785172818'
           name: unrelated_or_invalid
+          label: CLASS 6
         desc: ''
         instruction: 'You classify questions sent to a software testing assistant
           for the Atlassian REST Jira project.
